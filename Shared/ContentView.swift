@@ -11,19 +11,7 @@ struct ContentView: View {
 
     var body: some View {
         List {
-            ForEach(items.map { $0.recipe }, id: \.name) { (recipe: Recipe) in
-                Text(recipe.name)
-                    .font(.title)
-                    .padding(.top)
-                Text("For \(recipe.mealCount) \(recipe.mealCount == 1 ? "meals" : "meal")")
-                    .padding(.bottom)
-
-                VStack(alignment: .leading) {
-                    ForEach(recipe.ingredients, id: \.name) { (ingredient: Ingredient) in
-                        Text("\(ingredient.name) \(ingredient)" as String)
-                    }
-                }
-            }
+            ForEach(items, content: row)
         }
         .padding()
         // Keep that code for later, could be useful after learning CoreData
@@ -42,6 +30,25 @@ struct ContentView: View {
 //                Label("Add Item", systemImage: "plus")
 //            }
 //        }
+    }
+
+    private func row(_ item: Item) -> some View {
+        VStack {
+            HStack {
+                Toggle("Select Recipe", isOn: Binding<Bool>(get: { item.isSelected }, set: { item.isSelected = $0 } ))
+                Text(item.recipe.name)
+                    .font(.title)
+                    .padding(.top)
+            }
+            Text("For \(item.recipe.mealCount) \(item.recipe.mealCount == 1 ? "meal" : "meals")")
+                .padding(.bottom)
+
+            VStack(alignment: .leading) {
+                ForEach(item.recipe.ingredients, id: \.name) { (ingredient: Ingredient) in
+                    Text("\(ingredient.name) \(ingredient)" as String)
+                }
+            }
+        }
     }
 
     // Keep that code for later, could be useful after learning CoreData
@@ -76,13 +83,6 @@ struct ContentView: View {
 //        }
 //    }
 }
-
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
 
 extension Item {
     var recipe: Recipe {

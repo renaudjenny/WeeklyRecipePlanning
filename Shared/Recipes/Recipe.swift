@@ -6,7 +6,7 @@ let recipes: [Recipe] = [
         Ingredient(name: "Pasta", quantity: 500, unit: UnitMass.grams),
         Ingredient(name: "Cheddar", quantity: 50, unit: UnitMass.grams),
         Ingredient(name: "Red Leicester", quantity: 50, unit: UnitMass.grams),
-        Ingredient(name: "Wine", quantity: 10, unit: UnitVolume.centiliters),
+        Ingredient(name: "Wine", quantity: 5, unit: UnitVolume.centiliters),
         Ingredient(name: "Cream", quantity: 25, unit: UnitVolume.centiliters),
         Ingredient(name: "Corn flour", quantity: 1, unit: UnitVolume.tablespoons),
     ]),
@@ -15,11 +15,12 @@ let recipes: [Recipe] = [
         Ingredient(name: "Pasta", quantity: 500, unit: UnitMass.grams),
         Ingredient(name: "Cheddar", quantity: 50, unit: UnitMass.grams),
         Ingredient(name: "Red Leicester", quantity: 50, unit: UnitMass.grams),
-        Ingredient(name: "Wine", quantity: 10, unit: UnitVolume.centiliters),
+        Ingredient(name: "Wine", quantity: 5, unit: UnitVolume.centiliters),
         Ingredient(name: "Cream", quantity: 25, unit: UnitVolume.centiliters),
         Ingredient(name: "Corn flour", quantity: 1, unit: UnitVolume.tablespoons),
+        Ingredient(name: "Onion", quantity: 0.5, unit: UnitVolume.tablespoons),
     ]),
-    Recipe(name: "Crêpes", mealCount: 1, ingredients: [
+    Recipe(name: "Crêpes façon Renaud", mealCount: 1, ingredients: [
         Ingredient(name: "Floor", quantity: 300, unit: UnitVolume.centiliters),
         Ingredient(name: "Egg", quantity: 1),
         Ingredient(name: "Milk", quantity: 50, unit: UnitVolume.centiliters),
@@ -29,17 +30,17 @@ let recipes: [Recipe] = [
 ]
 
 struct Recipe: Codable {
-    let name: String
-    let mealCount: Int
+    var name: String
+    var mealCount: Int
     var ingredients: [Ingredient]
 
     static let error = Recipe(name: "Error", mealCount: 0, ingredients: [])
 }
 
-struct Ingredient: Codable {
-    let name: String
-    let quantity: Double
-    private(set) var unit: Unit? = nil
+struct Ingredient: Codable, Identifiable {
+    var name: String
+    var quantity: Double
+    var unit: Unit? = nil
 
     init(name: String, quantity: Double, unit: Unit? = nil) {
         self.name = name
@@ -73,13 +74,13 @@ struct Ingredient: Codable {
         let unitData = try NSKeyedArchiver.archivedData(withRootObject: unit, requiringSecureCoding: false)
         try container.encode(unitData, forKey: .unit)
     }
+
+    var id: String { return name }
 }
 
 extension String.StringInterpolation {
     mutating func appendInterpolation(_ ingredient: Ingredient) {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        if let formattedNumber = formatter.string(from: NSNumber(value: ingredient.quantity)) {
+        if let formattedNumber = numberFormatterDecimal.string(from: NSNumber(value: ingredient.quantity)) {
             appendLiteral(formattedNumber)
         }
         if let unitSymbol = ingredient.unit?.symbol {
@@ -87,3 +88,10 @@ extension String.StringInterpolation {
         }
     }
 }
+
+let numberFormatterDecimal: NumberFormatter = {
+    let formatter = NumberFormatter()
+    formatter.numberStyle = .decimal
+    formatter.decimalSeparator = "."
+    return formatter
+}()
