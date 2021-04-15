@@ -8,7 +8,7 @@ struct PersistenceController {
         let viewContext = result.container.viewContext
         for i in 0..<3 {
             let newItem = Item(context: viewContext)
-            newItem.serializedRecipe = try? JSONEncoder().encode(recipes[i])
+            newItem.serializedRecipe = try? JSONEncoder().encode([Recipe].embedded[i])
         }
         do {
             try viewContext.save()

@@ -1,40 +1,18 @@
 import Foundation
 
-let recipes: [Recipe] = [
-    Recipe(name: "Pâtes aux poireaux", mealCount: 2, ingredients: [
-        Ingredient(name: "Poireau", quantity: 3),
-        Ingredient(name: "Pasta", quantity: 500, unit: UnitMass.grams),
-        Ingredient(name: "Cheddar", quantity: 50, unit: UnitMass.grams),
-        Ingredient(name: "Red Leicester", quantity: 50, unit: UnitMass.grams),
-        Ingredient(name: "Wine", quantity: 5, unit: UnitVolume.centiliters),
-        Ingredient(name: "Cream", quantity: 25, unit: UnitVolume.centiliters),
-        Ingredient(name: "Corn flour", quantity: 1, unit: UnitVolume.tablespoons),
-    ]),
-    Recipe(name: "Pâtes aux champignons", mealCount: 2, ingredients: [
-        Ingredient(name: "Mushrooms", quantity: 100, unit: UnitMass.grams),
-        Ingredient(name: "Pasta", quantity: 500, unit: UnitMass.grams),
-        Ingredient(name: "Cheddar", quantity: 50, unit: UnitMass.grams),
-        Ingredient(name: "Red Leicester", quantity: 50, unit: UnitMass.grams),
-        Ingredient(name: "Wine", quantity: 5, unit: UnitVolume.centiliters),
-        Ingredient(name: "Cream", quantity: 25, unit: UnitVolume.centiliters),
-        Ingredient(name: "Corn flour", quantity: 1, unit: UnitVolume.tablespoons),
-        Ingredient(name: "Onion", quantity: 0.5, unit: UnitVolume.tablespoons),
-    ]),
-    Recipe(name: "Crêpes façon Renaud", mealCount: 1, ingredients: [
-        Ingredient(name: "Floor", quantity: 300, unit: UnitVolume.centiliters),
-        Ingredient(name: "Egg", quantity: 1),
-        Ingredient(name: "Milk", quantity: 50, unit: UnitVolume.centiliters),
-        Ingredient(name: "Rhum", quantity: 4, unit: UnitVolume.tablespoons),
-        Ingredient(name: "Vanilla extract", quantity: 0.5, unit: UnitVolume.teaspoons),
-    ]),
-]
-
-struct Recipe: Codable {
+struct Recipe: Codable, Equatable, Identifiable, Hashable {
     var name: String
     var mealCount: Int
     var ingredients: [Ingredient]
 
     static let error = Recipe(name: "Error", mealCount: 0, ingredients: [])
+    static func == (lhs: Recipe, rhs: Recipe) -> Bool {
+        lhs.name == rhs.name
+    }
+    var id: String { name }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+    }
 }
 
 struct Ingredient: Codable, Identifiable {
@@ -95,3 +73,34 @@ let numberFormatterDecimal: NumberFormatter = {
     formatter.decimalSeparator = "."
     return formatter
 }()
+
+extension Array where Element == Recipe {
+    static let embedded: Self = [
+        Recipe(name: "Pâtes aux poireaux", mealCount: 2, ingredients: [
+            Ingredient(name: "Poireau", quantity: 3),
+            Ingredient(name: "Pasta", quantity: 500, unit: UnitMass.grams),
+            Ingredient(name: "Cheddar", quantity: 50, unit: UnitMass.grams),
+            Ingredient(name: "Red Leicester", quantity: 50, unit: UnitMass.grams),
+            Ingredient(name: "Wine", quantity: 5, unit: UnitVolume.centiliters),
+            Ingredient(name: "Cream", quantity: 25, unit: UnitVolume.centiliters),
+            Ingredient(name: "Corn flour", quantity: 1, unit: UnitVolume.tablespoons),
+        ]),
+        Recipe(name: "Pâtes aux champignons", mealCount: 2, ingredients: [
+            Ingredient(name: "Mushrooms", quantity: 100, unit: UnitMass.grams),
+            Ingredient(name: "Pasta", quantity: 500, unit: UnitMass.grams),
+            Ingredient(name: "Cheddar", quantity: 50, unit: UnitMass.grams),
+            Ingredient(name: "Red Leicester", quantity: 50, unit: UnitMass.grams),
+            Ingredient(name: "Wine", quantity: 5, unit: UnitVolume.centiliters),
+            Ingredient(name: "Cream", quantity: 25, unit: UnitVolume.centiliters),
+            Ingredient(name: "Corn flour", quantity: 1, unit: UnitVolume.tablespoons),
+            Ingredient(name: "Onion", quantity: 0.5, unit: UnitVolume.tablespoons),
+        ]),
+        Recipe(name: "Crêpes façon Renaud", mealCount: 1, ingredients: [
+            Ingredient(name: "Floor", quantity: 300, unit: UnitVolume.centiliters),
+            Ingredient(name: "Egg", quantity: 1),
+            Ingredient(name: "Milk", quantity: 50, unit: UnitVolume.centiliters),
+            Ingredient(name: "Rhum", quantity: 4, unit: UnitVolume.tablespoons),
+            Ingredient(name: "Vanilla extract", quantity: 0.5, unit: UnitVolume.teaspoons),
+        ]),
+    ]
+}
