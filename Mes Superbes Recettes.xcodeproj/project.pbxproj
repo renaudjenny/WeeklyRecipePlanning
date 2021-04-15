@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C2FF4A12628E38B00396EEF /* TestsRecipesCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6459CF2628DA0E006A4521 /* TestsRecipesCore.swift */; };
 		4C44E2242624F2B000542DDF /* RecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C44E2232624F2B000542DDF /* RecipeView.swift */; };
 		4C44E2252624F2B000542DDF /* RecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C44E2232624F2B000542DDF /* RecipeView.swift */; };
 		4C44E22C2624FB5A00542DDF /* ForEach+Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C44E22B2624FB5A00542DDF /* ForEach+Binding.swift */; };
@@ -15,8 +16,6 @@
 		4C6459C22628D350006A4521 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 4C6459C12628D350006A4521 /* ComposableArchitecture */; };
 		4C6459C82628D377006A4521 /* RecipesCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6459C72628D377006A4521 /* RecipesCore.swift */; };
 		4C6459C92628D377006A4521 /* RecipesCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6459C72628D377006A4521 /* RecipesCore.swift */; };
-		4CA780412621DD080010784C /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA780402621DD080010784C /* Tests_iOS.swift */; };
-		4CA7804C2621DD080010784C /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA7804B2621DD080010784C /* Tests_macOS.swift */; };
 		4CA7804E2621DD080010784C /* Mes_Superbes_Recettes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4CA780222621DD020010784C /* Mes_Superbes_Recettes.xcdatamodeld */; };
 		4CA7804F2621DD080010784C /* Mes_Superbes_Recettes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4CA780222621DD020010784C /* Mes_Superbes_Recettes.xcdatamodeld */; };
 		4CA780502621DD080010784C /* Mes_Superbes_RecettesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA780242621DD020010784C /* Mes_Superbes_RecettesApp.swift */; };
@@ -29,6 +28,13 @@
 		4CA780572621DD080010784C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4CA780272621DD080010784C /* Assets.xcassets */; };
 		4CA7806C2621DDE30010784C /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA7806B2621DDE30010784C /* Recipe.swift */; };
 		4CA780712621DEF60010784C /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA7806B2621DDE30010784C /* Recipe.swift */; };
+		4CDF77592628E68400069485 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 4C2FF48E2628E2F100396EEF /* ComposableArchitecture */; };
+		4CDF77792628EB8E00069485 /* TestsRecipesCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6459CF2628DA0E006A4521 /* TestsRecipesCore.swift */; };
+		4CDF77992628ED4700069485 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA7806B2621DDE30010784C /* Recipe.swift */; };
+		4CDF779E2628ED5000069485 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA7806B2621DDE30010784C /* Recipe.swift */; };
+		4CDF77A32628ED5400069485 /* RecipesCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6459C72628D377006A4521 /* RecipesCore.swift */; };
+		4CDF77A82628ED5400069485 /* RecipesCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6459C72628D377006A4521 /* RecipesCore.swift */; };
+		4CDF77AE2628ED8500069485 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 4CDF77AD2628ED8500069485 /* ComposableArchitecture */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,7 +45,7 @@
 			remoteGlobalIDString = 4CA7802B2621DD080010784C;
 			remoteInfo = "Mes Superbes Recettes (iOS)";
 		};
-		4CA780482621DD080010784C /* PBXContainerItemProxy */ = {
+		4CDF77822628EC2E00069485 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4CA7801D2621DD020010784C /* Project object */;
 			proxyType = 1;
@@ -52,6 +58,7 @@
 		4C44E2232624F2B000542DDF /* RecipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeView.swift; sourceTree = "<group>"; };
 		4C44E22B2624FB5A00542DDF /* ForEach+Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ForEach+Binding.swift"; sourceTree = "<group>"; };
 		4C6459C72628D377006A4521 /* RecipesCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesCore.swift; sourceTree = "<group>"; };
+		4C6459CF2628DA0E006A4521 /* TestsRecipesCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsRecipesCore.swift; sourceTree = "<group>"; };
 		4CA780232621DD020010784C /* Shared.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Shared.xcdatamodel; sourceTree = "<group>"; };
 		4CA780242621DD020010784C /* Mes_Superbes_RecettesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mes_Superbes_RecettesApp.swift; sourceTree = "<group>"; };
 		4CA780252621DD020010784C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -63,15 +70,29 @@
 		4CA780362621DD080010784C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4CA780372621DD080010784C /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		4CA7803C2621DD080010784C /* Tests iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4CA780402621DD080010784C /* Tests_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_iOS.swift; sourceTree = "<group>"; };
 		4CA780422621DD080010784C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4CA780472621DD080010784C /* Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4CA7804B2621DD080010784C /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
 		4CA7804D2621DD080010784C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4CA7806B2621DDE30010784C /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4C2FF4BA2628E5B300396EEF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4CDF77AE2628ED8500069485 /* ComposableArchitecture in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C2FF4BB2628E5DB00396EEF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4CDF77592628E68400069485 /* ComposableArchitecture in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4CA780292621DD080010784C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -85,20 +106,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C6459BB2628D330006A4521 /* ComposableArchitecture in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4CA780392621DD080010784C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4CA780442621DD080010784C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,12 +127,21 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		4C6459CE2628D9F8006A4521 /* Tests Shared */ = {
+			isa = PBXGroup;
+			children = (
+				4C6459CF2628DA0E006A4521 /* TestsRecipesCore.swift */,
+			);
+			path = "Tests Shared";
+			sourceTree = "<group>";
+		};
 		4CA7801C2621DD010010784C = {
 			isa = PBXGroup;
 			children = (
 				4CA780212621DD020010784C /* Shared */,
 				4CA7802E2621DD080010784C /* iOS */,
 				4CA780352621DD080010784C /* macOS */,
+				4C6459CE2628D9F8006A4521 /* Tests Shared */,
 				4CA7803F2621DD080010784C /* Tests iOS */,
 				4CA7804A2621DD080010784C /* Tests macOS */,
 				4CA7802D2621DD080010784C /* Products */,
@@ -178,7 +194,6 @@
 		4CA7803F2621DD080010784C /* Tests iOS */ = {
 			isa = PBXGroup;
 			children = (
-				4CA780402621DD080010784C /* Tests_iOS.swift */,
 				4CA780422621DD080010784C /* Info.plist */,
 			);
 			path = "Tests iOS";
@@ -187,7 +202,6 @@
 		4CA7804A2621DD080010784C /* Tests macOS */ = {
 			isa = PBXGroup;
 			children = (
-				4CA7804B2621DD080010784C /* Tests_macOS.swift */,
 				4CA7804D2621DD080010784C /* Info.plist */,
 			);
 			path = "Tests macOS";
@@ -251,15 +265,19 @@
 			buildConfigurationList = 4CA780602621DD080010784C /* Build configuration list for PBXNativeTarget "Tests iOS" */;
 			buildPhases = (
 				4CA780382621DD080010784C /* Sources */,
-				4CA780392621DD080010784C /* Frameworks */,
+				4C2FF4BB2628E5DB00396EEF /* Frameworks */,
 				4CA7803A2621DD080010784C /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				4C2FF4C12628E62400396EEF /* PBXTargetDependency */,
 				4CA7803E2621DD080010784C /* PBXTargetDependency */,
 			);
 			name = "Tests iOS";
+			packageProductDependencies = (
+				4C2FF48E2628E2F100396EEF /* ComposableArchitecture */,
+			);
 			productName = "Tests iOS";
 			productReference = 4CA7803C2621DD080010784C /* Tests iOS.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -269,15 +287,19 @@
 			buildConfigurationList = 4CA780632621DD080010784C /* Build configuration list for PBXNativeTarget "Tests macOS" */;
 			buildPhases = (
 				4CA780432621DD080010784C /* Sources */,
-				4CA780442621DD080010784C /* Frameworks */,
+				4C2FF4BA2628E5B300396EEF /* Frameworks */,
 				4CA780452621DD080010784C /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				4CA780492621DD080010784C /* PBXTargetDependency */,
+				4CDF77B42628ED9300069485 /* PBXTargetDependency */,
+				4CDF77832628EC2E00069485 /* PBXTargetDependency */,
 			);
 			name = "Tests macOS";
+			packageProductDependencies = (
+				4CDF77AD2628ED8500069485 /* ComposableArchitecture */,
+			);
 			productName = "Tests macOS";
 			productReference = 4CA780472621DD080010784C /* Tests macOS.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -399,7 +421,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4CA780412621DD080010784C /* Tests_iOS.swift in Sources */,
+				4C2FF4A12628E38B00396EEF /* TestsRecipesCore.swift in Sources */,
+				4CDF779E2628ED5000069485 /* Recipe.swift in Sources */,
+				4CDF77A82628ED5400069485 /* RecipesCore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,22 +431,32 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4CA7804C2621DD080010784C /* Tests_macOS.swift in Sources */,
+				4CDF77792628EB8E00069485 /* TestsRecipesCore.swift in Sources */,
+				4CDF77992628ED4700069485 /* Recipe.swift in Sources */,
+				4CDF77A32628ED5400069485 /* RecipesCore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		4C2FF4C12628E62400396EEF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 4C2FF4C02628E62400396EEF /* ComposableArchitecture */;
+		};
 		4CA7803E2621DD080010784C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 4CA7802B2621DD080010784C /* Mes Superbes Recettes (iOS) */;
 			targetProxy = 4CA7803D2621DD080010784C /* PBXContainerItemProxy */;
 		};
-		4CA780492621DD080010784C /* PBXTargetDependency */ = {
+		4CDF77832628EC2E00069485 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 4CA780332621DD080010784C /* Mes Superbes Recettes (macOS) */;
-			targetProxy = 4CA780482621DD080010784C /* PBXContainerItemProxy */;
+			targetProxy = 4CDF77822628EC2E00069485 /* PBXContainerItemProxy */;
+		};
+		4CDF77B42628ED9300069485 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 4CDF77B32628ED9300069485 /* ComposableArchitecture */;
 		};
 /* End PBXTargetDependency section */
 
@@ -692,6 +726,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 11.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "renaud.jenny.Tests-macOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
 				TEST_TARGET_NAME = "Mes Superbes Recettes (macOS)";
@@ -714,6 +749,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 11.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "renaud.jenny.Tests-macOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
 				TEST_TARGET_NAME = "Mes Superbes Recettes (macOS)";
@@ -782,12 +818,32 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		4C2FF48E2628E2F100396EEF /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4C6459B92628D330006A4521 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+		4C2FF4C02628E62400396EEF /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4C6459B92628D330006A4521 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
 		4C6459BA2628D330006A4521 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4C6459B92628D330006A4521 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
 		};
 		4C6459C12628D350006A4521 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4C6459B92628D330006A4521 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+		4CDF77AD2628ED8500069485 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4C6459B92628D330006A4521 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+		4CDF77B32628ED9300069485 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4C6459B92628D330006A4521 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;

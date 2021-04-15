@@ -23,8 +23,8 @@ let recipesReducer = Reducer<RecipesState, RecipesAction, RecipesEnvironment> { 
     case .selectRecipe(_):
         print("select recipe")
         return .none
-    case .addRecipe(_):
-        print("add recipe")
+    case let .addRecipe(recipe):
+        state.recipes += [recipe]
         return .none
 
     case let .loadRecipes(.success(recipes)):
