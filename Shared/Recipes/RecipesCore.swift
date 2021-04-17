@@ -2,11 +2,9 @@ import ComposableArchitecture
 
 struct RecipesState: Equatable {
     var recipes: [Recipe] = .embedded
-    var selectedRecipes: [Recipe: Bool] = [:]
 }
 
 enum RecipesAction: Equatable {
-    case selectRecipe(Recipe)
     case addRecipe(Recipe)
 
     case loadRecipes(Result<[Recipe], ApiError>)
@@ -23,9 +21,6 @@ let recipesReducer = Reducer<RecipesState, RecipesAction, RecipesEnvironment> { 
     struct SaveRecipesId: Hashable { }
 
     switch action {
-    case .selectRecipe(_):
-        print("select recipe")
-        return .none
     case let .addRecipe(recipe):
         state.recipes += [recipe]
         return Effect(value: .saveRecipes)
