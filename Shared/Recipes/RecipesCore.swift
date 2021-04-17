@@ -7,40 +7,48 @@ struct RecipesState: Equatable {
 enum RecipesAction: Equatable {
     case addRecipe(Recipe)
 
-    case loadRecipes(Result<[Recipe], ApiError>)
-    case saveRecipes
+    case load
+    case loaded(Result<[Recipe], ApiError>)
+    case save
     case saved(Result<Bool, ApiError>)
 }
 
 struct RecipesEnvironment {
-    var persistedRecipes: Effect<[Recipe], ApiError>
-    var saveRecipes: ([Recipe]) -> Effect<Bool, ApiError>
+    var load: () -> Effect<[Recipe], ApiError>
+    var save: ([Recipe]) -> Effect<Bool, ApiError>
 }
 
 let recipesReducer = Reducer<RecipesState, RecipesAction, RecipesEnvironment> { state, action, environment in
-    struct SaveRecipesId: Hashable { }
+    struct SaveId: Hashable { }
+    struct LoadId: Hashable { }
 
     switch action {
     case let .addRecipe(recipe):
         state.recipes += [recipe]
-        return Effect(value: .saveRecipes)
+        return Effect(value: .save)
 
-    case let .loadRecipes(.success(recipes)):
-        print("receive recipes")
-        return .none
-    case .loadRecipes(.failure):
+    case .load:
+        return environment.load()
+            .catchToEffect()
+            .map(RecipesAction.loaded)
+            .cancellable(id: LoadId())
+    case let .loaded(.success(recipes)):
+        state.recipes = recipes
+        return .cancel(id: LoadId())
+    case .loaded(.failure):
         print("Error when loading recipes")
-        return .none
-    case .saveRecipes:
-        return environment.saveRecipes(state.recipes)
+        return .cancel(id: LoadId())
+
+    case .save:
+        return environment.save(state.recipes)
             .catchToEffect()
             .map(RecipesAction.saved)
-            .cancellable(id: SaveRecipesId())
+            .cancellable(id: SaveId())
     case let .saved(.failure(error)):
         print("Error when saving recipes: \(error)")
-        return .cancel(id: SaveRecipesId())
+        return .cancel(id: SaveId())
     case .saved(.success):
-        return .cancel(id: SaveRecipesId())
+        return .cancel(id: SaveId())
     }
 }
 
