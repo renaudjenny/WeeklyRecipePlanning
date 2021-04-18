@@ -37,6 +37,8 @@
 		4CDF77AE2628ED8500069485 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 4CDF77AD2628ED8500069485 /* ComposableArchitecture */; };
 		4CDF77BA262B463500069485 /* Item+Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDF77B9262B463500069485 /* Item+Recipe.swift */; };
 		4CDF77BB262B463500069485 /* Item+Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDF77B9262B463500069485 /* Item+Recipe.swift */; };
+		4CDF77CF262B98FA00069485 /* RecipesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDF77CE262B98FA00069485 /* RecipesView.swift */; };
+		4CDF77D0262B98FA00069485 /* RecipesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDF77CE262B98FA00069485 /* RecipesView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +79,7 @@
 		4CA7804D2621DD080010784C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4CA7806B2621DDE30010784C /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		4CDF77B9262B463500069485 /* Item+Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Item+Recipe.swift"; sourceTree = "<group>"; };
+		4CDF77CE262B98FA00069485 /* RecipesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,6 +220,7 @@
 				4C44E2232624F2B000542DDF /* RecipeView.swift */,
 				4C6459C72628D377006A4521 /* RecipesCore.swift */,
 				4CDF77B9262B463500069485 /* Item+Recipe.swift */,
+				4CDF77CE262B98FA00069485 /* RecipesView.swift */,
 			);
 			path = Recipes;
 			sourceTree = "<group>";
@@ -397,6 +401,7 @@
 			files = (
 				4C6459C82628D377006A4521 /* RecipesCore.swift in Sources */,
 				4C44E2242624F2B000542DDF /* RecipeView.swift in Sources */,
+				4CDF77CF262B98FA00069485 /* RecipesView.swift in Sources */,
 				4CDF77BA262B463500069485 /* Item+Recipe.swift in Sources */,
 				4CA7804E2621DD080010784C /* Mes_Superbes_Recettes.xcdatamodeld in Sources */,
 				4CA780542621DD080010784C /* Persistence.swift in Sources */,
@@ -413,6 +418,7 @@
 			files = (
 				4C6459C92628D377006A4521 /* RecipesCore.swift in Sources */,
 				4C44E2252624F2B000542DDF /* RecipeView.swift in Sources */,
+				4CDF77D0262B98FA00069485 /* RecipesView.swift in Sources */,
 				4CDF77BB262B463500069485 /* Item+Recipe.swift in Sources */,
 				4CA7804F2621DD080010784C /* Mes_Superbes_Recettes.xcdatamodeld in Sources */,
 				4CA780552621DD080010784C /* Persistence.swift in Sources */,

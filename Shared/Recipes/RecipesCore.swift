@@ -5,6 +5,7 @@ struct RecipesState: Equatable {
 }
 
 enum RecipesAction: Equatable {
+    case update(Recipe)
     case addRecipe(Recipe)
 
     case load
@@ -23,6 +24,11 @@ let recipesReducer = Reducer<RecipesState, RecipesAction, RecipesEnvironment> { 
     struct LoadId: Hashable { }
 
     switch action {
+    case let .update(recipe):
+        state.recipes = state.recipes.map {
+            $0 == recipe ? recipe : $0
+        }
+        return .none
     case let .addRecipe(recipe):
         state.recipes += [recipe]
         return Effect(value: .save)

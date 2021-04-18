@@ -24,6 +24,28 @@ class TestsRecipesCore: XCTestCase {
         self.saveSubject = saveSubject
     }
 
+    func testUpdateRecipe() throws {
+        let store = try XCTUnwrap(self.store)
+
+        let recipes = [Recipe].embedded
+        let modifiedFirstRecipe = try XCTUnwrap(recipes.first.map {
+            Recipe(id: $0.id, name: "Modified by test", mealCount: $0.mealCount, ingredients: $0.ingredients)
+        })
+
+        // Replace the first element by the modifier one, so the list are different now
+        var modifiedRecipes = Array(recipes.dropFirst())
+        modifiedRecipes.insert(modifiedFirstRecipe, at: 0)
+
+        XCTAssertNotEqual(recipes.first?.name, modifiedRecipes.first?.name)
+
+        store.assert(
+            .send(.update(modifiedFirstRecipe)) {
+                XCTAssertNotEqual($0.recipes.first?.name, modifiedRecipes.first?.name)
+                $0.recipes = modifiedRecipes
+            }
+        )
+    }
+
     func testAddRecipe() throws {
         let store = try XCTUnwrap(self.store)
         let saveSubject = try XCTUnwrap(self.saveSubject)
