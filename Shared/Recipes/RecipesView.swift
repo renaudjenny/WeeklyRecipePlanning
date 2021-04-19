@@ -6,20 +6,25 @@ struct RecipesView: View {
     struct ViewState: Equatable {
         var recipes: [Recipe]
     }
+    enum ViewAction: Equatable {
+        case update(Recipe)
+    }
 
     let store: Store<RecipesState, RecipesAction>
 
     var body: some View {
-        WithViewStore(store.scope(state: { $0.view })) { viewStore in
+        WithViewStore(store.scope(state: { $0.view }, action: RecipesAction.view)) { viewStore in
             List {
-                ForEach(viewStore.recipes, content: row)
+                ForEach(viewStore.recipes) {
+                    row($0, viewStore: viewStore)
+                }
             }
         }
     }
 
-    private func row(_ recipe: Recipe) -> some View {
+    private func row(_ recipe: Recipe, viewStore: ViewStore<ViewState, ViewAction>) -> some View {
         NavigationLink(
-            destination: RecipeView(recipe: recipe, store: store),
+            destination: RecipeView(recipe: viewStore.binding(for: recipe)),
             label: {
                 VStack(alignment: .leading) {
                     Text(recipe.name)
@@ -38,6 +43,23 @@ struct RecipesView: View {
 private extension RecipesState {
     var view: RecipesView.ViewState {
         RecipesView.ViewState(recipes: recipes)
+    }
+}
+
+private extension RecipesAction {
+    static func view(localAction: RecipesView.ViewAction) -> Self {
+        switch localAction {
+        case let .update(recipe): return .update(recipe)
+        }
+    }
+}
+
+private extension ViewStore where State == RecipesView.ViewState, Action == RecipesView.ViewAction {
+    func binding(for recipe: Recipe) -> Binding<Recipe> {
+        binding(
+            get: { $0.recipes.first(where: { $0.id == recipe.id }) ?? .error },
+            send: Action.update
+        )
     }
 }
 

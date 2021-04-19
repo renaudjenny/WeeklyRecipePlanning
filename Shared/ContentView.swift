@@ -1,5 +1,6 @@
-import SwiftUI
+import ComposableArchitecture
 import CoreData
+import SwiftUI
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -9,11 +10,16 @@ struct ContentView: View {
         animation: .default)
     private var items: FetchedResults<Item>
 
+    let store: Store<RecipesState, RecipesAction>
+
     var body: some View {
-        List {
-            ForEach(items, content: row)
+        NavigationView {
+            RecipesView(store: store)
         }
-        .padding()
+//        List {
+//            ForEach(items, content: row)
+//        }
+//        .padding()
         // Keep that code for later, could be useful after learning CoreData
 //        List {
 //            ForEach(items) { item in
@@ -86,6 +92,11 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        ContentView(store: Store(
+            initialState: RecipesState(),
+            reducer: recipesReducer,
+            environment: .mock
+        ))
+        .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
