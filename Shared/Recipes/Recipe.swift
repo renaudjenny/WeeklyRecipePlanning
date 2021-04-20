@@ -1,21 +1,16 @@
+import ComposableArchitecture
 import Foundation
 
-struct Recipe: Codable, Equatable, Identifiable, Hashable {
+struct Recipe: Codable, Identifiable, Hashable {
     var id = UUID()
     var name: String
     var mealCount: Int
-    var ingredients: [Ingredient]
+    var ingredients: IdentifiedArrayOf<Ingredient>
 
     static let error = Recipe(id: UUID(), name: "Error", mealCount: 0, ingredients: [])
-    static func == (lhs: Recipe, rhs: Recipe) -> Bool {
-        lhs.id == rhs.id
-    }
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
 }
 
-struct Ingredient: Codable, Identifiable {
+struct Ingredient: Codable, Identifiable, Hashable {
     var id = UUID()
     var name: String
     var quantity: Double

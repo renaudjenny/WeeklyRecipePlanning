@@ -42,6 +42,8 @@ class TestsRecipesCore: XCTestCase {
             .send(.update(modifiedFirstRecipe)) {
                 XCTAssertNotEqual($0.recipes.first?.name, modifiedRecipes.first?.name)
                 $0.recipes = modifiedRecipes
+                // FIXME: test is broken, see https://github.com/pointfreeco/swift-composable-architecture/blob/main/Examples/Todos/Todos/Todos.swift
+                // and get inspiration from here to fix it correctly. Working with collection of Items is easier to do following these patterns.
             }
         )
     }

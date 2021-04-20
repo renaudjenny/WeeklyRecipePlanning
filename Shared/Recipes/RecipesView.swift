@@ -24,7 +24,10 @@ struct RecipesView: View {
 
     private func row(_ recipe: Recipe, viewStore: ViewStore<ViewState, ViewAction>) -> some View {
         NavigationLink(
-            destination: RecipeView(recipe: viewStore.binding(for: recipe)),
+            destination: RecipeView(recipe: viewStore.binding(
+                get: { $0.recipes.first! },
+                send: ViewAction.update
+            )),
             label: {
                 VStack(alignment: .leading) {
                     Text(recipe.name)
@@ -51,15 +54,6 @@ private extension RecipesAction {
         switch localAction {
         case let .update(recipe): return .update(recipe)
         }
-    }
-}
-
-private extension ViewStore where State == RecipesView.ViewState, Action == RecipesView.ViewAction {
-    func binding(for recipe: Recipe) -> Binding<Recipe> {
-        binding(
-            get: { $0.recipes.first(where: { $0.id == recipe.id }) ?? .error },
-            send: Action.update
-        )
     }
 }
 
