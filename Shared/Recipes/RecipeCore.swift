@@ -34,7 +34,7 @@ let recipeReducer = Reducer<Recipe, RecipeAction, RecipeEnvironment>.combine(
 
 enum IngredientAction: Equatable {
     case nameChanged(String)
-    case quantityChanged(Double)
+    case quantityChanged(String)
     case unitChanged(Unit?)
 }
 

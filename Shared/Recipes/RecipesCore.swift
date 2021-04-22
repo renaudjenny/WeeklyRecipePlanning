@@ -1,22 +1,23 @@
 import ComposableArchitecture
 
 struct RecipesState: Equatable {
-    var recipes: [Recipe] = .embedded
+    var recipes: IdentifiedArrayOf<Recipe> = .embedded
 }
 
 enum RecipesAction: Equatable {
-    case update(Recipe)
-    case addRecipe(Recipe)
+    case addRecipeButtonTapped
 
     case load
-    case loaded(Result<[Recipe], ApiError>)
+    case loaded(Result<IdentifiedArrayOf<Recipe>, ApiError>)
     case save
     case saved(Result<Bool, ApiError>)
+
+    case recipe(id: Recipe.ID, action: RecipeAction)
 }
 
 struct RecipesEnvironment {
-    var load: () -> Effect<[Recipe], ApiError>
-    var save: ([Recipe]) -> Effect<Bool, ApiError>
+    var load: () -> Effect<IdentifiedArrayOf<Recipe>, ApiError>
+    var save: (IdentifiedArrayOf<Recipe>) -> Effect<Bool, ApiError>
 }
 
 let recipesReducer = Reducer<RecipesState, RecipesAction, RecipesEnvironment> { state, action, environment in
@@ -24,13 +25,8 @@ let recipesReducer = Reducer<RecipesState, RecipesAction, RecipesEnvironment> { 
     struct LoadId: Hashable { }
 
     switch action {
-    case let .update(recipe):
-        state.recipes = state.recipes.map {
-            $0 == recipe ? recipe : $0
-        }
-        return .none
-    case let .addRecipe(recipe):
-        state.recipes += [recipe]
+    case .addRecipeButtonTapped:
+        state.recipes.insert(.new, at: 0)
         return Effect(value: .save)
 
     case .load:
@@ -55,6 +51,9 @@ let recipesReducer = Reducer<RecipesState, RecipesAction, RecipesEnvironment> { 
         return .cancel(id: SaveId())
     case .saved(.success):
         return .cancel(id: SaveId())
+
+    case .recipe:
+        return .none
     }
 }
 

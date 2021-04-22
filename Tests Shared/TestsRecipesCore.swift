@@ -5,12 +5,12 @@ import ComposableArchitecture
 @testable import Mes_Superbes_Recettes
 
 class TestsRecipesCore: XCTestCase {
-    var loadSubject: PassthroughSubject<[Recipe], ApiError>?
+    var loadSubject: PassthroughSubject<IdentifiedArrayOf<Recipe>, ApiError>?
     var saveSubject: PassthroughSubject<Bool, ApiError>?
     var store: TestStore<RecipesState, RecipesState, RecipesAction, RecipesAction, RecipesEnvironment>?
 
     override func setUp() {
-        let loadSubject = PassthroughSubject<[Recipe], ApiError>()
+        let loadSubject = PassthroughSubject<IdentifiedArrayOf<Recipe>, ApiError>()
         let saveSubject = PassthroughSubject<Bool, ApiError>()
         store = TestStore(
             initialState: RecipesState(),
@@ -27,23 +27,12 @@ class TestsRecipesCore: XCTestCase {
     func testUpdateRecipe() throws {
         let store = try XCTUnwrap(self.store)
 
-        let recipes = [Recipe].embedded
-        let modifiedFirstRecipe = try XCTUnwrap(recipes.first.map {
-            Recipe(id: $0.id, name: "Modified by test", mealCount: $0.mealCount, ingredients: $0.ingredients)
-        })
-
-        // Replace the first element by the modifier one, so the list are different now
-        var modifiedRecipes = Array(recipes.dropFirst())
-        modifiedRecipes.insert(modifiedFirstRecipe, at: 0)
-
-        XCTAssertNotEqual(recipes.first?.name, modifiedRecipes.first?.name)
+        let recipes = IdentifiedArrayOf<Recipe>.embedded
+        let firstRecipe = try XCTUnwrap(recipes.first)
 
         store.assert(
-            .send(.update(modifiedFirstRecipe)) {
-                XCTAssertNotEqual($0.recipes.first?.name, modifiedRecipes.first?.name)
-                $0.recipes = modifiedRecipes
-                // FIXME: test is broken, see https://github.com/pointfreeco/swift-composable-architecture/blob/main/Examples/Todos/Todos/Todos.swift
-                // and get inspiration from here to fix it correctly. Working with collection of Items is easier to do following these patterns.
+            .send(.recipe(id: firstRecipe.id, action: RecipeAction.nameChanged("Modified by Test"))) {
+                $0.recipes[0].name = "Modified by Test"
             }
         )
     }
@@ -52,11 +41,9 @@ class TestsRecipesCore: XCTestCase {
         let store = try XCTUnwrap(self.store)
         let saveSubject = try XCTUnwrap(self.saveSubject)
 
-        let newRecipe = Recipe(name: "Test", mealCount: 1, ingredients: [])
-
         store.assert(
-            .send(.addRecipe(newRecipe)) {
-                $0.recipes = $0.recipes + [newRecipe]
+            .send(.addRecipeButtonTapped) {
+                $0.recipes = $0.recipes + [Recipe.new]
             },
             .receive(.save),
             .do { saveSubject.send(true) },
@@ -68,10 +55,10 @@ class TestsRecipesCore: XCTestCase {
         let store = try XCTUnwrap(self.store)
         let loadSubject = try XCTUnwrap(self.loadSubject)
 
-        let recipesToLoad = [
+        let recipesToLoad = IdentifiedArrayOf([
             Recipe(name: "Test 1", mealCount: 1, ingredients: []),
             Recipe(name: "Test 2", mealCount: 2, ingredients: [])
-        ]
+        ])
 
         store.assert(
             .send(.load),

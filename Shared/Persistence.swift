@@ -1,3 +1,4 @@
+import ComposableArchitecture
 import CoreData
 
 struct PersistenceController {
@@ -8,7 +9,7 @@ struct PersistenceController {
         let viewContext = result.container.viewContext
         for i in 0..<3 {
             let newItem = Item(context: viewContext)
-            newItem.serializedRecipe = try? JSONEncoder().encode([Recipe].embedded[i])
+            newItem.serializedRecipe = try? JSONEncoder().encode(IdentifiedArrayOf<Recipe>.embedded[i])
         }
         do {
             try viewContext.save()

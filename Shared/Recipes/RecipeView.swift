@@ -2,62 +2,67 @@ import ComposableArchitecture
 import SwiftUI
 
 struct RecipeView: View {
-    @Binding var recipe: Recipe
+    let store: Store<Recipe, RecipeAction>
 
     var body: some View {
-        VStack {
-            TextField("Name", text: $recipe.name)
-                .font(.title)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
+        WithViewStore(store) { viewStore in
+            VStack {
+                TextField("Name", text: viewStore.binding(get: { $0.name }, send: RecipeAction.nameChanged))
+                    .font(.title)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+
+                HStack {
+                    Stepper("Meal count", value: viewStore.binding(get: { $0.mealCount }, send: RecipeAction.mealCountChanged), in: 0...99)
+                    Text("\(viewStore.mealCount)")
+                }
                 .padding()
 
-            HStack {
-                Stepper("Meal count", value: $recipe.mealCount, in: 0...99)
-                Text("\(recipe.mealCount)")
-            }
-            .padding()
+                Divider()
 
-            Divider()
-
-            HStack {
-                Text("Ingredients")
-                Button(action: { addIngredient(to: $recipe) }) {
-                    Image(systemName: "plus")
+                HStack {
+                    Text("Ingredients")
+                    Button(action: { viewStore.send(.addIngredientButtonTapped) }) {
+                        Image(systemName: "plus")
+                    }
                 }
-            }
-            .padding()
+                .padding()
 
-            List {
-                ForEach($recipe.ingredients, content: ingredientRow)
+                List {
+                    ForEachStore(store.scope(state: { $0.ingredients }, action: RecipeAction.ingredient(id:action:)), content: ingredientRow)
+                }
             }
         }
     }
 
-    private func addIngredient(to recipe: Binding<Recipe>) {
-        recipe.wrappedValue.ingredients.insert(Ingredient(name: "New ingredient", quantity: 1.25, unit: UnitVolume.centiliters), at: 0)
-    }
-
-    private func ingredientRow(index: Int, ingredient: Binding<Ingredient>) -> some View {
-        VStack {
-            TextField("Name", text: ingredient.name)
-                .font(.title2)
-            TextField("Quantity", text: ingredient.quantity.text)
-            // TODO: Unit
+    private func ingredientRow(store: Store<Ingredient, IngredientAction>) -> some View {
+        WithViewStore(store) { viewStore in
+            VStack {
+                TextField("Name", text: viewStore.binding(get: { $0.name }, send: IngredientAction.nameChanged))
+                    .font(.title2)
+                TextField("Quantity", text: viewStore.binding(get: { $0.quantity.text }, send: IngredientAction.quantityChanged))
+                // TODO: Unit
+            }
         }
     }
 }
 
-extension Binding where Value == Double {
-    var text: Binding<String> {
-        .init(
-            get: { numberFormatterDecimal.string(from: NSNumber(value: self.wrappedValue)) ?? "ERROR" },
-            set: { self.wrappedValue = Double($0) ?? 0 }
-        )
-    }
+private extension Double {
+    var text: String { numberFormatterDecimal.string(from: NSNumber(value: self)) ?? "Error" }
 }
 
 struct RecipeView_Previews: PreviewProvider {
     static var previews: some View {
-        RecipeView(recipe: .constant([Recipe].embedded.first!))
+        RecipeView(store: Store(
+            initialState: Recipe(
+                name: "Preview recipe",
+                mealCount: 1,
+                ingredients: [
+                    Ingredient(name: "Water", quantity: 100, unit: UnitVolume.centiliters),
+                    Ingredient(name: "Chocolate", quantity: 200, unit: UnitMass.grams),
+                ]),
+            reducer: recipeReducer,
+            environment: RecipeEnvironment()
+        ))
     }
 }
