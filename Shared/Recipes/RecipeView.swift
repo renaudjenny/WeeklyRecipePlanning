@@ -55,11 +55,12 @@ struct RecipeView_Previews: PreviewProvider {
     static var previews: some View {
         RecipeView(store: Store(
             initialState: Recipe(
+                id: UUID(),
                 name: "Preview recipe",
                 mealCount: 1,
                 ingredients: [
-                    Ingredient(name: "Water", quantity: 100, unit: UnitVolume.centiliters),
-                    Ingredient(name: "Chocolate", quantity: 200, unit: UnitMass.grams),
+                    Ingredient(id: UUID(), name: "Water", quantity: 100, unit: UnitVolume.centiliters),
+                    Ingredient(id: UUID(), name: "Chocolate", quantity: 200, unit: UnitMass.grams),
                 ]),
             reducer: recipeReducer,
             environment: RecipeEnvironment()

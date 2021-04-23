@@ -19,14 +19,17 @@ let recipeReducer = Reducer<Recipe, RecipeAction, RecipeEnvironment>.combine(
     Reducer { state, action, environment in
         switch action {
         case let .nameChanged(name):
+            state.name = name
             return .none
         case let .mealCountChanged(meanCount):
             return .none
+
         case .addIngredientButtonTapped:
             return .none
         case let .ingredientsDeleted(indexSet):
             return .none
-        case .ingredient(id: let id, action: let action):
+
+        case .ingredient:
             return .none
         }
     }

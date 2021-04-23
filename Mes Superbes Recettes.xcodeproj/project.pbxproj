@@ -41,6 +41,10 @@
 		4CDF77D7262F719D00069485 /* RecipeCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDF77D5262F719D00069485 /* RecipeCore.swift */; };
 		4CF259DA2632171200DA58E0 /* RecipeCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDF77D5262F719D00069485 /* RecipeCore.swift */; };
 		4CF259DF2632171300DA58E0 /* RecipeCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDF77D5262F719D00069485 /* RecipeCore.swift */; };
+		4CF259EC2632F5C000DA58E0 /* RecipesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDF77CE262B98FA00069485 /* RecipesView.swift */; };
+		4CF259F12632F5C100DA58E0 /* RecipesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDF77CE262B98FA00069485 /* RecipesView.swift */; };
+		4CF259F62632F5D700DA58E0 /* RecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C44E2232624F2B000542DDF /* RecipeView.swift */; };
+		4CF259FB2632F5D700DA58E0 /* RecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C44E2232624F2B000542DDF /* RecipeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -427,8 +431,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CF259F62632F5D700DA58E0 /* RecipeView.swift in Sources */,
 				4CF259DA2632171200DA58E0 /* RecipeCore.swift in Sources */,
 				4C2FF4A12628E38B00396EEF /* TestsRecipesCore.swift in Sources */,
+				4CF259EC2632F5C000DA58E0 /* RecipesView.swift in Sources */,
 				4CDF779E2628ED5000069485 /* Recipe.swift in Sources */,
 				4CDF77A82628ED5400069485 /* RecipesCore.swift in Sources */,
 			);
@@ -438,8 +444,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CF259FB2632F5D700DA58E0 /* RecipeView.swift in Sources */,
 				4CF259DF2632171300DA58E0 /* RecipeCore.swift in Sources */,
 				4CDF77792628EB8E00069485 /* TestsRecipesCore.swift in Sources */,
+				4CF259F12632F5C100DA58E0 /* RecipesView.swift in Sources */,
 				4CDF77992628ED4700069485 /* Recipe.swift in Sources */,
 				4CDF77A32628ED5400069485 /* RecipesCore.swift in Sources */,
 			);

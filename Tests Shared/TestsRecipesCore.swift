@@ -17,7 +17,8 @@ class TestsRecipesCore: XCTestCase {
             reducer: recipesReducer,
             environment: RecipesEnvironment(
                 load: { loadSubject.eraseToEffect() },
-                save: { _ in saveSubject.eraseToEffect() }
+                save: { _ in saveSubject.eraseToEffect() },
+                uuid: { .zero }
             )
         )
         self.loadSubject = loadSubject
@@ -43,7 +44,7 @@ class TestsRecipesCore: XCTestCase {
 
         store.assert(
             .send(.addRecipeButtonTapped) {
-                $0.recipes = $0.recipes + [Recipe.new]
+                $0.recipes = [Recipe.new(id: .zero)] + $0.recipes
             },
             .receive(.save),
             .do { saveSubject.send(true) },
@@ -56,8 +57,8 @@ class TestsRecipesCore: XCTestCase {
         let loadSubject = try XCTUnwrap(self.loadSubject)
 
         let recipesToLoad = IdentifiedArrayOf([
-            Recipe(name: "Test 1", mealCount: 1, ingredients: []),
-            Recipe(name: "Test 2", mealCount: 2, ingredients: [])
+            Recipe(id: UUID(), name: "Test 1", mealCount: 1, ingredients: []),
+            Recipe(id: UUID(), name: "Test 2", mealCount: 2, ingredients: [])
         ])
 
         store.assert(

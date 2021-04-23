@@ -46,8 +46,13 @@ struct RecipesView_Previews: PreviewProvider {
 extension RecipesEnvironment {
     static let mock: Self = RecipesEnvironment(
         load: { .mock(value: .embedded) },
-        save: { _ in .mock(value: true) }
+        save: { _ in .mock(value: true) },
+        uuid: { .zero }
     )
+}
+
+extension UUID {
+    static let zero: Self = UUID(uuidString: "00000000-0000-0000-0000-000000000000")!
 }
 
 extension Effect {

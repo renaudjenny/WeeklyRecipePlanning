@@ -2,7 +2,7 @@ import ComposableArchitecture
 import Foundation
 
 struct Recipe: Codable, Identifiable, Hashable {
-    var id = UUID()
+    var id: UUID
     var name: String
     var mealCount: Int
     var ingredients: IdentifiedArrayOf<Ingredient>
@@ -11,7 +11,7 @@ struct Recipe: Codable, Identifiable, Hashable {
 }
 
 struct Ingredient: Codable, Identifiable, Hashable {
-    var id = UUID()
+    var id: UUID
     var name: String
     var quantity: Double
     var unit: Unit? = nil
@@ -21,10 +21,6 @@ struct Ingredient: Codable, Identifiable, Hashable {
         self.name = name
         self.quantity = quantity
         self.unit = unit
-    }
-
-    init(name: String, quantity: Double, unit: Unit? = nil) {
-        self.init(id: UUID(), name: name, quantity: quantity, unit: unit)
     }
 
     enum CodingKeys: String, CodingKey {
@@ -77,11 +73,15 @@ let numberFormatterDecimal: NumberFormatter = {
 }()
 
 extension Recipe {
-    static var new: Self { Recipe(name: "New recipe", mealCount: 1, ingredients: [.new]) }
+    static func new(id: UUID) -> Self {
+        Recipe(id: id, name: "New recipe", mealCount: 1, ingredients: [])
+    }
 }
 
 extension Ingredient {
-    static var new: Self { Ingredient(name: "New ingredient", quantity: 100, unit: UnitVolume.centiliters) }
+    static func new(id: UUID) -> Self {
+        Ingredient(id: id, name: "New ingredient", quantity: 100, unit: UnitVolume.centiliters)
+    }
 }
 
 extension IdentifiedArrayOf where Element == Recipe, ID == Element.ID {
