@@ -45,6 +45,8 @@
 		4CF259F12632F5C100DA58E0 /* RecipesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDF77CE262B98FA00069485 /* RecipesView.swift */; };
 		4CF259F62632F5D700DA58E0 /* RecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C44E2232624F2B000542DDF /* RecipeView.swift */; };
 		4CF259FB2632F5D700DA58E0 /* RecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C44E2232624F2B000542DDF /* RecipeView.swift */; };
+		4CF25A01263352E000DA58E0 /* TestsRecipeCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF25A00263352E000DA58E0 /* TestsRecipeCore.swift */; };
+		4CF25A02263352E000DA58E0 /* TestsRecipeCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF25A00263352E000DA58E0 /* TestsRecipeCore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +88,7 @@
 		4CDF77B9262B463500069485 /* Item+Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Item+Recipe.swift"; sourceTree = "<group>"; };
 		4CDF77CE262B98FA00069485 /* RecipesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesView.swift; sourceTree = "<group>"; };
 		4CDF77D5262F719D00069485 /* RecipeCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCore.swift; sourceTree = "<group>"; };
+		4CF25A00263352E000DA58E0 /* TestsRecipeCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsRecipeCore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				4C6459CF2628DA0E006A4521 /* TestsRecipesCore.swift */,
+				4CF25A00263352E000DA58E0 /* TestsRecipeCore.swift */,
 			);
 			path = "Tests Shared";
 			sourceTree = "<group>";
@@ -437,6 +441,7 @@
 				4CF259EC2632F5C000DA58E0 /* RecipesView.swift in Sources */,
 				4CDF779E2628ED5000069485 /* Recipe.swift in Sources */,
 				4CDF77A82628ED5400069485 /* RecipesCore.swift in Sources */,
+				4CF25A01263352E000DA58E0 /* TestsRecipeCore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,6 +455,7 @@
 				4CF259F12632F5C100DA58E0 /* RecipesView.swift in Sources */,
 				4CDF77992628ED4700069485 /* Recipe.swift in Sources */,
 				4CDF77A32628ED5400069485 /* RecipesCore.swift in Sources */,
+				4CF25A02263352E000DA58E0 /* TestsRecipeCore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

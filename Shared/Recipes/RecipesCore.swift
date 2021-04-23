@@ -25,7 +25,7 @@ let recipesReducer = Reducer<RecipesState, RecipesAction, RecipesEnvironment>.co
     recipeReducer.forEach(
         state: \.recipes,
         action: /RecipesAction.recipe(id:action:),
-        environment: { _ in RecipeEnvironment() }
+        environment: { RecipeEnvironment(uuid: $0.uuid) }
     ),
     Reducer { state, action, environment in
         struct SaveId: Hashable { }

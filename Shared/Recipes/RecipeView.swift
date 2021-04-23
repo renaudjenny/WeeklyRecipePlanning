@@ -63,7 +63,7 @@ struct RecipeView_Previews: PreviewProvider {
                     Ingredient(id: UUID(), name: "Chocolate", quantity: 200, unit: UnitMass.grams),
                 ]),
             reducer: recipeReducer,
-            environment: RecipeEnvironment()
+            environment: RecipeEnvironment(uuid: { UUID() })
         ))
     }
 }

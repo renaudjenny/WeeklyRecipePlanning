@@ -8,7 +8,9 @@ enum RecipeAction: Equatable {
     case ingredient(id: Ingredient.ID, action: IngredientAction)
 }
 
-struct RecipeEnvironment { }
+struct RecipeEnvironment {
+    var uuid: () -> UUID
+}
 
 let recipeReducer = Reducer<Recipe, RecipeAction, RecipeEnvironment>.combine(
     ingredientReducer.forEach(
@@ -21,10 +23,12 @@ let recipeReducer = Reducer<Recipe, RecipeAction, RecipeEnvironment>.combine(
         case let .nameChanged(name):
             state.name = name
             return .none
-        case let .mealCountChanged(meanCount):
+        case let .mealCountChanged(mealCount):
+            state.mealCount = mealCount
             return .none
 
         case .addIngredientButtonTapped:
+            state.ingredients.insert(.new(id: environment.uuid()), at: 0)
             return .none
         case let .ingredientsDeleted(indexSet):
             return .none
