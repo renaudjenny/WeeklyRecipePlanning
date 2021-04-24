@@ -5,8 +5,8 @@ struct RecipeView: View {
     let store: Store<Recipe, RecipeAction>
 
     var body: some View {
-        WithViewStore(store) { viewStore in
-            VStack {
+        ScrollView {
+            WithViewStore(store) { viewStore in
                 TextField("Name", text: viewStore.binding(get: { $0.name }, send: RecipeAction.nameChanged))
                     .font(.title)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -28,10 +28,11 @@ struct RecipeView: View {
                 }
                 .padding()
 
-                List {
+                LazyVStack {
                     ForEachStore(store.scope(state: { $0.ingredients }, action: RecipeAction.ingredient(id:action:)), content: ingredientRow)
                         .onDelete { viewStore.send(.ingredientsDeleted($0)) }
                 }
+                .padding()
             }
         }
     }
@@ -42,6 +43,7 @@ struct RecipeView: View {
                 TextField("Name", text: viewStore.binding(get: { $0.name }, send: IngredientAction.nameChanged))
                     .font(.title2)
                 TextField("Quantity", text: viewStore.binding(get: { $0.quantity.text }, send: IngredientAction.quantityChanged))
+                    .keyboardType(.decimalPad)
                 // TODO: Unit
             }
         }
