@@ -57,4 +57,38 @@ class TestsRecipeCore: XCTestCase {
             }
         )
     }
+
+    func testChangeIngredientName() throws {
+        let store = try XCTUnwrap(self.store)
+        let firstIngredientId = try XCTUnwrap(recipe.ingredients.first?.id)
+
+        store.assert(
+            .send(.ingredient(id: firstIngredientId, action: .nameChanged("Test ingredient Name"))) {
+                $0.ingredients[0].name = "Test ingredient Name"
+            }
+        )
+    }
+
+    func testChangeIngredientQuantityWithValidOne() throws {
+        let store = try XCTUnwrap(self.store)
+        let firstIngredientId = try XCTUnwrap(recipe.ingredients.first?.id)
+
+        store.assert(
+            .send(.ingredient(id: firstIngredientId, action: .quantityChanged("10"))) {
+                $0.ingredients[0].quantity = 10
+            }
+        )
+    }
+
+    func testChangeIngredientQuantityWithInvalidOne() throws {
+        let store = try XCTUnwrap(self.store)
+        let firstIngredientId = try XCTUnwrap(recipe.ingredients.first?.id)
+
+        store.assert(
+            .send(.ingredient(id: firstIngredientId, action: .quantityChanged("abcd"))) {
+                $0.ingredients[0].quantity = $0.ingredients[0].quantity
+            },
+            .receive(.ingredient(id: firstIngredientId, action: .quantityFormatError))
+        )
+    }
 }

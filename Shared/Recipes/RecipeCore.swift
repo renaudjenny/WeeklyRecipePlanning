@@ -44,6 +44,8 @@ enum IngredientAction: Equatable {
     case nameChanged(String)
     case quantityChanged(String)
     case unitChanged(Unit?)
+
+    case quantityFormatError
 }
 
 struct IngredientEnvironment { }
@@ -51,10 +53,22 @@ struct IngredientEnvironment { }
 let ingredientReducer = Reducer<Ingredient, IngredientAction, IngredientEnvironment> { state, action, environment in
     switch action {
     case let .nameChanged(name):
+        state.name = name
         return .none
     case let .quantityChanged(quantity):
+        guard let quantity = quantity.doubleValue
+        else { return Effect(value: .quantityFormatError) }
+
+        state.quantity = quantity
         return .none
     case let .unitChanged(unit):
         return .none
+
+    case .quantityFormatError:
+        return .none
     }
+}
+
+private extension String {
+    var doubleValue: Double? { numberFormatterDecimal.number(from: self)?.doubleValue }
 }
