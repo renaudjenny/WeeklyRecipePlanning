@@ -30,6 +30,7 @@ struct RecipeView: View {
 
                 List {
                     ForEachStore(store.scope(state: { $0.ingredients }, action: RecipeAction.ingredient(id:action:)), content: ingredientRow)
+                        .onDelete { viewStore.send(.ingredientsDeleted($0)) }
                 }
             }
         }

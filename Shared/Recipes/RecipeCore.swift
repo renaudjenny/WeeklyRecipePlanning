@@ -31,6 +31,7 @@ let recipeReducer = Reducer<Recipe, RecipeAction, RecipeEnvironment>.combine(
             state.ingredients.insert(.new(id: environment.uuid()), at: 0)
             return .none
         case let .ingredientsDeleted(indexSet):
+            state.ingredients.remove(atOffsets: indexSet)
             return .none
 
         case .ingredient:

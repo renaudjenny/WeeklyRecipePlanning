@@ -47,4 +47,14 @@ class TestsRecipeCore: XCTestCase {
             }
         )
     }
+
+    func testRemoveIngredient() throws {
+        let store = try XCTUnwrap(self.store)
+
+        store.assert(
+            .send(.ingredientsDeleted(IndexSet(integer: 0))) {
+                $0.ingredients = IdentifiedArrayOf($0.ingredients.dropFirst())
+            }
+        )
+    }
 }
