@@ -91,4 +91,15 @@ class TestsRecipeCore: XCTestCase {
             .receive(.ingredient(id: firstIngredientId, action: .quantityFormatError))
         )
     }
+
+    func testChangeUnit() throws {
+        let store = try XCTUnwrap(self.store)
+        let firstIngredientId = try XCTUnwrap(recipe.ingredients.first?.id)
+
+        store.assert(
+            .send(.ingredient(id: firstIngredientId, action: .unitChanged(UnitMass.kilograms))) {
+                $0.ingredients[0].unit = UnitMass.kilograms
+            }
+        )
+    }
 }

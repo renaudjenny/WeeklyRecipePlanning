@@ -42,9 +42,21 @@ struct RecipeView: View {
             VStack {
                 TextField("Name", text: viewStore.binding(get: { $0.name }, send: IngredientAction.nameChanged))
                     .font(.title2)
-                TextField("Quantity", text: viewStore.binding(get: { $0.quantity.text }, send: IngredientAction.quantityChanged))
-                    .keyboardType(.decimalPad)
-                // TODO: Unit
+                HStack {
+                    HStack {
+                        TextField("Quantity", text: viewStore.binding(get: { $0.quantity.text }, send: IngredientAction.quantityChanged))
+                            .keyboardType(.decimalPad)
+                            .frame(maxWidth: 100)
+                        Text(viewStore.unit?.symbol ?? "-")
+                        Spacer()
+                    }
+                    Picker("Change unit", selection: viewStore.binding(get: { $0.unit }, send: IngredientAction.unitChanged)) {
+                        ForEach(RecipeUnit.allCases) { unit in
+                            Text(unit.text).tag(unit.rawValue)
+                        }
+                    }
+                    .pickerStyle(MenuPickerStyle())
+                }
             }
         }
     }
