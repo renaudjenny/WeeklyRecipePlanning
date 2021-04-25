@@ -7,7 +7,11 @@ struct Mes_Superbes_RecettesApp: App {
     let store: Store<RecipesState, RecipesAction> = Store(
         initialState: RecipesState(),
         reducer: recipesReducer,
-        environment: .mock
+        environment: RecipesEnvironment(
+            load: { .mock(value: .embedded) },
+            save: { _ in .mock(value: true) },
+            uuid: UUID.init
+        )
     )
 
     var body: some Scene {

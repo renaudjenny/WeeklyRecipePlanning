@@ -11,6 +11,13 @@ struct RecipesView: View {
                 ForEachStore(store.scope(state: { $0.recipes }, action: RecipesAction.recipe(id:action:)), content: row)
                     .onDelete { viewStore.send(.deleteRecipes($0)) }
             }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button { viewStore.send(.addRecipeButtonTapped) } label: {
+                        Image(systemName: "plus")
+                    }
+                }
+            }
         }
     }
 

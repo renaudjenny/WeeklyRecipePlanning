@@ -38,7 +38,7 @@ let recipesReducer = Reducer<RecipesState, RecipesAction, RecipesEnvironment>.co
             return Effect(value: .save)
         case let .deleteRecipes(indexSet):
             state.recipes.remove(atOffsets: indexSet)
-            return .none
+            return Effect(value: .save)
 
         case .load:
             return environment.load()

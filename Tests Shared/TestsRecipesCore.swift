@@ -72,13 +72,17 @@ class TestsRecipesCore: XCTestCase {
 
     func testRemoveRecipes() throws {
         let store = try XCTUnwrap(self.store)
+        let saveSubject = try XCTUnwrap(self.saveSubject)
 
         let recipesWithoutLast = IdentifiedArrayOf<Recipe>.embedded.dropLast()
 
         store.assert(
             .send(.deleteRecipes(IndexSet(integer: recipesWithoutLast.count))) {
                 $0.recipes = IdentifiedArrayOf(recipesWithoutLast)
-            }
+            },
+            .receive(.save),
+            .do { saveSubject.send(true) },
+            .receive(.saved(.success(true)))
         )
     }
 }
