@@ -9,6 +9,7 @@ struct RecipesView: View {
         WithViewStore(store.scope(state: { $0 })) { viewStore in
             List {
                 ForEachStore(store.scope(state: { $0.recipes }, action: RecipesAction.recipe(id:action:)), content: row)
+                    .onDelete { viewStore.send(.deleteRecipes($0)) }
             }
         }
     }

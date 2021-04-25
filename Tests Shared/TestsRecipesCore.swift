@@ -69,4 +69,16 @@ class TestsRecipesCore: XCTestCase {
             }
         )
     }
+
+    func testRemoveRecipes() throws {
+        let store = try XCTUnwrap(self.store)
+
+        let recipesWithoutLast = IdentifiedArrayOf<Recipe>.embedded.dropLast()
+
+        store.assert(
+            .send(.deleteRecipes(IndexSet(integer: recipesWithoutLast.count))) {
+                $0.recipes = IdentifiedArrayOf(recipesWithoutLast)
+            }
+        )
+    }
 }

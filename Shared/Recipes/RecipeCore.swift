@@ -62,7 +62,6 @@ let ingredientReducer = Reducer<Ingredient, IngredientAction, IngredientEnvironm
         state.quantity = quantity
         return .none
     case let .unitChanged(unit):
-        print(unit)
         state.unit = unit
         return .none
 

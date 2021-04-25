@@ -6,6 +6,7 @@ struct RecipesState: Equatable {
 
 enum RecipesAction: Equatable {
     case addRecipeButtonTapped
+    case deleteRecipes(IndexSet)
 
     case load
     case loaded(Result<IdentifiedArrayOf<Recipe>, ApiError>)
@@ -35,6 +36,9 @@ let recipesReducer = Reducer<RecipesState, RecipesAction, RecipesEnvironment>.co
         case .addRecipeButtonTapped:
             state.recipes.insert(.new(id: environment.uuid()), at: 0)
             return Effect(value: .save)
+        case let .deleteRecipes(indexSet):
+            state.recipes.remove(atOffsets: indexSet)
+            return .none
 
         case .load:
             return environment.load()
