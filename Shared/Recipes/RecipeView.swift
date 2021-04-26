@@ -5,59 +5,61 @@ struct RecipeView: View {
     let store: Store<Recipe, RecipeAction>
 
     var body: some View {
-        ScrollView {
+        Form {
             WithViewStore(store) { viewStore in
-                TextField("Name", text: viewStore.binding(get: { $0.name }, send: RecipeAction.nameChanged))
-                    .font(.title)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
-
-                HStack {
-                    Stepper("Meal count", value: viewStore.binding(get: { $0.mealCount }, send: RecipeAction.mealCountChanged), in: 0...99)
-                    Text("\(viewStore.mealCount)")
+                Section(header: Text("Title")) {
+                    TextField("Name", text: viewStore.binding(get: { $0.name }, send: RecipeAction.nameChanged))
+                        .font(.title)
                 }
-                .padding()
 
-                Divider()
-
-                HStack {
-                    Text("Ingredients")
-                    Button(action: { viewStore.send(.addIngredientButtonTapped) }) {
-                        Image(systemName: "plus")
+                Section(header: Text("Meal count")) {
+                    HStack {
+                        Text("\(viewStore.mealCount)")
+                            .padding()
+                        Stepper("Meal count", value: viewStore.binding(get: { $0.mealCount }, send: RecipeAction.mealCountChanged), in: 0...99)
+                            .labelsHidden()
                     }
                 }
-                .padding()
 
-                LazyVStack {
-                    ForEachStore(store.scope(state: { $0.ingredients }, action: RecipeAction.ingredient(id:action:)), content: ingredientRow)
-                        .onDelete { viewStore.send(.ingredientsDeleted($0)) }
+
+                Section(header: Text("Ingredients")) {
+                    VStack(alignment: .leading) {
+                        Button(action: { viewStore.send(.addIngredientButtonTapped) }) {
+                            Label("New ingredient", systemImage: "plus")
+                        }
+                        .padding()
+
+                        LazyVStack {
+                            ForEachStore(store.scope(state: { $0.ingredients }, action: RecipeAction.ingredient(id:action:)), content: ingredientRow)
+                                .onDelete { viewStore.send(.ingredientsDeleted($0)) }
+                        }
+                        .padding()
+                    }
                 }
-                .padding()
             }
         }
     }
 
     private func ingredientRow(store: Store<Ingredient, IngredientAction>) -> some View {
         WithViewStore(store) { viewStore in
-            VStack {
+            HStack {
                 TextField("Name", text: viewStore.binding(get: { $0.name }, send: IngredientAction.nameChanged))
                     .font(.title2)
                 HStack {
-                    HStack {
-                        TextField("Quantity", text: viewStore.binding(get: { $0.quantity.text }, send: IngredientAction.quantityChanged))
-                            .keyboardType(.decimalPad)
-                            .frame(maxWidth: 100)
-                        Text(viewStore.unit?.symbol ?? "-")
-                        Spacer()
-                    }
-                    Picker("Change unit", selection: viewStore.binding(get: { $0.unit }, send: IngredientAction.unitChanged)) {
-                        ForEach(RecipeUnit.allCases) { unit in
-                            Text(unit.text).tag(unit.rawValue)
-                        }
-                    }
-                    .pickerStyle(MenuPickerStyle())
+                    TextField("Quantity", text: viewStore.binding(get: { $0.quantity.text }, send: IngredientAction.quantityChanged))
+                        .keyboardType(.decimalPad)
+                        .frame(maxWidth: 100)
+                    Text(viewStore.unit?.symbol ?? "-")
+                    Spacer()
                 }
+                Picker("Change unit", selection: viewStore.binding(get: { $0.unit }, send: IngredientAction.unitChanged)) {
+                    ForEach(RecipeUnit.allCases) { unit in
+                        Text(unit.text).tag(unit.rawValue)
+                    }
+                }
+                .pickerStyle(MenuPickerStyle())
             }
+            .padding(.vertical)
         }
     }
 }
