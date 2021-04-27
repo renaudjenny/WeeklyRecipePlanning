@@ -102,4 +102,18 @@ class TestsRecipeCore: XCTestCase {
             }
         )
     }
+
+    func testTapOnEditIngredientUnit() throws {
+        let store = try XCTUnwrap(self.store)
+        let firstIngredientId = try XCTUnwrap(recipe.ingredients.first?.id)
+
+        store.assert(
+            .send(.ingredient(id: firstIngredientId, action: .unitButtonTapped)) {
+                $0.ingredients[0].isUnitInEditionMode = true
+            },
+            .send(.ingredient(id: firstIngredientId, action: .unitButtonTapped)) {
+                $0.ingredients[0].isUnitInEditionMode = false
+            }
+        )
+    }
 }

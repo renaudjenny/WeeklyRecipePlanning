@@ -45,6 +45,7 @@ enum IngredientAction: Equatable {
     case quantityChanged(String)
     case unitChanged(Unit?)
 
+    case unitButtonTapped
     case quantityFormatError
 }
 
@@ -63,6 +64,10 @@ let ingredientReducer = Reducer<Ingredient, IngredientAction, IngredientEnvironm
         return .none
     case let .unitChanged(unit):
         state.unit = unit
+        return .none
+
+    case .unitButtonTapped:
+        state.isUnitInEditionMode = !state.isUnitInEditionMode
         return .none
 
     case .quantityFormatError:

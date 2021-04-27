@@ -16,6 +16,8 @@ struct Ingredient: Codable, Identifiable, Hashable {
     var quantity: Double
     var unit: Unit? = nil
 
+    var isUnitInEditionMode = false
+
     init(id: UUID, name: String, quantity: Double, unit: Unit? = nil) {
         self.id = id
         self.name = name
