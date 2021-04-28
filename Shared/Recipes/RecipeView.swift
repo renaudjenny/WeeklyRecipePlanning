@@ -12,43 +12,34 @@ struct RecipeView: View {
                         .font(.title)
                 }
 
-                Section(header: Text("Meal count")) {
-                    HStack {
-                        Text("\(viewStore.mealCount)")
-                            .padding()
-                        Stepper("Meal count", value: viewStore.binding(get: { $0.mealCount }, send: RecipeAction.mealCountChanged), in: 0...99)
-                            .labelsHidden()
-                    }
-                }
-
+                Stepper("Meal count", value: viewStore.binding(get: { $0.mealCount }, send: RecipeAction.mealCountChanged), in: 0...99)
 
                 Section(header: Text("Ingredients")) {
                     Button(action: { viewStore.send(.addIngredientButtonTapped) }) {
                         Label("New ingredient", systemImage: "plus")
                     }
-                    LazyVStack {
-                        ForEachStore(store.scope(state: { $0.ingredients }, action: RecipeAction.ingredient(id:action:)), content: ingredientRow)
-                            .onDelete { viewStore.send(.ingredientsDeleted($0)) }
-                    }
-                    .padding()
                 }
+
+                ForEachStore(store.scope(state: { $0.ingredients }, action: RecipeAction.ingredient(id:action:)), content: ingredientRow)
+                    .onDelete { viewStore.send(.ingredientsDeleted($0)) }
             }
         }
     }
 
     private func ingredientRow(store: Store<Ingredient, IngredientAction>) -> some View {
         WithViewStore(store) { viewStore in
-            TextField("Name", text: viewStore.binding(get: { $0.name }, send: IngredientAction.nameChanged))
-                .font(.title2)
-            TextField("Quantity", text: viewStore.binding(get: { $0.quantity.text }, send: IngredientAction.quantityChanged))
-                .keyboardType(.decimalPad)
             HStack {
-                Button { } label: {
-                    Text(viewStore.unit?.symbol ?? "-")
+                TextField("Name", text: viewStore.binding(get: { $0.name }, send: IngredientAction.nameChanged))
+                    .font(.title2)
+                TextField("Quantity", text: viewStore.binding(get: { $0.quantity.text }, send: IngredientAction.quantityChanged))
+                    .keyboardType(.decimalPad)
+                HStack {
+                    Button { } label: {
+                        Text(viewStore.unit?.symbol ?? "-")
+                    }
                 }
-                Spacer()
+                .onTapGesture { viewStore.send(.unitButtonTapped, animation: .easeInOut) }
             }
-            .onTapGesture { viewStore.send(.unitButtonTapped) }
             if viewStore.isUnitInEditionMode {
                 Picker("Unit", selection: viewStore.binding(get: { $0.unit }, send: IngredientAction.unitChanged)) {
                     ForEach(RecipeUnit.allCases) { unit in
@@ -57,7 +48,6 @@ struct RecipeView: View {
                 }
                 .pickerStyle(WheelPickerStyle())
             }
-            Divider()
         }
     }
 }
