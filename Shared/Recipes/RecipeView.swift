@@ -5,14 +5,16 @@ struct RecipeView: View {
     let store: Store<Recipe, RecipeAction>
 
     var body: some View {
-        Form {
-            WithViewStore(store) { viewStore in
+        WithViewStore(store) { viewStore in
+            Form {
                 Section(header: Text("Title")) {
                     TextField("Name", text: viewStore.binding(get: { $0.name }, send: RecipeAction.nameChanged))
                         .font(.title)
                 }
 
-                Stepper("Meal count", value: viewStore.binding(get: { $0.mealCount }, send: RecipeAction.mealCountChanged), in: 0...99)
+                VStack(alignment: .leading) {
+                    Stepper("Meal count: \(viewStore.mealCount)", value: viewStore.binding(get: { $0.mealCount }, send: RecipeAction.mealCountChanged), in: 0...99)
+                }
 
                 Section(header: Text("Ingredients")) {
                     Button(action: { viewStore.send(.addIngredientButtonTapped) }) {
@@ -33,12 +35,10 @@ struct RecipeView: View {
                     .font(.title2)
                 TextField("Quantity", text: viewStore.binding(get: { $0.quantity.text }, send: IngredientAction.quantityChanged))
                     .keyboardType(.decimalPad)
-                HStack {
-                    Button { } label: {
-                        Text(viewStore.unit?.symbol ?? "-")
-                    }
+                Button { } label: {
+                    Text(viewStore.unit?.symbol ?? "-")
                 }
-                .onTapGesture { viewStore.send(.unitButtonTapped, animation: .easeInOut) }
+                .onTapGesture { viewStore.send(.unitButtonTapped, animation: .default) }
             }
             if viewStore.isUnitInEditionMode {
                 Picker("Unit", selection: viewStore.binding(get: { $0.unit }, send: IngredientAction.unitChanged)) {
