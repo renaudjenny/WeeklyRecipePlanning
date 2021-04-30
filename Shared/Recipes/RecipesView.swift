@@ -18,6 +18,7 @@ struct RecipesView: View {
                     }
                 }
             }
+            .onAppear { viewStore.send(.load) }
         }
     }
 
