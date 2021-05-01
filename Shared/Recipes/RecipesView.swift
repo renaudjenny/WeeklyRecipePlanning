@@ -12,7 +12,7 @@ struct RecipesView: View {
                     .onDelete { viewStore.send(.deleteRecipes($0)) }
             }
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem(placement: addRecipeButtonPlacement) {
                     Button { viewStore.send(.addRecipeButtonTapped) } label: {
                         Image(systemName: "plus")
                     }
@@ -39,6 +39,14 @@ struct RecipesView: View {
                     }
                 })
         }
+    }
+
+    private var addRecipeButtonPlacement: ToolbarItemPlacement {
+        #if os(iOS)
+        return ToolbarItemPlacement.navigationBarTrailing
+        #else
+        return ToolbarItemPlacement.automatic
+        #endif
     }
 }
 

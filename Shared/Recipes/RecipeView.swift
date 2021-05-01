@@ -34,7 +34,7 @@ struct RecipeView: View {
                 TextField("Name", text: viewStore.binding(get: { $0.name }, send: IngredientAction.nameChanged))
                     .font(.title2)
                 TextField("Quantity", text: viewStore.binding(get: { $0.quantity.text }, send: IngredientAction.quantityChanged))
-                    .keyboardType(.decimalPad)
+//                    .keyboardType(.decimalPad)
                 Button { } label: {
                     Text(viewStore.unit?.symbol ?? "-")
                 }
@@ -46,9 +46,17 @@ struct RecipeView: View {
                         Text(unit.text).tag(unit.rawValue)
                     }
                 }
-                .pickerStyle(WheelPickerStyle())
+                .pickerStyle(pickerStyle)
             }
         }
+    }
+
+    private var pickerStyle: some PickerStyle {
+        #if os(iOS)
+        return WheelPickerStyle()
+        #else
+        return DefaultPickerStyle()
+        #endif
     }
 }
 
