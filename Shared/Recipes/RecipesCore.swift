@@ -1,7 +1,7 @@
 import ComposableArchitecture
 
 struct RecipesState: Equatable {
-    var recipes: IdentifiedArrayOf<Recipe> = .embedded
+    var recipes: IdentifiedArrayOf<RecipeState> = [Recipe].embedded.states
 }
 
 enum RecipesAction: Equatable {
@@ -9,7 +9,7 @@ enum RecipesAction: Equatable {
     case deleteRecipes(IndexSet)
 
     case load
-    case loaded(Result<IdentifiedArrayOf<Recipe>, ApiError>)
+    case loaded(Result<[Recipe], ApiError>)
     case save
     case saved(Result<Bool, ApiError>)
 
@@ -17,8 +17,8 @@ enum RecipesAction: Equatable {
 }
 
 struct RecipesEnvironment {
-    var load: () -> Effect<IdentifiedArrayOf<Recipe>, ApiError>
-    var save: (IdentifiedArrayOf<Recipe>) -> Effect<Bool, ApiError>
+    var load: () -> Effect<[Recipe], ApiError>
+    var save: ([Recipe]) -> Effect<Bool, ApiError>
     var uuid: () -> UUID
 }
 
@@ -46,14 +46,14 @@ let recipesReducer = Reducer<RecipesState, RecipesAction, RecipesEnvironment>.co
                 .map(RecipesAction.loaded)
                 .cancellable(id: LoadId())
         case let .loaded(.success(recipes)):
-            state.recipes = recipes
+            state.recipes = recipes.states
             return .cancel(id: LoadId())
         case .loaded(.failure):
             print("Error when loading recipes")
             return .cancel(id: LoadId())
 
         case .save:
-            return environment.save(state.recipes)
+            return environment.save(state.recipes.map(\.recipe))
                 .catchToEffect()
                 .map(RecipesAction.saved)
                 .cancellable(id: SaveId())
@@ -70,3 +70,9 @@ let recipesReducer = Reducer<RecipesState, RecipesAction, RecipesEnvironment>.co
 )
 
 struct ApiError: Error, Equatable {}
+
+extension Sequence where Element == Recipe {
+    var states: IdentifiedArrayOf<RecipeState> {
+        IdentifiedArrayOf(map { RecipeState(recipe: $0) })
+    }
+}

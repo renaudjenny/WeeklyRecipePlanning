@@ -16,8 +16,6 @@ struct Ingredient: Codable, Identifiable, Hashable {
     var quantity: Double
     var unit: Unit? = nil
 
-    var isUnitInEditionMode = false
-
     init(id: UUID, name: String, quantity: Double, unit: Unit? = nil) {
         self.id = id
         self.name = name
@@ -74,19 +72,7 @@ let numberFormatterDecimal: NumberFormatter = {
     return formatter
 }()
 
-extension Recipe {
-    static func new(id: UUID) -> Self {
-        Recipe(id: id, name: "New recipe", mealCount: 1, ingredients: [])
-    }
-}
-
-extension Ingredient {
-    static func new(id: UUID) -> Self {
-        Ingredient(id: id, name: "New ingredient", quantity: 100, unit: UnitVolume.centiliters)
-    }
-}
-
-extension IdentifiedArrayOf where Element == Recipe, ID == Element.ID {
+extension Array where Element == Recipe {
     static let embedded: Self = [
         Recipe(id: UUID(uuidString: "B3EBE9FB-6B5C-44B0-AA64-C8AB23480493") ?? UUID(), name: "Pâtes aux poireaux", mealCount: 2, ingredients: [
             Ingredient(id: UUID(uuidString: "FB7CCCB8-71A5-4629-B691-5B517A74D69F") ?? UUID(), name: "Poireau", quantity: 3),

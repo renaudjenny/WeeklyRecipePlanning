@@ -1,5 +1,25 @@
 import ComposableArchitecture
 
+@dynamicMemberLookup
+struct RecipeState: Equatable, Identifiable {
+    var recipe: Recipe
+    var ingredientsStates: IdentifiedArrayOf<IngredientState> {
+        didSet { recipe.ingredients = IdentifiedArrayOf(ingredientsStates.map(\.ingredient)) }
+    }
+
+    var id: Recipe.ID { recipe.id }
+
+    init(recipe: Recipe) {
+        self.recipe = recipe
+        self.ingredientsStates = IdentifiedArrayOf(recipe.ingredients.map { IngredientState(ingredient: $0) })
+    }
+
+    subscript<T>(dynamicMember keyPath: WritableKeyPath<Recipe, T>) -> T {
+        get { recipe[keyPath: keyPath] }
+        set { recipe[keyPath: keyPath] = newValue }
+    }
+}
+
 enum RecipeAction: Equatable {
     case nameChanged(String)
     case mealCountChanged(Int)
@@ -12,9 +32,9 @@ struct RecipeEnvironment {
     var uuid: () -> UUID
 }
 
-let recipeReducer = Reducer<Recipe, RecipeAction, RecipeEnvironment>.combine(
+let recipeReducer = Reducer<RecipeState, RecipeAction, RecipeEnvironment>.combine(
     ingredientReducer.forEach(
-        state: \.ingredients,
+        state: \.ingredientsStates,
         action: /RecipeAction.ingredient(id:action:),
         environment: { _ in IngredientEnvironment() }
     ),
@@ -28,7 +48,7 @@ let recipeReducer = Reducer<Recipe, RecipeAction, RecipeEnvironment>.combine(
             return .none
 
         case .addIngredientButtonTapped:
-            state.ingredients.insert(.new(id: environment.uuid()), at: 0)
+            state.ingredientsStates.insert(.new(id: environment.uuid()), at: 0)
             return .none
         case let .ingredientsDeleted(indexSet):
             state.ingredients.remove(atOffsets: indexSet)
@@ -39,6 +59,19 @@ let recipeReducer = Reducer<Recipe, RecipeAction, RecipeEnvironment>.combine(
         }
     }
 )
+
+@dynamicMemberLookup
+struct IngredientState: Equatable, Identifiable {
+    var ingredient: Ingredient
+    var isUnitInEditionMode = false
+
+    var id: Ingredient.ID { ingredient.id }
+
+    subscript<T>(dynamicMember keyPath: WritableKeyPath<Ingredient, T>) -> T {
+        get { ingredient[keyPath: keyPath] }
+        set { ingredient[keyPath: keyPath] = newValue }
+    }
+}
 
 enum IngredientAction: Equatable {
     case nameChanged(String)
@@ -51,7 +84,7 @@ enum IngredientAction: Equatable {
 
 struct IngredientEnvironment { }
 
-let ingredientReducer = Reducer<Ingredient, IngredientAction, IngredientEnvironment> { state, action, environment in
+let ingredientReducer = Reducer<IngredientState, IngredientAction, IngredientEnvironment> { state, action, environment in
     switch action {
     case let .nameChanged(name):
         state.name = name
@@ -72,6 +105,28 @@ let ingredientReducer = Reducer<Ingredient, IngredientAction, IngredientEnvironm
 
     case .quantityFormatError:
         return .none
+    }
+}
+
+extension RecipeState {
+    static func new(id: UUID) -> Self {
+        RecipeState(recipe: Recipe(
+            id: id,
+            name: "New recipe",
+            mealCount: 1,
+            ingredients: []
+        ))
+    }
+}
+
+extension IngredientState {
+    static func new(id: UUID) -> Self {
+        IngredientState(ingredient: Ingredient(
+            id: id,
+            name: "New ingredient",
+            quantity: 100,
+            unit: UnitVolume.centiliters
+        ))
     }
 }
 

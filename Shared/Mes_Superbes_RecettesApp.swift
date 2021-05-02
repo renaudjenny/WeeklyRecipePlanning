@@ -25,14 +25,14 @@ struct Mes_Superbes_RecettesApp: App {
         }
     }
 
-    static var loadRecipesFromPersistenceController: Effect<IdentifiedArrayOf<Recipe>, ApiError> {
+    static var loadRecipesFromPersistenceController: Effect<[Recipe], ApiError> {
         let persistenceController = PersistenceController.shared
         let request: NSFetchRequest<Item> = Item.fetchRequest()
-        return Future<IdentifiedArrayOf<Recipe>, ApiError> { promise in
+        return Future<[Recipe], ApiError> { promise in
             do {
                 let items = try persistenceController.container.viewContext.fetch(request)
                 let recipes = items.map(\.recipe)
-                promise(.success(IdentifiedArrayOf(recipes)))
+                promise(.success(recipes))
             } catch {
                 promise(.failure(ApiError()))
             }
@@ -40,7 +40,7 @@ struct Mes_Superbes_RecettesApp: App {
         .eraseToEffect()
     }
 
-    static func saveRecipesToPersistenceController(recipes: IdentifiedArrayOf<Recipe>) -> Effect<Bool, ApiError> {
+    static func saveRecipesToPersistenceController(recipes: [Recipe]) -> Effect<Bool, ApiError> {
         let persistenceController = PersistenceController.shared
         let context = persistenceController.container.viewContext
 

@@ -22,7 +22,7 @@ struct RecipesView: View {
         }
     }
 
-    private func row(store: Store<Recipe, RecipeAction>) -> some View {
+    private func row(store: Store<RecipeState, RecipeAction>) -> some View {
         WithViewStore(store) { viewStore in
             NavigationLink(
                 destination: RecipeView(store: store),
