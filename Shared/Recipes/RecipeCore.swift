@@ -3,20 +3,23 @@ import ComposableArchitecture
 @dynamicMemberLookup
 struct RecipeState: Equatable, Identifiable {
     var recipe: Recipe
-    var ingredientsStates: IdentifiedArrayOf<IngredientState> {
-        didSet { recipe.ingredients = IdentifiedArrayOf(ingredientsStates.map(\.ingredient)) }
-    }
+    var ingredientsUnitInEditMode: [Ingredient.ID: Bool] = [:]
 
     var id: Recipe.ID { recipe.id }
-
-    init(recipe: Recipe) {
-        self.recipe = recipe
-        self.ingredientsStates = IdentifiedArrayOf(recipe.ingredients.map { IngredientState(ingredient: $0) })
-    }
 
     subscript<T>(dynamicMember keyPath: WritableKeyPath<Recipe, T>) -> T {
         get { recipe[keyPath: keyPath] }
         set { recipe[keyPath: keyPath] = newValue }
+    }
+}
+
+extension RecipeState {
+    var ingredientList: IngredientListState {
+        get { IngredientListState(ingredients: recipe.ingredients, unitsInEditionMode: ingredientsUnitInEditMode) }
+        set {
+            recipe.ingredients = newValue.ingredients
+            ingredientsUnitInEditMode = newValue.unitsInEditionMode
+        }
     }
 }
 
@@ -25,7 +28,7 @@ enum RecipeAction: Equatable {
     case mealCountChanged(Int)
     case addIngredientButtonTapped
     case ingredientsDeleted(IndexSet)
-    case ingredient(id: Ingredient.ID, action: IngredientAction)
+    case ingredientList(IngredientListAction)
 }
 
 struct RecipeEnvironment {
@@ -33,9 +36,9 @@ struct RecipeEnvironment {
 }
 
 let recipeReducer = Reducer<RecipeState, RecipeAction, RecipeEnvironment>.combine(
-    ingredientReducer.forEach(
-        state: \.ingredientsStates,
-        action: /RecipeAction.ingredient(id:action:),
+    ingredientListReducer.pullback(
+        state: \.ingredientList,
+        action: /RecipeAction.ingredientList,
         environment: { _ in IngredientEnvironment() }
     ),
     Reducer { state, action, environment in
@@ -48,30 +51,43 @@ let recipeReducer = Reducer<RecipeState, RecipeAction, RecipeEnvironment>.combin
             return .none
 
         case .addIngredientButtonTapped:
-            state.ingredientsStates.insert(.new(id: environment.uuid()), at: 0)
+            state.ingredients.insert(.new(id: environment.uuid()), at: 0)
             return .none
         case let .ingredientsDeleted(indexSet):
             state.ingredients.remove(atOffsets: indexSet)
             return .none
 
-        case .ingredient:
+        case .ingredientList:
             return .none
         }
     }
 )
 
-@dynamicMemberLookup
-struct IngredientState: Equatable, Identifiable {
-    var ingredient: Ingredient
-    var isUnitInEditionMode = false
-
-    var id: Ingredient.ID { ingredient.id }
-
-    subscript<T>(dynamicMember keyPath: WritableKeyPath<Ingredient, T>) -> T {
-        get { ingredient[keyPath: keyPath] }
-        set { ingredient[keyPath: keyPath] = newValue }
-    }
+struct IngredientListState: Equatable {
+    var ingredients: IdentifiedArrayOf<Ingredient>
+    var unitsInEditionMode: [Ingredient.ID: Bool] = [:]
 }
+
+enum IngredientListAction: Equatable {
+    case ingredient(id: Ingredient.ID, action: IngredientAction)
+}
+
+let ingredientListReducer = Reducer<IngredientListState, IngredientListAction, IngredientEnvironment>.combine(
+    ingredientReducer.forEach(
+        state: \.ingredients,
+        action: /IngredientListAction.ingredient(id:action:),
+        environment: { $0 }
+    ),
+    Reducer { state, action, environment in
+        switch action {
+        case let .ingredient(id: id, action: .unitButtonTapped):
+            state.unitsInEditionMode[id] = !(state.unitsInEditionMode[id] ?? false)
+            return .none
+        case .ingredient:
+            return .none
+        }
+    }
+)
 
 enum IngredientAction: Equatable {
     case nameChanged(String)
@@ -84,7 +100,7 @@ enum IngredientAction: Equatable {
 
 struct IngredientEnvironment { }
 
-let ingredientReducer = Reducer<IngredientState, IngredientAction, IngredientEnvironment> { state, action, environment in
+let ingredientReducer = Reducer<Ingredient, IngredientAction, IngredientEnvironment> { state, action, environment in
     switch action {
     case let .nameChanged(name):
         state.name = name
@@ -100,7 +116,6 @@ let ingredientReducer = Reducer<IngredientState, IngredientAction, IngredientEnv
         return .none
 
     case .unitButtonTapped:
-        state.isUnitInEditionMode = !state.isUnitInEditionMode
         return .none
 
     case .quantityFormatError:
@@ -108,25 +123,25 @@ let ingredientReducer = Reducer<IngredientState, IngredientAction, IngredientEnv
     }
 }
 
-extension RecipeState {
+extension Recipe {
     static func new(id: UUID) -> Self {
-        RecipeState(recipe: Recipe(
+        Recipe(
             id: id,
             name: "New recipe",
             mealCount: 1,
             ingredients: []
-        ))
+        )
     }
 }
 
-extension IngredientState {
+extension Ingredient {
     static func new(id: UUID) -> Self {
-        IngredientState(ingredient: Ingredient(
+        Ingredient(
             id: id,
             name: "New ingredient",
             quantity: 100,
             unit: UnitVolume.centiliters
-        ))
+        )
     }
 }
 

@@ -5,12 +5,12 @@ import ComposableArchitecture
 @testable import Mes_Superbes_Recettes
 
 class TestsRecipeCore: XCTestCase {
-    let recipe = IdentifiedArrayOf<Recipe>.embedded.first!
-    var store: TestStore<Recipe, Recipe, RecipeAction, RecipeAction, RecipeEnvironment>?
+    let recipe = [Recipe].embedded.first!
+    var store: TestStore<RecipeState, RecipeState, RecipeAction, RecipeAction, RecipeEnvironment>?
 
     override func setUp() {
         store = TestStore(
-            initialState: recipe,
+            initialState: RecipeState(recipe: recipe),
             reducer: recipeReducer,
             environment: RecipeEnvironment(
                 uuid: { .zero }
@@ -43,7 +43,7 @@ class TestsRecipeCore: XCTestCase {
 
         store.assert(
             .send(.addIngredientButtonTapped) {
-                $0.ingredients = [.new(id: .zero)] + $0.ingredients
+                $0.ingredientsStates = [.new(id: .zero)] + $0.ingredientsStates
             }
         )
     }
@@ -109,10 +109,10 @@ class TestsRecipeCore: XCTestCase {
 
         store.assert(
             .send(.ingredient(id: firstIngredientId, action: .unitButtonTapped)) {
-                $0.ingredients[0].isUnitInEditionMode = true
+                $0.ingredientsStates[0].isUnitInEditionMode = true
             },
             .send(.ingredient(id: firstIngredientId, action: .unitButtonTapped)) {
-                $0.ingredients[0].isUnitInEditionMode = false
+                $0.ingredientsStates[0].isUnitInEditionMode = false
             }
         )
     }

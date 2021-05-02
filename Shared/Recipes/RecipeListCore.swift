@@ -1,12 +1,12 @@
 import ComposableArchitecture
 
-struct RecipesState: Equatable {
-    var recipes: IdentifiedArrayOf<RecipeState> = [Recipe].embedded.states
+struct RecipeListState: Equatable {
+    var recipes: IdentifiedArrayOf<RecipeState> = []
 }
 
-enum RecipesAction: Equatable {
-    case addRecipeButtonTapped
-    case deleteRecipes(IndexSet)
+enum RecipeListAction: Equatable {
+    case addButtonTapped
+    case delete(IndexSet)
 
     case load
     case loaded(Result<[Recipe], ApiError>)
@@ -16,16 +16,16 @@ enum RecipesAction: Equatable {
     case recipe(id: Recipe.ID, action: RecipeAction)
 }
 
-struct RecipesEnvironment {
+struct RecipeListEnvironment {
     var load: () -> Effect<[Recipe], ApiError>
     var save: ([Recipe]) -> Effect<Bool, ApiError>
     var uuid: () -> UUID
 }
 
-let recipesReducer = Reducer<RecipesState, RecipesAction, RecipesEnvironment>.combine(
+let recipeListReducer = Reducer<RecipeListState, RecipeListAction, RecipeListEnvironment>.combine(
     recipeReducer.forEach(
         state: \.recipes,
-        action: /RecipesAction.recipe(id:action:),
+        action: /RecipeListAction.recipe(id:action:),
         environment: { RecipeEnvironment(uuid: $0.uuid) }
     ),
     Reducer { state, action, environment in
@@ -33,20 +33,20 @@ let recipesReducer = Reducer<RecipesState, RecipesAction, RecipesEnvironment>.co
         struct LoadId: Hashable { }
 
         switch action {
-        case .addRecipeButtonTapped:
-            state.recipes.insert(.new(id: environment.uuid()), at: 0)
+        case .addButtonTapped:
+            state.recipes.insert(RecipeState(recipe: .new(id: environment.uuid())), at: 0)
             return Effect(value: .save)
-        case let .deleteRecipes(indexSet):
+        case let .delete(indexSet):
             state.recipes.remove(atOffsets: indexSet)
             return Effect(value: .save)
 
         case .load:
             return environment.load()
                 .catchToEffect()
-                .map(RecipesAction.loaded)
+                .map(RecipeListAction.loaded)
                 .cancellable(id: LoadId())
         case let .loaded(.success(recipes)):
-            state.recipes = recipes.states
+            state.recipes = IdentifiedArrayOf(recipes.map { RecipeState(recipe: $0) })
             return .cancel(id: LoadId())
         case .loaded(.failure):
             print("Error when loading recipes")
@@ -55,7 +55,7 @@ let recipesReducer = Reducer<RecipesState, RecipesAction, RecipesEnvironment>.co
         case .save:
             return environment.save(state.recipes.map(\.recipe))
                 .catchToEffect()
-                .map(RecipesAction.saved)
+                .map(RecipeListAction.saved)
                 .cancellable(id: SaveId())
         case let .saved(.failure(error)):
             print("Error when saving recipes: \(error)")
@@ -68,11 +68,3 @@ let recipesReducer = Reducer<RecipesState, RecipesAction, RecipesEnvironment>.co
         }
     }
 )
-
-struct ApiError: Error, Equatable {}
-
-extension Sequence where Element == Recipe {
-    var states: IdentifiedArrayOf<RecipeState> {
-        IdentifiedArrayOf(map { RecipeState(recipe: $0) })
-    }
-}

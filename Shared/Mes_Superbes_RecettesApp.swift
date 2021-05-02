@@ -6,14 +6,14 @@ import SwiftUI
 @main
 struct Mes_Superbes_RecettesApp: App {
     let persistenceController = PersistenceController.shared
-    let store: Store<RecipesState, RecipesAction> = Store(
-        initialState: RecipesState(),
-        reducer: recipesReducer,
-        environment: RecipesEnvironment(
-            //            load: { .mock(value: .embedded) },
-            //            save: { _ in .mock(value: true) },
-            load: { loadRecipesFromPersistenceController },
-            save: saveRecipesToPersistenceController,
+    let store: Store<AppState, AppAction> = Store(
+        initialState: AppState(),
+        reducer: appReducer,
+        environment: AppEnvironment(
+            loadRecipes: { .mock(value: .embedded) },
+            saveRecipes: { _ in .mock(value: true) },
+//            loadRecipes: { loadRecipesFromPersistenceController },
+//            saveRecipes: saveRecipesToPersistenceController,
             uuid: UUID.init
         )
     )

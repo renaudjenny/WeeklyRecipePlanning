@@ -5,12 +5,12 @@ import ComposableArchitecture
 @testable import Mes_Superbes_Recettes
 
 class TestsRecipesCore: XCTestCase {
-    var loadSubject: PassthroughSubject<IdentifiedArrayOf<Recipe>, ApiError>?
+    var loadSubject: PassthroughSubject<[Recipe], ApiError>?
     var saveSubject: PassthroughSubject<Bool, ApiError>?
     var store: TestStore<RecipesState, RecipesState, RecipesAction, RecipesAction, RecipesEnvironment>?
 
     override func setUp() {
-        let loadSubject = PassthroughSubject<IdentifiedArrayOf<Recipe>, ApiError>()
+        let loadSubject = PassthroughSubject<[Recipe], ApiError>()
         let saveSubject = PassthroughSubject<Bool, ApiError>()
         store = TestStore(
             initialState: RecipesState(),
@@ -28,7 +28,7 @@ class TestsRecipesCore: XCTestCase {
     func testUpdateRecipe() throws {
         let store = try XCTUnwrap(self.store)
 
-        let recipes = IdentifiedArrayOf<Recipe>.embedded
+        let recipes = [Recipe].embedded
         let firstRecipe = try XCTUnwrap(recipes.first)
 
         store.assert(
@@ -44,7 +44,7 @@ class TestsRecipesCore: XCTestCase {
 
         store.assert(
             .send(.addRecipeButtonTapped) {
-                $0.recipes = [Recipe.new(id: .zero)] + $0.recipes
+                $0.recipes = [.new(id: .zero)] + $0.recipes
             },
             .receive(.save),
             .do { saveSubject.send(true) },
@@ -56,16 +56,16 @@ class TestsRecipesCore: XCTestCase {
         let store = try XCTUnwrap(self.store)
         let loadSubject = try XCTUnwrap(self.loadSubject)
 
-        let recipesToLoad = IdentifiedArrayOf([
+        let recipesToLoad = [
             Recipe(id: UUID(), name: "Test 1", mealCount: 1, ingredients: []),
             Recipe(id: UUID(), name: "Test 2", mealCount: 2, ingredients: [])
-        ])
+        ]
 
         store.assert(
             .send(.load),
             .do { loadSubject.send(recipesToLoad) },
             .receive(.loaded(.success(recipesToLoad))) {
-                $0.recipes = recipesToLoad
+                $0.recipes = recipesToLoad.states
             }
         )
     }
@@ -74,11 +74,11 @@ class TestsRecipesCore: XCTestCase {
         let store = try XCTUnwrap(self.store)
         let saveSubject = try XCTUnwrap(self.saveSubject)
 
-        let recipesWithoutLast = IdentifiedArrayOf<Recipe>.embedded.dropLast()
+        let recipesWithoutLast = [Recipe].embedded.dropLast()
 
         store.assert(
             .send(.deleteRecipes(IndexSet(integer: recipesWithoutLast.count))) {
-                $0.recipes = IdentifiedArrayOf(recipesWithoutLast)
+                $0.recipes = recipesWithoutLast.states
             },
             .receive(.save),
             .do { saveSubject.send(true) },

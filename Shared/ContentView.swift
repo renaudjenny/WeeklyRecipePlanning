@@ -10,11 +10,11 @@ struct ContentView: View {
         animation: .default)
     private var items: FetchedResults<Item>
 
-    let store: Store<RecipesState, RecipesAction>
+    let store: Store<AppState, AppAction>
 
     var body: some View {
         NavigationView {
-            RecipesView(store: store)
+            RecipesView(store: store.scope(state: { $0.recipeList }, action: AppAction.recipeList))
         }
 //        List {
 //            ForEach(items, content: row)
@@ -93,8 +93,8 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView(store: Store(
-            initialState: RecipesState(),
-            reducer: recipesReducer,
+            initialState: AppState(),
+            reducer: appReducer,
             environment: .mock
         ))
         .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
