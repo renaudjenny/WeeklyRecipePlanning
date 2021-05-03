@@ -52,14 +52,10 @@
 		4C7910152640006B00FF13C6 /* TestsIngredientListCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2AE9C1263FF65D00B281EA /* TestsIngredientListCore.swift */; };
 		4C79101A2640006F00FF13C6 /* TestsIngredientCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2AE9CC263FF6DF00B281EA /* TestsIngredientCore.swift */; };
 		4C79101F2640007000FF13C6 /* TestsIngredientCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2AE9CC263FF6DF00B281EA /* TestsIngredientCore.swift */; };
-		4CA7804E2621DD080010784C /* Mes_Superbes_Recettes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4CA780222621DD020010784C /* Mes_Superbes_Recettes.xcdatamodeld */; };
-		4CA7804F2621DD080010784C /* Mes_Superbes_Recettes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4CA780222621DD020010784C /* Mes_Superbes_Recettes.xcdatamodeld */; };
 		4CA780502621DD080010784C /* Mes_Superbes_RecettesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA780242621DD020010784C /* Mes_Superbes_RecettesApp.swift */; };
 		4CA780512621DD080010784C /* Mes_Superbes_RecettesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA780242621DD020010784C /* Mes_Superbes_RecettesApp.swift */; };
 		4CA780522621DD080010784C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA780252621DD020010784C /* ContentView.swift */; };
 		4CA780532621DD080010784C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA780252621DD020010784C /* ContentView.swift */; };
-		4CA780542621DD080010784C /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA780262621DD020010784C /* Persistence.swift */; };
-		4CA780552621DD080010784C /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA780262621DD020010784C /* Persistence.swift */; };
 		4CA780562621DD080010784C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4CA780272621DD080010784C /* Assets.xcassets */; };
 		4CA780572621DD080010784C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4CA780272621DD080010784C /* Assets.xcassets */; };
 		4CA7806C2621DDE30010784C /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA7806B2621DDE30010784C /* Recipe.swift */; };
@@ -69,8 +65,6 @@
 		4CDF77992628ED4700069485 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA7806B2621DDE30010784C /* Recipe.swift */; };
 		4CDF779E2628ED5000069485 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA7806B2621DDE30010784C /* Recipe.swift */; };
 		4CDF77AE2628ED8500069485 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 4CDF77AD2628ED8500069485 /* ComposableArchitecture */; };
-		4CDF77BA262B463500069485 /* Item+Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDF77B9262B463500069485 /* Item+Recipe.swift */; };
-		4CDF77BB262B463500069485 /* Item+Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDF77B9262B463500069485 /* Item+Recipe.swift */; };
 		4CDF77CF262B98FA00069485 /* RecipesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDF77CE262B98FA00069485 /* RecipesView.swift */; };
 		4CDF77D0262B98FA00069485 /* RecipesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDF77CE262B98FA00069485 /* RecipesView.swift */; };
 		4CDF77D6262F719D00069485 /* RecipeCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDF77D5262F719D00069485 /* RecipeCore.swift */; };
@@ -116,10 +110,8 @@
 		4C44E2232624F2B000542DDF /* RecipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeView.swift; sourceTree = "<group>"; };
 		4C6459C72628D377006A4521 /* RecipeListCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListCore.swift; sourceTree = "<group>"; };
 		4C6459CF2628DA0E006A4521 /* TestsRecipeListCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsRecipeListCore.swift; sourceTree = "<group>"; };
-		4CA780232621DD020010784C /* Shared.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Shared.xcdatamodel; sourceTree = "<group>"; };
 		4CA780242621DD020010784C /* Mes_Superbes_RecettesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mes_Superbes_RecettesApp.swift; sourceTree = "<group>"; };
 		4CA780252621DD020010784C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		4CA780262621DD020010784C /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		4CA780272621DD080010784C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4CA7802C2621DD080010784C /* Mes Superbes Recettes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mes Superbes Recettes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CA7802F2621DD080010784C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -131,7 +123,6 @@
 		4CA780472621DD080010784C /* Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CA7804D2621DD080010784C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4CA7806B2621DDE30010784C /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
-		4CDF77B9262B463500069485 /* Item+Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Item+Recipe.swift"; sourceTree = "<group>"; };
 		4CDF77CE262B98FA00069485 /* RecipesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesView.swift; sourceTree = "<group>"; };
 		4CDF77D5262F719D00069485 /* RecipeCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCore.swift; sourceTree = "<group>"; };
 		4CF25A00263352E000DA58E0 /* TestsRecipeCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsRecipeCore.swift; sourceTree = "<group>"; };
@@ -239,10 +230,8 @@
 				4C2AE937263F54B200B281EA /* AppCore.swift */,
 				4CA780272621DD080010784C /* Assets.xcassets */,
 				4CA780252621DD020010784C /* ContentView.swift */,
-				4CA780222621DD020010784C /* Mes_Superbes_Recettes.xcdatamodeld */,
 				4CA780242621DD020010784C /* Mes_Superbes_RecettesApp.swift */,
 				4C2AE97C263F611600B281EA /* Mock.swift */,
-				4CA780262621DD020010784C /* Persistence.swift */,
 				4CA7806A2621DDBA0010784C /* Recipe */,
 			);
 			path = Shared;
@@ -296,7 +285,6 @@
 			isa = PBXGroup;
 			children = (
 				4C2AE9B4263FF43600B281EA /* Ingredient */,
-				4CDF77B9262B463500069485 /* Item+Recipe.swift */,
 				4CA7806B2621DDE30010784C /* Recipe.swift */,
 				4CDF77D5262F719D00069485 /* RecipeCore.swift */,
 				4C6459C72628D377006A4521 /* RecipeListCore.swift */,
@@ -486,11 +474,8 @@
 				4C191A4D2635651D00FD8147 /* RecipeUnit.swift in Sources */,
 				4C44E2242624F2B000542DDF /* RecipeView.swift in Sources */,
 				4CDF77CF262B98FA00069485 /* RecipesView.swift in Sources */,
-				4CDF77BA262B463500069485 /* Item+Recipe.swift in Sources */,
-				4CA7804E2621DD080010784C /* Mes_Superbes_Recettes.xcdatamodeld in Sources */,
 				4C2AE976263F5FEB00B281EA /* IngredientListView.swift in Sources */,
 				4C2AE938263F54B200B281EA /* AppCore.swift in Sources */,
-				4CA780542621DD080010784C /* Persistence.swift in Sources */,
 				4CA780502621DD080010784C /* Mes_Superbes_RecettesApp.swift in Sources */,
 				4C2AE954263F582200B281EA /* RecipeListCore.swift in Sources */,
 				4CA780522621DD080010784C /* ContentView.swift in Sources */,
@@ -511,11 +496,8 @@
 				4C191A4E2635651D00FD8147 /* RecipeUnit.swift in Sources */,
 				4C44E2252624F2B000542DDF /* RecipeView.swift in Sources */,
 				4CDF77D0262B98FA00069485 /* RecipesView.swift in Sources */,
-				4CDF77BB262B463500069485 /* Item+Recipe.swift in Sources */,
-				4CA7804F2621DD080010784C /* Mes_Superbes_Recettes.xcdatamodeld in Sources */,
 				4C2AE977263F5FEB00B281EA /* IngredientListView.swift in Sources */,
 				4C2AE939263F54B200B281EA /* AppCore.swift in Sources */,
-				4CA780552621DD080010784C /* Persistence.swift in Sources */,
 				4CA780512621DD080010784C /* Mes_Superbes_RecettesApp.swift in Sources */,
 				4C2AE959263F582200B281EA /* RecipeListCore.swift in Sources */,
 				4CA780532621DD080010784C /* ContentView.swift in Sources */,
@@ -987,19 +969,6 @@
 			productName = ComposableArchitecture;
 		};
 /* End XCSwiftPackageProductDependency section */
-
-/* Begin XCVersionGroup section */
-		4CA780222621DD020010784C /* Mes_Superbes_Recettes.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				4CA780232621DD020010784C /* Shared.xcdatamodel */,
-			);
-			currentVersion = 4CA780232621DD020010784C /* Shared.xcdatamodel */;
-			path = Mes_Superbes_Recettes.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 4CA7801D2621DD020010784C /* Project object */;
 }

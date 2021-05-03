@@ -17,7 +17,7 @@ enum RecipeListAction: Equatable {
 }
 
 struct RecipeListEnvironment {
-    var load: () -> Effect<[Recipe], ApiError>
+    var load: Effect<[Recipe], ApiError>
     var save: ([Recipe]) -> Effect<Bool, ApiError>
     var uuid: () -> UUID
 }
@@ -41,7 +41,7 @@ let recipeListReducer = Reducer<RecipeListState, RecipeListAction, RecipeListEnv
             return Effect(value: .save)
 
         case .load:
-            return environment.load()
+            return environment.load
                 .catchToEffect()
                 .map(RecipeListAction.loaded)
                 .cancellable(id: LoadId())

@@ -9,7 +9,7 @@ enum AppAction: Equatable {
 }
 
 struct AppEnvironment {
-    var loadRecipes: () -> Effect<[Recipe], ApiError>
+    var loadRecipes: Effect<[Recipe], ApiError>
     var saveRecipes: ([Recipe]) -> Effect<Bool, ApiError>
     var uuid: () -> UUID
 }

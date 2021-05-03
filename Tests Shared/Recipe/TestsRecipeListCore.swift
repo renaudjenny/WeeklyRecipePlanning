@@ -17,7 +17,7 @@ class TestsRecipeListCore: XCTestCase {
             initialState: RecipeListState(recipes: IdentifiedArrayOf(recipes.map(RecipeState.init))),
             reducer: recipeListReducer,
             environment: RecipeListEnvironment(
-                load: { loadSubject.eraseToEffect() },
+                load: loadSubject.eraseToEffect(),
                 save: { _ in saveSubject.eraseToEffect() },
                 uuid: { .zero }
             )

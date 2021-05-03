@@ -5,7 +5,7 @@ import Foundation
 
 extension AppEnvironment {
     static let mock: Self = AppEnvironment(
-        loadRecipes: { .mock(value: .embedded) },
+        loadRecipes: .mock(value: .embedded),
         saveRecipes: { _ in .mock(value: true) },
         uuid: { .zero }
     )

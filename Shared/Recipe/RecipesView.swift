@@ -2,7 +2,7 @@ import SwiftUI
 import ComposableArchitecture
 import Combine
 
-struct RecipesView: View {
+struct RecipeListView: View {
     let store: Store<RecipeListState, RecipeListAction>
 
     var body: some View {
@@ -52,8 +52,10 @@ struct RecipesView: View {
 
 struct RecipesView_Previews: PreviewProvider {
     static var previews: some View {
-        RecipesView(store: Store(
-            initialState: RecipeListState(),
+        RecipeListView(store: Store(
+            initialState: RecipeListState(
+                recipes: IdentifiedArrayOf([Recipe].embedded.map(RecipeState.init))
+            ),
             reducer: recipeListReducer,
             environment: .mock
         ))
