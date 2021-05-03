@@ -5,6 +5,7 @@ import Foundation
 
 extension AppEnvironment {
     static let mock: Self = AppEnvironment(
+        mainQueue: .main,
         loadRecipes: .mock(value: .embedded),
         saveRecipes: { _ in .mock(value: true) },
         uuid: { .zero }
@@ -13,6 +14,7 @@ extension AppEnvironment {
 
 extension RecipeListEnvironment {
     static let mock: Self = RecipeListEnvironment(
+        mainQueue: AppEnvironment.mock.mainQueue,
         load: AppEnvironment.mock.loadRecipes,
         save: AppEnvironment.mock.saveRecipes,
         uuid: AppEnvironment.mock.uuid
@@ -25,7 +27,7 @@ extension UUID {
 
 extension Effect {
     static func mock(value: Output) -> Self {
-        Just(value).mapError({ _ in ApiError() as! Failure }).eraseToEffect()
+        Future { promise in promise(.success(value)) }.eraseToEffect()
     }
 }
 

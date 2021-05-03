@@ -9,6 +9,7 @@ struct Mes_Superbes_RecettesApp: App {
         initialState: AppState(),
         reducer: appReducer,
         environment: AppEnvironment(
+            mainQueue: .main,
 //            loadRecipes: { .mock(value: .embedded) },
 //            saveRecipes: { _ in .mock(value: true) },
             loadRecipes: loadRecipesFromUserDefault,
@@ -26,24 +27,26 @@ struct Mes_Superbes_RecettesApp: App {
     // TODO: improve this code and perhaps rely on something else than UserDefaults to save the recipes
     private static let persistedRecipesKey = "Recipes"
     static var loadRecipesFromUserDefault: Effect<[Recipe], ApiError> {
-        return Future<[Recipe], ApiError> { promise in
-            do {
-                guard let data = UserDefaults.standard.data(forKey: Mes_Superbes_RecettesApp.persistedRecipesKey)
-                else {
-                    promise(.success([Recipe].embedded))
-                    return
+        Deferred {
+            Future<[Recipe], ApiError> { promise in
+                do {
+                    guard let data = UserDefaults.standard.data(forKey: Mes_Superbes_RecettesApp.persistedRecipesKey)
+                    else {
+                        promise(.success([Recipe].embedded))
+                        return
+                    }
+                    let recipes = try JSONDecoder().decode([Recipe].self, from: data)
+                    promise(.success(recipes))
+                } catch {
+                    promise(.failure(ApiError()))
                 }
-                let recipes = try JSONDecoder().decode([Recipe].self, from: data)
-                promise(.success(recipes))
-            } catch {
-                promise(.failure(ApiError()))
             }
         }
         .eraseToEffect()
     }
 
     static func saveRecipesToUserDefault(recipes: [Recipe]) -> Effect<Bool, ApiError> {
-        return Future<Bool, ApiError> { promise in
+        Future<Bool, ApiError> { promise in
             do {
                 let data = try JSONEncoder().encode(recipes)
                 UserDefaults.standard.setValue(data, forKey: Mes_Superbes_RecettesApp.persistedRecipesKey)

@@ -6,6 +6,7 @@ import ComposableArchitecture
 
 class TestsRecipeListCore: XCTestCase {
     let recipes = [Recipe].embedded
+    let mainQueue = DispatchQueue.test
     var loadSubject: PassthroughSubject<[Recipe], ApiError>?
     var saveSubject: PassthroughSubject<Bool, ApiError>?
     var store: TestStore<RecipeListState, RecipeListState, RecipeListAction, RecipeListAction, RecipeListEnvironment>?
@@ -17,6 +18,7 @@ class TestsRecipeListCore: XCTestCase {
             initialState: RecipeListState(recipes: IdentifiedArrayOf(recipes.map(RecipeState.init))),
             reducer: recipeListReducer,
             environment: RecipeListEnvironment(
+                mainQueue: mainQueue.eraseToAnyScheduler(),
                 load: loadSubject.eraseToEffect(),
                 save: { _ in saveSubject.eraseToEffect() },
                 uuid: { .zero }
@@ -26,8 +28,9 @@ class TestsRecipeListCore: XCTestCase {
         self.saveSubject = saveSubject
     }
 
-    func testUpdateRecipe() throws {
+    func testUpdateAndSaveRecipe() throws {
         let store = try XCTUnwrap(self.store)
+        let saveSubject = try XCTUnwrap(self.saveSubject)
 
         let recipes = [Recipe].embedded
         let firstRecipe = try XCTUnwrap(recipes.first)
@@ -35,7 +38,11 @@ class TestsRecipeListCore: XCTestCase {
         store.assert(
             .send(.recipe(id: firstRecipe.id, action: RecipeAction.nameChanged("Modified by Test"))) {
                 $0.recipes[0].name = "Modified by Test"
-            }
+            },
+            .do { self.mainQueue.advance(by: .seconds(1)) },
+            .receive(.save),
+            .do { saveSubject.send(true) },
+            .receive(.saved(.success(true)))
         )
     }
 

@@ -1,7 +1,7 @@
 import ComposableArchitecture
 
 struct RecipeListState: Equatable {
-    var recipes: IdentifiedArrayOf<RecipeState> = []
+    var recipes: IdentifiedArrayOf<RecipeState>
 }
 
 enum RecipeListAction: Equatable {
@@ -17,6 +17,7 @@ enum RecipeListAction: Equatable {
 }
 
 struct RecipeListEnvironment {
+    var mainQueue: AnySchedulerOf<DispatchQueue>
     var load: Effect<[Recipe], ApiError>
     var save: ([Recipe]) -> Effect<Bool, ApiError>
     var uuid: () -> UUID
@@ -31,6 +32,7 @@ let recipeListReducer = Reducer<RecipeListState, RecipeListAction, RecipeListEnv
     Reducer { state, action, environment in
         struct SaveId: Hashable { }
         struct LoadId: Hashable { }
+        struct SaveDebounceId: Hashable { }
 
         switch action {
         case .addButtonTapped:
@@ -46,7 +48,7 @@ let recipeListReducer = Reducer<RecipeListState, RecipeListAction, RecipeListEnv
                 .map(RecipeListAction.loaded)
                 .cancellable(id: LoadId())
         case let .loaded(.success(recipes)):
-            state.recipes = IdentifiedArrayOf(recipes.map { RecipeState(recipe: $0) })
+            state.recipes = IdentifiedArrayOf(recipes.map(RecipeState.init))
             return .cancel(id: LoadId())
         case .loaded(.failure):
             print("Error when loading recipes")
@@ -61,10 +63,13 @@ let recipeListReducer = Reducer<RecipeListState, RecipeListAction, RecipeListEnv
             print("Error when saving recipes: \(error)")
             return .cancel(id: SaveId())
         case .saved(.success):
+            print("Saved!")
             return .cancel(id: SaveId())
 
         case .recipe:
-            return .none
+            return Effect(value: .save)
+                .debounce(id: SaveDebounceId(), for: .seconds(1), scheduler: environment.mainQueue)
+                .eraseToEffect()
         }
     }
 )
