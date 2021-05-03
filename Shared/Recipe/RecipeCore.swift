@@ -25,8 +25,6 @@ struct RecipeState: Equatable, Identifiable {
 enum RecipeAction: Equatable {
     case nameChanged(String)
     case mealCountChanged(Int)
-    case addIngredientButtonTapped
-    case ingredientsDeleted(IndexSet)
     case ingredientList(IngredientListAction)
 }
 
@@ -38,7 +36,7 @@ let recipeReducer = Reducer<RecipeState, RecipeAction, RecipeEnvironment>.combin
     ingredientListReducer.pullback(
         state: \.ingredientList,
         action: /RecipeAction.ingredientList,
-        environment: { _ in IngredientEnvironment() }
+        environment: { IngredientListEnvironment(uuid: $0.uuid) }
     ),
     Reducer { state, action, environment in
         switch action {
@@ -47,13 +45,6 @@ let recipeReducer = Reducer<RecipeState, RecipeAction, RecipeEnvironment>.combin
             return .none
         case let .mealCountChanged(mealCount):
             state.mealCount = mealCount
-            return .none
-
-        case .addIngredientButtonTapped:
-            state.ingredients.insert(.new(id: environment.uuid()), at: 0)
-            return .none
-        case let .ingredientsDeleted(indexSet):
-            state.ingredients.remove(atOffsets: indexSet)
             return .none
 
         case .ingredientList:

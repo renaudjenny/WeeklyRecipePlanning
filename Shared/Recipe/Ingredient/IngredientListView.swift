@@ -6,7 +6,13 @@ struct IngredientListView: View {
 
     var body: some View {
         WithViewStore(store) { viewStore in
+            Section(header: Text("Ingredients")) {
+                Button(action: { viewStore.send(.addButtonTapped) }) {
+                    Label("New ingredient", systemImage: "plus")
+                }
+            }
             ForEachStore(store.scope(state: { $0.ingredients }, action: IngredientListAction.ingredient(id:action:)), content: IngredientRow.init)
+                .onDelete { viewStore.send(.delete($0)) }
         }
     }
 }

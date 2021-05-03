@@ -5,17 +5,30 @@ struct IngredientListState: Equatable {
 }
 
 enum IngredientListAction: Equatable {
+    case addButtonTapped
+    case delete(IndexSet)
     case ingredient(id: Ingredient.ID, action: IngredientAction)
 }
 
-let ingredientListReducer = Reducer<IngredientListState, IngredientListAction, IngredientEnvironment>.combine(
+struct IngredientListEnvironment {
+    var uuid: () -> UUID
+}
+
+let ingredientListReducer = Reducer<IngredientListState, IngredientListAction, IngredientListEnvironment>.combine(
     ingredientReducer.forEach(
         state: \.ingredients,
         action: /IngredientListAction.ingredient(id:action:),
-        environment: { $0 }
+        environment: { _ in IngredientEnvironment() }
     ),
     Reducer { state, action, environment in
         switch action {
+        case .addButtonTapped:
+            state.ingredients.insert(IngredientState(ingredient: .new(id: environment.uuid())), at: 0)
+            return .none
+        case let .delete(indexSet):
+            state.ingredients.remove(atOffsets: indexSet)
+            return .none
+
         case .ingredient:
             return .none
         }
