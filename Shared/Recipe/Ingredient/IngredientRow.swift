@@ -2,7 +2,7 @@ import ComposableArchitecture
 import SwiftUI
 
 struct IngredientRow: View {
-    let store: Store<Ingredient, IngredientAction>
+    let store: Store<IngredientState, IngredientAction>
 
     var body: some View {
         WithViewStore(store) { viewStore in
