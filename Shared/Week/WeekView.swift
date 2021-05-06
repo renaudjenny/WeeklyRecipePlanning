@@ -5,8 +5,19 @@ struct WeekView: View {
     let store: Store<WeekState, WeekAction>
 
     var body: some View {
-        LazyVStack {
-            ForEach(MealTime.allCases, content: MealTimeView.init)
+        WithViewStore(store) { viewStore in
+            Form {
+                Text("Number of different recipes: \(viewStore.week.recipes.count)")
+                ProgressView(
+                    "Planning completion",
+                    value: Double(viewStore.mealTimeFilledCount),
+                    total: Double(MealTime.allCases.count)
+                )
+                .padding()
+                LazyVStack {
+                    ForEach(MealTime.allCases, content: MealTimeView.init)
+                }
+            }
         }
     }
 }

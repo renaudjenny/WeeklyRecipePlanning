@@ -2,6 +2,9 @@ import ComposableArchitecture
 
 struct WeekState: Equatable {
     var week: Week
+    var mealTimeFilledCount: Int {
+        week.recipes.reduce(0, { $0 + $1.mealCount })
+    }
 }
 
 enum WeekAction: Equatable {
