@@ -8,7 +8,8 @@ struct WeekState: Equatable {
 }
 
 enum WeekAction: Equatable {
-    case addRecipe(Recipe)
+    case addRecipeButtonTapped
+    case removeRecipe(Recipe)
 }
 
 struct WeekEnvironment {
@@ -17,8 +18,11 @@ struct WeekEnvironment {
 
 let weekReducer = Reducer<WeekState, WeekAction, WeekEnvironment> { state, action, environment in
     switch action {
-    case let .addRecipe(recipe):
-        print("Recipe added: \(recipe)")
+    case .addRecipeButtonTapped:
+        print("Add recipe button tapped")
+        return .none
+    case let .removeRecipe(recipe):
+        print("Remove recipe: \(recipe.name)")
         return .none
     }
 }
