@@ -14,14 +14,19 @@ struct WeekView: View {
                         }
                     }
                 }
-                ProgressView(
-                    "Planning completion",
-                    value: Double(viewStore.mealTimeFilledCount),
-                    total: Double(MealTime.allCases.count)
-                )
-                .padding()
-                LazyVStack {
-                    ForEach(MealTime.allCases, content: MealTimeView.init)
+                Section {
+                    ProgressView(
+                        "Planning completion",
+                        value: Double(viewStore.mealTimeFilledCount),
+                        total: Double(MealTime.allCases.count)
+                    )
+                    .padding()
+                    LazyVStack(alignment: .leading) {
+                        ForEach(viewStore.mealTimes) { mealTimeRecipe in
+                            MealTimeView(mealTimeRecipe: mealTimeRecipe)
+                        }
+                    }
+                    .padding()
                 }
             }
         }
