@@ -39,3 +39,13 @@ struct RecipeView_Previews: PreviewProvider {
         ))
     }
 }
+
+extension RecipeView {
+    init(readOnlyRecipe recipe: Recipe) {
+        self.init(store: Store(
+            initialState: RecipeState(recipe: recipe),
+            reducer: .empty,
+            environment: RecipeEnvironment(uuid: UUID.init)
+        ))
+    }
+}
