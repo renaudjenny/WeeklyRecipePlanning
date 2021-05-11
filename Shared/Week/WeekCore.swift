@@ -1,7 +1,10 @@
 import ComposableArchitecture
 
 struct WeekState: Equatable {
+    var recipes: [Recipe]
     var week: Week
+    var isRecipeListPresented = false
+
     var mealTimes: [MealTimeRecipe] {
         let weekRecipesByMeals = week.recipes.reduce([]) {
             $0 + Array(repeating: $1, count: $1.mealCount)
@@ -11,13 +14,23 @@ struct WeekState: Equatable {
             return result + [MealTimeRecipe(mealTime: mealTime, recipe: weekRecipesByMeals[safeIndex: offset])]
         }
     }
+
     var mealTimeFilledCount: Int {
         week.recipes.reduce(0, { $0 + $1.mealCount })
+    }
+
+    var unselectedRecipes: [Recipe] {
+        recipes.filter { !week.recipes.contains($0) }
+    }
+
+    func isInWeek(recipe: Recipe) -> Bool {
+        week.recipes.contains(recipe)
     }
 }
 
 enum WeekAction: Equatable {
     case addRecipeButtonTapped
+    case addRecipe(Recipe)
     case removeRecipe(Recipe)
 }
 
@@ -28,10 +41,13 @@ struct WeekEnvironment {
 let weekReducer = Reducer<WeekState, WeekAction, WeekEnvironment> { state, action, environment in
     switch action {
     case .addRecipeButtonTapped:
-        print("Add recipe button tapped")
+        state.isRecipeListPresented.toggle()
+        return .none
+    case let .addRecipe(recipe):
+        state.week.recipes.append(recipe)
         return .none
     case let .removeRecipe(recipe):
-        print("Remove recipe: \(recipe.name)")
+        state.week.recipes = state.week.recipes.filter { $0 != recipe }
         return .none
     }
 }

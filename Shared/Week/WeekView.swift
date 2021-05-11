@@ -12,6 +12,9 @@ struct WeekView: View {
                         ForEach(viewStore.week.recipes) { recipe in
                             recipeCell(recipe, store: store)
                         }
+                        ForEach(viewStore.unselectedRecipes) { recipe in
+                            recipeCell(recipe, store: store)
+                        }
                     }
                 }
                 Section {
@@ -32,7 +35,7 @@ struct WeekView: View {
         }
     }
 
-    func recipesHeader(store: Store<WeekState, WeekAction>) -> some View {
+    private func recipesHeader(store: Store<WeekState, WeekAction>) -> some View {
         WithViewStore(store) { viewStore in
             HStack {
                 Text("Number of different recipes: \(viewStore.week.recipes.count)")
@@ -44,19 +47,36 @@ struct WeekView: View {
         }
     }
 
-    func recipeCell(_ recipe: Recipe, store: Store<WeekState, WeekAction>) -> some View {
+    private func recipeCell(_ recipe: Recipe, store: Store<WeekState, WeekAction>) -> some View {
         WithViewStore(store) { viewStore in
             HStack {
                 Text(recipe.name)
-                Button { viewStore.send(.removeRecipe(recipe)) } label: {
-                    Image(systemName: "minus")
+                    .foregroundColor(viewStore.state.isInWeek(recipe: recipe) ? .primary : .secondary)
+                Button {
+                    if viewStore.state.isInWeek(recipe: recipe) {
+                        viewStore.send(.removeRecipe(recipe))
+                    } else {
+                        viewStore.send(.addRecipe(recipe))
+                    }
+                } label: {
+                    ZStack {
+                        Circle().fill(
+                            viewStore.state.isInWeek(recipe: recipe)
+                                ? Color.red.opacity(0.10)
+                                : Color.accentColor.opacity(0.10)
+                        )
+                        Image(systemName: viewStore.state.isInWeek(recipe: recipe) ? "minus" : "plus")
+                    }
                 }
+                .buttonStyle(PlainButtonStyle())
                 .frame(width: 50, height: 50)
-                .background(Color.accentColor.opacity(0.10))
-                .clipShape(Circle())
             }
             .padding(4)
-            .background(Color.accentColor.opacity(0.10))
+            .background(
+                viewStore.state.isInWeek(recipe: recipe)
+                    ? Color.accentColor.opacity(0.10)
+                    : Color.gray.opacity(0.10)
+            )
         }
     }
 }
@@ -64,7 +84,10 @@ struct WeekView: View {
 struct WeekView_Previews: PreviewProvider {
     static var previews: some View {
         WeekView(store: Store(
-            initialState: WeekState(week: Week(recipes: .embedded)),
+            initialState: WeekState(
+                recipes: .embedded,
+                week: Week(recipes: [Recipe].embedded.dropLast())
+            ),
             reducer: weekReducer,
             environment: WeekEnvironment()
         ))

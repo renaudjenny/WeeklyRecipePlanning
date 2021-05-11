@@ -27,6 +27,7 @@ struct MealTimeView: View {
                 }
             }
         }
+        .buttonStyle(PlainButtonStyle())
         .sheet(isPresented: $isRecipeDisplayed, content: {
             if let recipe = mealTimeRecipe.recipe {
                 RecipeView(readOnlyRecipe: recipe)
