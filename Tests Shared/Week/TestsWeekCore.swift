@@ -47,13 +47,17 @@ class TestsWeekCore: XCTestCase {
         XCTAssertEqual(state.mealTimes, expectedMealTimeRecipe)
     }
 
-    func testUnselectedRecipes() throws {
-        let state = WeekState(recipes: .embedded, week: week)
-        XCTAssertEqual(state.unselectedRecipes, [])
+    func testDisplayedRecipes() throws {
+        let firstRecipe = [Recipe].embedded[0]
+        let secondRecipe = [Recipe].embedded[1]
+        let thirdRecipe = [Recipe].embedded[2]
+        let week = Week(recipes: [secondRecipe])
+        var state = WeekState(recipes: .embedded, week: week, isRecipeListPresented: true)
+        // Recipe in week shall be in top position
+        XCTAssertEqual(state.displayedRecipes, [secondRecipe, firstRecipe, thirdRecipe])
 
-        let weekWithOnlyOneRecipe = Week(recipes: [[Recipe].embedded[0]])
-        let anotherState = WeekState(recipes: .embedded, week: weekWithOnlyOneRecipe)
-        XCTAssertEqual(anotherState.unselectedRecipes, [[Recipe].embedded[1], [Recipe].embedded[2]])
+        state.isRecipeListPresented = false
+        XCTAssertEqual(state.displayedRecipes, [secondRecipe])
     }
 
     func testAddRecipe() throws {

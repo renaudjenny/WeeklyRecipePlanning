@@ -7,12 +7,16 @@ struct WeekView: View {
     var body: some View {
         WithViewStore(store) { viewStore in
             Form {
-                Section(header: recipesHeader(store: store)) {
+                Section(header: Text("Number of different recipes: \(viewStore.week.recipes.count)")) {
+                    Button { viewStore.send(.addRecipeButtonTapped, animation: .default) } label: {
+                        Text(
+                            viewStore.isRecipeListPresented
+                                ? "Show only selected recipes"
+                                : "Show all available recipes"
+                        )
+                    }
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))], alignment: .leading, spacing: 8) {
-                        ForEach(viewStore.week.recipes) { recipe in
-                            recipeCell(recipe, store: store)
-                        }
-                        ForEach(viewStore.unselectedRecipes) { recipe in
+                        ForEach(viewStore.displayedRecipes) { recipe in
                             recipeCell(recipe, store: store)
                         }
                     }
@@ -35,18 +39,6 @@ struct WeekView: View {
         }
     }
 
-    private func recipesHeader(store: Store<WeekState, WeekAction>) -> some View {
-        WithViewStore(store) { viewStore in
-            HStack {
-                Text("Number of different recipes: \(viewStore.week.recipes.count)")
-                Spacer()
-                Button { viewStore.send(.addRecipeButtonTapped) } label: {
-                    Image(systemName: "plus")
-                }
-            }
-        }
-    }
-
     private func recipeCell(_ recipe: Recipe, store: Store<WeekState, WeekAction>) -> some View {
         WithViewStore(store) { viewStore in
             HStack {
@@ -54,16 +46,16 @@ struct WeekView: View {
                     .foregroundColor(viewStore.state.isInWeek(recipe: recipe) ? .primary : .secondary)
                 Button {
                     if viewStore.state.isInWeek(recipe: recipe) {
-                        viewStore.send(.removeRecipe(recipe))
+                        viewStore.send(.removeRecipe(recipe), animation: .default)
                     } else {
-                        viewStore.send(.addRecipe(recipe))
+                        viewStore.send(.addRecipe(recipe), animation: .default)
                     }
                 } label: {
                     ZStack {
-                        Circle().fill(
+                        RoundedRectangle(cornerRadius: 10).fill(
                             viewStore.state.isInWeek(recipe: recipe)
-                                ? Color.red.opacity(0.10)
-                                : Color.accentColor.opacity(0.10)
+                                ? Color.red.opacity(0.6)
+                                : Color.accentColor
                         )
                         Image(systemName: viewStore.state.isInWeek(recipe: recipe) ? "minus" : "plus")
                     }
@@ -71,11 +63,13 @@ struct WeekView: View {
                 .buttonStyle(PlainButtonStyle())
                 .frame(width: 50, height: 50)
             }
-            .padding(4)
+            .padding(6)
             .background(
-                viewStore.state.isInWeek(recipe: recipe)
-                    ? Color.accentColor.opacity(0.10)
-                    : Color.gray.opacity(0.10)
+                RoundedRectangle(cornerRadius: 10).fill(
+                    viewStore.state.isInWeek(recipe: recipe)
+                        ? Color.accentColor.opacity(0.10)
+                        : Color.gray.opacity(0.10)
+                    )
             )
         }
     }

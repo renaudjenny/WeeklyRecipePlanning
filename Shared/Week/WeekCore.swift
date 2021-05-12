@@ -19,8 +19,17 @@ struct WeekState: Equatable {
         week.recipes.reduce(0, { $0 + $1.mealCount })
     }
 
-    var unselectedRecipes: [Recipe] {
-        recipes.filter { !week.recipes.contains($0) }
+    var displayedRecipes: [Recipe] {
+        isRecipeListPresented
+            ? recipes.sorted(by: inWeekRecipeFirst)
+            : week.recipes
+    }
+
+    private func inWeekRecipeFirst(recipeA: Recipe, recipeB: Recipe) -> Bool {
+        if isInWeek(recipe: recipeA) && !isInWeek(recipe: recipeB) {
+            return true
+        }
+        return false
     }
 
     func isInWeek(recipe: Recipe) -> Bool {
