@@ -44,18 +44,18 @@ struct MealTimeView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             LazyVStack(alignment: .leading) {
-                MealTimeView(mealTimeRecipe: MealTimeRecipe(mealTime: .sundayDiner, recipe: recipes[0]))
+                MealTimeView(mealTimeRecipe: MealTimeRecipe(mealTime: .sundayDinner, recipe: recipes[0]))
                 MealTimeView(mealTimeRecipe: MealTimeRecipe(mealTime: .mondayLunch, recipe: recipes[0]))
-                MealTimeView(mealTimeRecipe: MealTimeRecipe(mealTime: .mondayDiner, recipe: recipes[2]))
+                MealTimeView(mealTimeRecipe: MealTimeRecipe(mealTime: .mondayDinner, recipe: recipes[2]))
                 MealTimeView(mealTimeRecipe: MealTimeRecipe(mealTime: .tuesdayLunch, recipe: nil))
-                MealTimeView(mealTimeRecipe: MealTimeRecipe(mealTime: .tuesdayDiner, recipe: nil))
+                MealTimeView(mealTimeRecipe: MealTimeRecipe(mealTime: .tuesdayDinner, recipe: nil))
             }
             LazyVStack(alignment: .leading) {
-                MealTimeView(mealTimeRecipe: MealTimeRecipe(mealTime: .sundayDiner, recipe: recipes[0]))
+                MealTimeView(mealTimeRecipe: MealTimeRecipe(mealTime: .sundayDinner, recipe: recipes[0]))
                 MealTimeView(mealTimeRecipe: MealTimeRecipe(mealTime: .mondayLunch, recipe: recipes[0]))
-                MealTimeView(mealTimeRecipe: MealTimeRecipe(mealTime: .mondayDiner, recipe: recipes[2]))
+                MealTimeView(mealTimeRecipe: MealTimeRecipe(mealTime: .mondayDinner, recipe: recipes[2]))
                 MealTimeView(mealTimeRecipe: MealTimeRecipe(mealTime: .tuesdayLunch, recipe: nil))
-                MealTimeView(mealTimeRecipe: MealTimeRecipe(mealTime: .tuesdayDiner, recipe: nil))
+                MealTimeView(mealTimeRecipe: MealTimeRecipe(mealTime: .tuesdayDinner, recipe: nil))
             }
             .preferredColorScheme(.dark)
         }

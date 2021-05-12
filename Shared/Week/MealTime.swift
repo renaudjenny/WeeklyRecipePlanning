@@ -1,41 +1,41 @@
 import Foundation
 
 enum MealTime: Equatable, CaseIterable, Identifiable {
-    case sundayDiner
+    case sundayDinner
     case mondayLunch
-    case mondayDiner
+    case mondayDinner
     case tuesdayLunch
-    case tuesdayDiner
+    case tuesdayDinner
     case wednesdayLunch
-    case wednesdayDiner
+    case wednesdayDinner
     case thursdayLunch
-    case thursdayDiner
+    case thursdayDinner
     case fridayLunch
-    case fridayDiner
+    case fridayDinner
     case saturdayLunch
-    case saturdayDiner
+    case saturdayDinner
     case sundayLunch
 
     var name: String {
         switch self {
-        case .sundayDiner: return NSLocalizedString("Sunday Diner", comment: "Meal Time: Sunday Diner")
+        case .sundayDinner: return NSLocalizedString("Sunday Dinner", comment: "Meal Time: Sunday Dinner")
         case .mondayLunch: return NSLocalizedString("Monday Lunch", comment: "Meal Time: Monday Lunch")
-        case .mondayDiner: return NSLocalizedString("Monday Diner", comment: "Meal Time: Monday Diner")
+        case .mondayDinner: return NSLocalizedString("Monday Dinner", comment: "Meal Time: Monday Dinner")
 
         case .tuesdayLunch: return NSLocalizedString("Tuesday Lunch", comment: "Meal Time: Tuesday Lunch")
-        case .tuesdayDiner: return NSLocalizedString("Tuesday Diner", comment: "Meal Time: Tuesday Diner")
+        case .tuesdayDinner: return NSLocalizedString("Tuesday Dinner", comment: "Meal Time: Tuesday Dinner")
 
         case .wednesdayLunch: return NSLocalizedString("Wednesday Lunch", comment: "Meal Time: Wednesday Lunch")
-        case .wednesdayDiner: return NSLocalizedString("Wednesday Diner", comment: "Meal Time: Wednesday Diner")
+        case .wednesdayDinner: return NSLocalizedString("Wednesday Dinner", comment: "Meal Time: Wednesday Dinner")
 
         case .thursdayLunch: return NSLocalizedString("Thursday Lunch", comment: "Meal Time: Thursday Lunch")
-        case .thursdayDiner: return NSLocalizedString("Thursday Diner", comment: "Meal Time: Thursday Diner")
+        case .thursdayDinner: return NSLocalizedString("Thursday Dinner", comment: "Meal Time: Thursday Dinner")
 
         case .fridayLunch: return NSLocalizedString("Friday Lunch", comment: "Meal Time: Friday Lunch")
-        case .fridayDiner: return NSLocalizedString("Friday Diner", comment: "Meal Time: Friday Diner")
+        case .fridayDinner: return NSLocalizedString("Friday Dinner", comment: "Meal Time: Friday Dinner")
 
         case .saturdayLunch: return NSLocalizedString("Saturday Lunch", comment: "Meal Time: Saturday Lunch")
-        case .saturdayDiner: return NSLocalizedString("Saturday Diner", comment: "Meal Time: Saturday Diner")
+        case .saturdayDinner: return NSLocalizedString("Saturday Dinner", comment: "Meal Time: Saturday Dinner")
 
         case .sundayLunch: return NSLocalizedString("Sunday Lunch", comment: "Meal Time: Sunday Lunch")
         }
