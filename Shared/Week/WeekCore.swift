@@ -1,12 +1,12 @@
 import ComposableArchitecture
 
 struct WeekState: Equatable {
+    var allRecipes: [Recipe]
     var recipes: [Recipe]
-    var week: Week
     var isRecipeListPresented = false
 
     var mealTimes: [MealTimeRecipe] {
-        let weekRecipesByMeals = week.recipes.reduce([]) {
+        let weekRecipesByMeals = recipes.reduce([]) {
             $0 + Array(repeating: $1, count: $1.mealCount)
         }
         return MealTime.allCases.enumerated().reduce([]) { result, enumeratedElement in
@@ -16,29 +16,25 @@ struct WeekState: Equatable {
     }
 
     var mealTimeFilledCount: Int {
-        week.recipes.reduce(0, { $0 + $1.mealCount })
+        recipes.reduce(0, { $0 + $1.mealCount })
     }
 
     var displayedRecipes: [Recipe] {
         isRecipeListPresented
-            ? recipes.sorted(by: inWeekRecipeFirst)
-            : week.recipes
+            ? allRecipes.sorted(by: inWeekRecipeFirst)
+            : recipes
     }
 
     private func inWeekRecipeFirst(recipeA: Recipe, recipeB: Recipe) -> Bool {
-        if isInWeek(recipe: recipeA) && !isInWeek(recipe: recipeB) {
+        if recipes.contains(recipeA) && !recipes.contains(recipeB) {
             return true
         }
         return false
     }
-
-    func isInWeek(recipe: Recipe) -> Bool {
-        week.recipes.contains(recipe)
-    }
 }
 
 enum WeekAction: Equatable {
-    case addRecipeButtonTapped
+    case showHideAllRecipesButtonTapped
     case addRecipe(Recipe)
     case removeRecipe(Recipe)
 }
@@ -49,14 +45,14 @@ struct WeekEnvironment {
 
 let weekReducer = Reducer<WeekState, WeekAction, WeekEnvironment> { state, action, environment in
     switch action {
-    case .addRecipeButtonTapped:
+    case .showHideAllRecipesButtonTapped:
         state.isRecipeListPresented.toggle()
         return .none
     case let .addRecipe(recipe):
-        state.week.recipes.append(recipe)
+        state.recipes.append(recipe)
         return .none
     case let .removeRecipe(recipe):
-        state.week.recipes = state.week.recipes.filter { $0 != recipe }
+        state.recipes = state.recipes.filter { $0 != recipe }
         return .none
     }
 }

@@ -5,25 +5,24 @@ import ComposableArchitecture
 @testable import Mes_Superbes_Recettes
 
 class TestsWeekCore: XCTestCase {
-    let week = Week(recipes: [Recipe].embedded)
     var store: TestStore<WeekState, WeekState, WeekAction, WeekAction, WeekEnvironment>?
 
     override func setUp() {
         store = TestStore(
-            initialState: WeekState(recipes: .embedded, week: week),
+            initialState: WeekState(allRecipes: .embedded, recipes: .embedded),
             reducer: weekReducer,
             environment: WeekEnvironment()
         )
     }
 
     func testMealTimeFilledCount() throws {
-        let state = WeekState(recipes: .embedded, week: week)
+        let state = WeekState(allRecipes: .embedded, recipes: .embedded)
         // Count the meal you can serve for the week with accumulating meal count of recipes
         XCTAssertEqual(state.mealTimeFilledCount, 5)
     }
 
     func testMealTimes() throws {
-        let state = WeekState(recipes: .embedded, week: week)
+        let state = WeekState(allRecipes: .embedded, recipes: .embedded)
         let firstRecipeWith2Meals = [Recipe].embedded[0]
         let secondRecipeWith2Meals = [Recipe].embedded[1]
         let thirdRecipeWith1Meal = [Recipe].embedded[2]
@@ -51,8 +50,7 @@ class TestsWeekCore: XCTestCase {
         let firstRecipe = [Recipe].embedded[0]
         let secondRecipe = [Recipe].embedded[1]
         let thirdRecipe = [Recipe].embedded[2]
-        let week = Week(recipes: [secondRecipe])
-        var state = WeekState(recipes: .embedded, week: week, isRecipeListPresented: true)
+        var state = WeekState(allRecipes: .embedded, recipes: [secondRecipe], isRecipeListPresented: true)
         // Recipe in week shall be in top position
         XCTAssertEqual(state.displayedRecipes, [secondRecipe, firstRecipe, thirdRecipe])
 
@@ -71,7 +69,7 @@ class TestsWeekCore: XCTestCase {
 
         store.assert(
             .send(.addRecipe(recipeToAdd)) {
-                $0.week.recipes = $0.week.recipes + [recipeToAdd]
+                $0.recipes = $0.recipes + [recipeToAdd]
             }
         )
     }
@@ -82,7 +80,7 @@ class TestsWeekCore: XCTestCase {
 
         store.assert(
             .send(.removeRecipe(recipeToRemove)) {
-                $0.week.recipes = Array([Recipe].embedded.dropFirst())
+                $0.recipes = Array([Recipe].embedded.dropFirst())
             }
         )
     }

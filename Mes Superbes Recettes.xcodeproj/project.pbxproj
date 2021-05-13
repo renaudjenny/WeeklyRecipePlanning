@@ -44,10 +44,6 @@
 		4C2AE9D1263FFB0D00B281EA /* IngredientListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2AE975263F5FEB00B281EA /* IngredientListView.swift */; };
 		4C2AE9D6263FFB0E00B281EA /* IngredientListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2AE975263F5FEB00B281EA /* IngredientListView.swift */; };
 		4C2FF4A12628E38B00396EEF /* TestsRecipeListCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6459CF2628DA0E006A4521 /* TestsRecipeListCore.swift */; };
-		4C3BC6EF2643189600DF5FF5 /* Week.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3BC6EE2643189600DF5FF5 /* Week.swift */; };
-		4C3BC6F02643189600DF5FF5 /* Week.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3BC6EE2643189600DF5FF5 /* Week.swift */; };
-		4C3BC6F12643189600DF5FF5 /* Week.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3BC6EE2643189600DF5FF5 /* Week.swift */; };
-		4C3BC6F22643189600DF5FF5 /* Week.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3BC6EE2643189600DF5FF5 /* Week.swift */; };
 		4C3BC6FC26431D1000DF5FF5 /* WeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3BC6FB26431D1000DF5FF5 /* WeekView.swift */; };
 		4C3BC6FD26431D1000DF5FF5 /* WeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3BC6FB26431D1000DF5FF5 /* WeekView.swift */; };
 		4C3BC70326431E8600DF5FF5 /* WeekCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3BC70226431E8600DF5FF5 /* WeekCore.swift */; };
@@ -127,7 +123,6 @@
 		4C2AE9A3263FED2C00B281EA /* IngredientListCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientListCore.swift; sourceTree = "<group>"; };
 		4C2AE9C1263FF65D00B281EA /* TestsIngredientListCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsIngredientListCore.swift; sourceTree = "<group>"; };
 		4C2AE9CC263FF6DF00B281EA /* TestsIngredientCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsIngredientCore.swift; sourceTree = "<group>"; };
-		4C3BC6EE2643189600DF5FF5 /* Week.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Week.swift; sourceTree = "<group>"; };
 		4C3BC6FB26431D1000DF5FF5 /* WeekView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekView.swift; sourceTree = "<group>"; };
 		4C3BC70226431E8600DF5FF5 /* WeekCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekCore.swift; sourceTree = "<group>"; };
 		4C3BC70B264320DF00DF5FF5 /* MealTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealTimeView.swift; sourceTree = "<group>"; };
@@ -223,7 +218,6 @@
 		4C3BC6ED2643187200DF5FF5 /* Week */ = {
 			isa = PBXGroup;
 			children = (
-				4C3BC6EE2643189600DF5FF5 /* Week.swift */,
 				4C3BC6FB26431D1000DF5FF5 /* WeekView.swift */,
 				4C3BC70226431E8600DF5FF5 /* WeekCore.swift */,
 				4C3BC70B264320DF00DF5FF5 /* MealTimeView.swift */,
@@ -518,7 +512,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C2AE993263FED0800B281EA /* IngredientCore.swift in Sources */,
-				4C3BC6EF2643189600DF5FF5 /* Week.swift in Sources */,
 				4C3BC70C264320E000DF5FF5 /* MealTimeView.swift in Sources */,
 				4C2AE9A4263FED2C00B281EA /* IngredientListCore.swift in Sources */,
 				4C191A4D2635651D00FD8147 /* RecipeUnit.swift in Sources */,
@@ -545,7 +538,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C2AE994263FED0800B281EA /* IngredientCore.swift in Sources */,
-				4C3BC6F02643189600DF5FF5 /* Week.swift in Sources */,
 				4C3BC70D264320E000DF5FF5 /* MealTimeView.swift in Sources */,
 				4C2AE9A5263FED2C00B281EA /* IngredientListCore.swift in Sources */,
 				4C191A4E2635651D00FD8147 /* RecipeUnit.swift in Sources */,
@@ -578,7 +570,6 @@
 				4C2AE93E263F572700B281EA /* AppCore.swift in Sources */,
 				4CF259F62632F5D700DA58E0 /* RecipeView.swift in Sources */,
 				4C2AE98C263F632200B281EA /* IngredientRow.swift in Sources */,
-				4C3BC6F12643189600DF5FF5 /* Week.swift in Sources */,
 				4C2AE995263FED0800B281EA /* IngredientCore.swift in Sources */,
 				4C2AE9D1263FFB0D00B281EA /* IngredientListView.swift in Sources */,
 				4CF259DA2632171200DA58E0 /* RecipeCore.swift in Sources */,
@@ -607,7 +598,6 @@
 				4C2AE943263F572800B281EA /* AppCore.swift in Sources */,
 				4CF259FB2632F5D700DA58E0 /* RecipeView.swift in Sources */,
 				4C2AE98D263F632200B281EA /* IngredientRow.swift in Sources */,
-				4C3BC6F22643189600DF5FF5 /* Week.swift in Sources */,
 				4C2AE996263FED0800B281EA /* IngredientCore.swift in Sources */,
 				4C2AE9D6263FFB0E00B281EA /* IngredientListView.swift in Sources */,
 				4CF259DF2632171300DA58E0 /* RecipeCore.swift in Sources */,

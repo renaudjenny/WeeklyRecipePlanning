@@ -2,10 +2,23 @@ import ComposableArchitecture
 
 struct AppState: Equatable {
     var recipeList = RecipeListState(recipes: [])
+    var weekRecipes: [Recipe] = []
+    var week: WeekState {
+        get {
+            WeekState(
+                allRecipes: recipeList.recipes.map(\.recipe),
+                recipes: weekRecipes
+            )
+        }
+        set {
+            self.weekRecipes = newValue.recipes
+        }
+    }
 }
 
 enum AppAction: Equatable {
     case recipeList(RecipeListAction)
+    case week(WeekAction)
 }
 
 struct AppEnvironment {
@@ -25,5 +38,10 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
             save: $0.saveRecipes,
             uuid: $0.uuid
         ) }
+    ),
+    weekReducer.pullback(
+        state: \.week,
+        action: /AppAction.week,
+        environment: { _ in WeekEnvironment() }
     )
 )
