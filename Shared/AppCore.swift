@@ -1,19 +1,10 @@
 import ComposableArchitecture
 
 struct AppState: Equatable {
-    var recipeList = RecipeListState(recipes: [])
-    var weekRecipes: [Recipe] = []
-    var week: WeekState {
-        get {
-            WeekState(
-                allRecipes: recipeList.recipes.map(\.recipe),
-                recipes: weekRecipes
-            )
-        }
-        set {
-            self.weekRecipes = newValue.recipes
-        }
+    var recipeList = RecipeListState(recipes: []) {
+        didSet { week.allRecipes = recipeList.recipes.map(\.recipe) }
     }
+    var week = WeekState(allRecipes: [], recipes: [])
 }
 
 enum AppAction: Equatable {
