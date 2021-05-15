@@ -68,8 +68,8 @@
 		4C7910152640006B00FF13C6 /* TestsIngredientListCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2AE9C1263FF65D00B281EA /* TestsIngredientListCore.swift */; };
 		4C79101A2640006F00FF13C6 /* TestsIngredientCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2AE9CC263FF6DF00B281EA /* TestsIngredientCore.swift */; };
 		4C79101F2640007000FF13C6 /* TestsIngredientCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2AE9CC263FF6DF00B281EA /* TestsIngredientCore.swift */; };
-		4CA780502621DD080010784C /* Mes_Superbes_RecettesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA780242621DD020010784C /* Mes_Superbes_RecettesApp.swift */; };
-		4CA780512621DD080010784C /* Mes_Superbes_RecettesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA780242621DD020010784C /* Mes_Superbes_RecettesApp.swift */; };
+		4CA780502621DD080010784C /* WeeklyRecipePlanningApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA780242621DD020010784C /* WeeklyRecipePlanningApp.swift */; };
+		4CA780512621DD080010784C /* WeeklyRecipePlanningApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA780242621DD020010784C /* WeeklyRecipePlanningApp.swift */; };
 		4CA780522621DD080010784C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA780252621DD020010784C /* ContentView.swift */; };
 		4CA780532621DD080010784C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA780252621DD020010784C /* ContentView.swift */; };
 		4CA780562621DD080010784C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4CA780272621DD080010784C /* Assets.xcassets */; };
@@ -131,12 +131,12 @@
 		4C44E2232624F2B000542DDF /* RecipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeView.swift; sourceTree = "<group>"; };
 		4C6459C72628D377006A4521 /* RecipeListCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListCore.swift; sourceTree = "<group>"; };
 		4C6459CF2628DA0E006A4521 /* TestsRecipeListCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsRecipeListCore.swift; sourceTree = "<group>"; };
-		4CA780242621DD020010784C /* Mes_Superbes_RecettesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mes_Superbes_RecettesApp.swift; sourceTree = "<group>"; };
+		4CA780242621DD020010784C /* WeeklyRecipePlanningApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyRecipePlanningApp.swift; sourceTree = "<group>"; };
 		4CA780252621DD020010784C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		4CA780272621DD080010784C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		4CA7802C2621DD080010784C /* Mes Superbes Recettes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mes Superbes Recettes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4CA7802C2621DD080010784C /* WeeklyRecipePlanning.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeeklyRecipePlanning.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CA7802F2621DD080010784C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4CA780342621DD080010784C /* Mes Superbes Recettes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mes Superbes Recettes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4CA780342621DD080010784C /* WeeklyRecipePlanning.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeeklyRecipePlanning.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CA780362621DD080010784C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4CA780372621DD080010784C /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		4CA7803C2621DD080010784C /* Tests iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -271,7 +271,7 @@
 				4C2AE937263F54B200B281EA /* AppCore.swift */,
 				4CA780272621DD080010784C /* Assets.xcassets */,
 				4CA780252621DD020010784C /* ContentView.swift */,
-				4CA780242621DD020010784C /* Mes_Superbes_RecettesApp.swift */,
+				4CA780242621DD020010784C /* WeeklyRecipePlanningApp.swift */,
 				4C2AE97C263F611600B281EA /* Mock.swift */,
 				4CA7806A2621DDBA0010784C /* Recipe */,
 				4C3BC6ED2643187200DF5FF5 /* Week */,
@@ -282,8 +282,8 @@
 		4CA7802D2621DD080010784C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4CA7802C2621DD080010784C /* Mes Superbes Recettes.app */,
-				4CA780342621DD080010784C /* Mes Superbes Recettes.app */,
+				4CA7802C2621DD080010784C /* WeeklyRecipePlanning.app */,
+				4CA780342621DD080010784C /* WeeklyRecipePlanning.app */,
 				4CA7803C2621DD080010784C /* Tests iOS.xctest */,
 				4CA780472621DD080010784C /* Tests macOS.xctest */,
 			);
@@ -340,9 +340,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4CA7802B2621DD080010784C /* Mes Superbes Recettes (iOS) */ = {
+		4CA7802B2621DD080010784C /* WeeklyRecipePlanning (iOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4CA7805A2621DD080010784C /* Build configuration list for PBXNativeTarget "Mes Superbes Recettes (iOS)" */;
+			buildConfigurationList = 4CA7805A2621DD080010784C /* Build configuration list for PBXNativeTarget "WeeklyRecipePlanning (iOS)" */;
 			buildPhases = (
 				4CA780282621DD080010784C /* Sources */,
 				4CA780292621DD080010784C /* Frameworks */,
@@ -352,17 +352,17 @@
 			);
 			dependencies = (
 			);
-			name = "Mes Superbes Recettes (iOS)";
+			name = "WeeklyRecipePlanning (iOS)";
 			packageProductDependencies = (
 				4C6459C12628D350006A4521 /* ComposableArchitecture */,
 			);
 			productName = "Mes Superbes Recettes (iOS)";
-			productReference = 4CA7802C2621DD080010784C /* Mes Superbes Recettes.app */;
+			productReference = 4CA7802C2621DD080010784C /* WeeklyRecipePlanning.app */;
 			productType = "com.apple.product-type.application";
 		};
-		4CA780332621DD080010784C /* Mes Superbes Recettes (macOS) */ = {
+		4CA780332621DD080010784C /* WeeklyRecipePlanning (macOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4CA7805D2621DD080010784C /* Build configuration list for PBXNativeTarget "Mes Superbes Recettes (macOS)" */;
+			buildConfigurationList = 4CA7805D2621DD080010784C /* Build configuration list for PBXNativeTarget "WeeklyRecipePlanning (macOS)" */;
 			buildPhases = (
 				4CA780302621DD080010784C /* Sources */,
 				4CA780312621DD080010784C /* Frameworks */,
@@ -372,12 +372,12 @@
 			);
 			dependencies = (
 			);
-			name = "Mes Superbes Recettes (macOS)";
+			name = "WeeklyRecipePlanning (macOS)";
 			packageProductDependencies = (
 				4C6459BA2628D330006A4521 /* ComposableArchitecture */,
 			);
 			productName = "Mes Superbes Recettes (macOS)";
-			productReference = 4CA780342621DD080010784C /* Mes Superbes Recettes.app */;
+			productReference = 4CA780342621DD080010784C /* WeeklyRecipePlanning.app */;
 			productType = "com.apple.product-type.application";
 		};
 		4CA7803B2621DD080010784C /* Tests iOS */ = {
@@ -449,7 +449,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 4CA780202621DD020010784C /* Build configuration list for PBXProject "Mes Superbes Recettes" */;
+			buildConfigurationList = 4CA780202621DD020010784C /* Build configuration list for PBXProject "WeeklyRecipePlanning" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -465,8 +465,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4CA7802B2621DD080010784C /* Mes Superbes Recettes (iOS) */,
-				4CA780332621DD080010784C /* Mes Superbes Recettes (macOS) */,
+				4CA7802B2621DD080010784C /* WeeklyRecipePlanning (iOS) */,
+				4CA780332621DD080010784C /* WeeklyRecipePlanning (macOS) */,
 				4CA7803B2621DD080010784C /* Tests iOS */,
 				4CA780462621DD080010784C /* Tests macOS */,
 			);
@@ -521,7 +521,7 @@
 				4C3BC6FC26431D1000DF5FF5 /* WeekView.swift in Sources */,
 				4C2AE976263F5FEB00B281EA /* IngredientListView.swift in Sources */,
 				4C2AE938263F54B200B281EA /* AppCore.swift in Sources */,
-				4CA780502621DD080010784C /* Mes_Superbes_RecettesApp.swift in Sources */,
+				4CA780502621DD080010784C /* WeeklyRecipePlanningApp.swift in Sources */,
 				4C3BC70326431E8600DF5FF5 /* WeekCore.swift in Sources */,
 				4C2AE954263F582200B281EA /* RecipeListCore.swift in Sources */,
 				4CA780522621DD080010784C /* ContentView.swift in Sources */,
@@ -547,7 +547,7 @@
 				4C3BC6FD26431D1000DF5FF5 /* WeekView.swift in Sources */,
 				4C2AE977263F5FEB00B281EA /* IngredientListView.swift in Sources */,
 				4C2AE939263F54B200B281EA /* AppCore.swift in Sources */,
-				4CA780512621DD080010784C /* Mes_Superbes_RecettesApp.swift in Sources */,
+				4CA780512621DD080010784C /* WeeklyRecipePlanningApp.swift in Sources */,
 				4C3BC70426431E8600DF5FF5 /* WeekCore.swift in Sources */,
 				4C2AE959263F582200B281EA /* RecipeListCore.swift in Sources */,
 				4CA780532621DD080010784C /* ContentView.swift in Sources */,
@@ -624,12 +624,12 @@
 		};
 		4CA7803E2621DD080010784C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 4CA7802B2621DD080010784C /* Mes Superbes Recettes (iOS) */;
+			target = 4CA7802B2621DD080010784C /* WeeklyRecipePlanning (iOS) */;
 			targetProxy = 4CA7803D2621DD080010784C /* PBXContainerItemProxy */;
 		};
 		4CDF77832628EC2E00069485 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 4CA780332621DD080010784C /* Mes Superbes Recettes (macOS) */;
+			target = 4CA780332621DD080010784C /* WeeklyRecipePlanning (macOS) */;
 			targetProxy = 4CDF77822628EC2E00069485 /* PBXContainerItemProxy */;
 		};
 		4CDF77B42628ED9300069485 /* PBXTargetDependency */ = {
@@ -764,8 +764,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "renaud.jenny.Mes-Superbes-Recettes";
-				PRODUCT_NAME = "Mes Superbes Recettes";
+				PRODUCT_BUNDLE_IDENTIFIER = renaud.jenny.WeeklyRecipePlanning;
+				PRODUCT_NAME = WeeklyRecipePlanning;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -786,8 +786,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "renaud.jenny.Mes-Superbes-Recettes";
-				PRODUCT_NAME = "Mes Superbes Recettes";
+				PRODUCT_BUNDLE_IDENTIFIER = renaud.jenny.WeeklyRecipePlanning;
+				PRODUCT_NAME = WeeklyRecipePlanning;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -812,8 +812,8 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "renaud.jenny.Mes-Superbes-Recettes";
-				PRODUCT_NAME = "Mes Superbes Recettes";
+				PRODUCT_BUNDLE_IDENTIFIER = renaud.jenny.WeeklyRecipePlanning;
+				PRODUCT_NAME = WeeklyRecipePlanning;
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
 			};
@@ -836,8 +836,8 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "renaud.jenny.Mes-Superbes-Recettes";
-				PRODUCT_NAME = "Mes Superbes Recettes";
+				PRODUCT_BUNDLE_IDENTIFIER = renaud.jenny.WeeklyRecipePlanning;
+				PRODUCT_NAME = WeeklyRecipePlanning;
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
 			};
@@ -937,7 +937,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4CA780202621DD020010784C /* Build configuration list for PBXProject "Mes Superbes Recettes" */ = {
+		4CA780202621DD020010784C /* Build configuration list for PBXProject "WeeklyRecipePlanning" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4CA780582621DD080010784C /* Debug */,
@@ -946,7 +946,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4CA7805A2621DD080010784C /* Build configuration list for PBXNativeTarget "Mes Superbes Recettes (iOS)" */ = {
+		4CA7805A2621DD080010784C /* Build configuration list for PBXNativeTarget "WeeklyRecipePlanning (iOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4CA7805B2621DD080010784C /* Debug */,
@@ -955,7 +955,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4CA7805D2621DD080010784C /* Build configuration list for PBXNativeTarget "Mes Superbes Recettes (macOS)" */ = {
+		4CA7805D2621DD080010784C /* Build configuration list for PBXNativeTarget "WeeklyRecipePlanning (macOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4CA7805E2621DD080010784C /* Debug */,

@@ -4,7 +4,7 @@ import CoreData
 import SwiftUI
 
 @main
-struct Mes_Superbes_RecettesApp: App {
+struct WeeklyRecipePlanningApp: App {
     let store: Store<AppState, AppAction> = Store(
         initialState: AppState(),
         reducer: appReducer,
@@ -30,7 +30,7 @@ struct Mes_Superbes_RecettesApp: App {
         Deferred {
             Future<[Recipe], ApiError> { promise in
                 do {
-                    guard let data = UserDefaults.standard.data(forKey: Mes_Superbes_RecettesApp.persistedRecipesKey)
+                    guard let data = UserDefaults.standard.data(forKey: WeeklyRecipePlanningApp.persistedRecipesKey)
                     else {
                         promise(.success([Recipe].embedded))
                         return
@@ -49,7 +49,7 @@ struct Mes_Superbes_RecettesApp: App {
         Future<Bool, ApiError> { promise in
             do {
                 let data = try JSONEncoder().encode(recipes)
-                UserDefaults.standard.setValue(data, forKey: Mes_Superbes_RecettesApp.persistedRecipesKey)
+                UserDefaults.standard.setValue(data, forKey: WeeklyRecipePlanningApp.persistedRecipesKey)
 
                 promise(.success(true))
             } catch {

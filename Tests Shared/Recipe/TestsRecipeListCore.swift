@@ -2,7 +2,7 @@ import Combine
 import XCTest
 import ComposableArchitecture
 
-@testable import Mes_Superbes_Recettes
+@testable import WeeklyRecipePlanning
 
 class TestsRecipeListCore: XCTestCase {
     let recipes = [Recipe].embedded
