@@ -861,7 +861,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "Mes Superbes Recettes (iOS)";
+				TEST_TARGET_NAME = "WeeklyRecipePlanning (iOS)";
 			};
 			name = Debug;
 		};
@@ -883,7 +883,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "Mes Superbes Recettes (iOS)";
+				TEST_TARGET_NAME = "WeeklyRecipePlanning (iOS)";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -907,7 +907,7 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = "Mes Superbes Recettes (macOS)";
+				TEST_TARGET_NAME = "WeeklyRecipePlanning (macOS)";
 			};
 			name = Debug;
 		};
@@ -930,7 +930,7 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = "Mes Superbes Recettes (macOS)";
+				TEST_TARGET_NAME = "WeeklyRecipePlanning (macOS)";
 			};
 			name = Release;
 		};

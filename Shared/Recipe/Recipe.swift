@@ -75,7 +75,7 @@ let numberFormatterDecimal: NumberFormatter = {
 extension Array where Element == Recipe {
     static let embedded: Self = [
         Recipe(id: UUID(uuidString: "B3EBE9FB-6B5C-44B0-AA64-C8AB23480493") ?? UUID(), name: "Pâtes aux poireaux", mealCount: 2, ingredients: [
-            Ingredient(id: UUID(uuidString: "FB7CCCB8-71A5-4629-B691-5B517A74D69F") ?? UUID(), name: "Poireau", quantity: 3),
+            Ingredient(id: UUID(uuidString: "FB7CCCB8-71A5-4629-B691-5B517A74D69F") ?? UUID(), name: "Leek", quantity: 3),
             Ingredient(id: UUID(uuidString: "16E95A65-998B-4A49-9ADA-BFA4D232C592") ?? UUID(), name: "Pasta", quantity: 500, unit: UnitMass.grams),
             Ingredient(id: UUID(uuidString: "1B57A1D5-8734-44D0-9831-ACB7A7BC39CB") ?? UUID(), name: "Cheddar", quantity: 50, unit: UnitMass.grams),
             Ingredient(id: UUID(uuidString: "68F6D7B0-A148-4C70-8C33-981858EC648E") ?? UUID(), name: "Red Leicester", quantity: 50, unit: UnitMass.grams),
