@@ -7,37 +7,20 @@ struct RecipeListView: View {
 
     var body: some View {
         WithViewStore(store.scope(state: { $0 })) { viewStore in
-            List {
-                ForEachStore(store.scope(state: { $0.recipes }, action: RecipeListAction.recipe(id:action:)), content: row)
-                    .onDelete { viewStore.send(.delete($0)) }
-            }
-            .toolbar {
-                ToolbarItem(placement: addRecipeButtonPlacement) {
-                    Button { viewStore.send(.addButtonTapped) } label: {
-                        Image(systemName: "plus")
+            NavigationView {
+                List {
+                    ForEachStore(store.scope(state: { $0.recipes }, action: RecipeListAction.recipe(id:action:)), content: RecipeRowView.init)
+                        .onDelete { viewStore.send(.delete($0)) }
+                }
+                .toolbar {
+                    ToolbarItem(placement: addRecipeButtonPlacement) {
+                        Button { viewStore.send(.addButtonTapped) } label: {
+                            Image(systemName: "plus")
+                        }
                     }
                 }
             }
             .onAppear { viewStore.send(.load) }
-        }
-    }
-
-    private func row(store: Store<RecipeState, RecipeAction>) -> some View {
-        WithViewStore(store) { viewStore in
-            NavigationLink(
-                destination: RecipeView(store: store),
-                label: {
-                    VStack(alignment: .leading) {
-                        Text(viewStore.name)
-                            .font(.title)
-                            .padding(.top)
-                        HStack {
-                            Text("For \(viewStore.mealCount) \(viewStore.mealCount == 1 ? "meal" : "meals").")
-                            Text("\(viewStore.ingredients.count) ingredients")
-                                .italic()
-                        }.padding(.bottom)
-                    }
-                })
         }
     }
 

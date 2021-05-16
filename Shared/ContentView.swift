@@ -7,9 +7,7 @@ struct ContentView: View {
 
     var body: some View {
         TabView {
-            NavigationView {
-                RecipeListView(store: store.scope(state: { $0.recipeList }, action: AppAction.recipeList))
-            }
+            RecipeListView(store: store.scope(state: { $0.recipeList }, action: AppAction.recipeList))
             .tabItem {
                 Image(systemName: "text.book.closed")
                 Text("Recipes")

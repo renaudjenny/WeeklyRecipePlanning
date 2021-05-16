@@ -63,7 +63,6 @@ let recipeListReducer = Reducer<RecipeListState, RecipeListAction, RecipeListEnv
             print("Error when saving recipes: \(error)")
             return .cancel(id: SaveId())
         case .saved(.success):
-            print("Saved!")
             return .cancel(id: SaveId())
 
         case .recipe:
