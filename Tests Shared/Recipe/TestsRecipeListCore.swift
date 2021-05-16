@@ -5,7 +5,7 @@ import ComposableArchitecture
 @testable import WeeklyRecipePlanning
 
 class TestsRecipeListCore: XCTestCase {
-    let recipes = [Recipe].embedded
+    let recipes = [Recipe].test
     let mainQueue = DispatchQueue.test
     var loadSubject: PassthroughSubject<[Recipe], ApiError>?
     var saveSubject: PassthroughSubject<Bool, ApiError>?
@@ -32,7 +32,7 @@ class TestsRecipeListCore: XCTestCase {
         let store = try XCTUnwrap(self.store)
         let saveSubject = try XCTUnwrap(self.saveSubject)
 
-        let recipes = [Recipe].embedded
+        let recipes = [Recipe].test
         let firstRecipe = try XCTUnwrap(recipes.first)
 
         store.assert(
@@ -83,7 +83,7 @@ class TestsRecipeListCore: XCTestCase {
         let saveSubject = try XCTUnwrap(self.saveSubject)
 
         let recipesWithoutLast = IdentifiedArrayOf(
-            [Recipe].embedded
+            [Recipe].test
                 .dropLast()
                 .map(RecipeState.init)
         )

@@ -9,23 +9,23 @@ class TestsWeekCore: XCTestCase {
 
     override func setUp() {
         store = TestStore(
-            initialState: WeekState(allRecipes: .embedded, recipes: .embedded),
+            initialState: WeekState(allRecipes: .test, recipes: .test),
             reducer: weekReducer,
             environment: WeekEnvironment()
         )
     }
 
     func testMealTimeFilledCount() throws {
-        let state = WeekState(allRecipes: .embedded, recipes: .embedded)
+        let state = WeekState(allRecipes: .test, recipes: .test)
         // Count the meal you can serve for the week with accumulating meal count of recipes
         XCTAssertEqual(state.mealTimeFilledCount, 5)
     }
 
     func testMealTimes() throws {
-        let state = WeekState(allRecipes: .embedded, recipes: .embedded)
-        let firstRecipeWith2Meals = [Recipe].embedded[0]
-        let secondRecipeWith2Meals = [Recipe].embedded[1]
-        let thirdRecipeWith1Meal = [Recipe].embedded[2]
+        let state = WeekState(allRecipes: .test, recipes: .test)
+        let firstRecipeWith2Meals = [Recipe].test[0]
+        let secondRecipeWith2Meals = [Recipe].test[1]
+        let thirdRecipeWith1Meal = [Recipe].test[2]
         let expectedMealTimeRecipe = [
             MealTimeRecipe(mealTime: .sundayDinner, recipe: firstRecipeWith2Meals),
             MealTimeRecipe(mealTime: .mondayLunch, recipe: firstRecipeWith2Meals),
@@ -47,10 +47,10 @@ class TestsWeekCore: XCTestCase {
     }
 
     func testDisplayedRecipes() throws {
-        let firstRecipe = [Recipe].embedded[0]
-        let secondRecipe = [Recipe].embedded[1]
-        let thirdRecipe = [Recipe].embedded[2]
-        var state = WeekState(allRecipes: .embedded, recipes: [secondRecipe], isRecipeListPresented: true)
+        let firstRecipe = [Recipe].test[0]
+        let secondRecipe = [Recipe].test[1]
+        let thirdRecipe = [Recipe].test[2]
+        var state = WeekState(allRecipes: .test, recipes: [secondRecipe], isRecipeListPresented: true)
         // Recipe in week shall be in top position
         XCTAssertEqual(state.displayedRecipes, [secondRecipe, firstRecipe, thirdRecipe])
 
@@ -76,11 +76,11 @@ class TestsWeekCore: XCTestCase {
 
     func testRemoveRecipe() throws {
         let store = try XCTUnwrap(self.store)
-        let recipeToRemove = try XCTUnwrap([Recipe].embedded.first)
+        let recipeToRemove = try XCTUnwrap([Recipe].test.first)
 
         store.assert(
             .send(.removeRecipe(recipeToRemove)) {
-                $0.recipes = Array([Recipe].embedded.dropFirst())
+                $0.recipes = Array([Recipe].test.dropFirst())
             }
         )
     }

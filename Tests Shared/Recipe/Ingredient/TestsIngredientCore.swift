@@ -5,7 +5,7 @@ import ComposableArchitecture
 @testable import WeeklyRecipePlanning
 
 class TestsIngredientCore: XCTestCase {
-    let ingredient = [Recipe].embedded.first!.ingredients.first!
+    let ingredient = [Recipe].test.first!.ingredients.first!
     var store: TestStore<IngredientState, IngredientState, IngredientAction, IngredientAction, IngredientEnvironment>?
 
     override func setUp() {
