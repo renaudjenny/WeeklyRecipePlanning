@@ -8,17 +8,17 @@ struct WeekView: View {
         WithViewStore(store) { viewStore in
             Form {
                 Section(header: Text("Number of different recipes: \(viewStore.recipes.count)")) {
+                    List {
+                        ForEach(viewStore.displayedRecipes) { recipe in
+                            recipeCell(recipe, viewStore: viewStore)
+                        }
+                    }
                     Button { viewStore.send(.showHideAllRecipesButtonTapped, animation: .default) } label: {
                         Text(
                             viewStore.isRecipeListPresented
                                 ? "Show only week recipes"
                                 : "Show all available recipes"
                         )
-                    }
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))], alignment: .leading, spacing: 8) {
-                        ForEach(viewStore.displayedRecipes) { recipe in
-                            recipeCell(recipe, viewStore: viewStore)
-                        }
                     }
                 }
                 Section {
@@ -43,6 +43,7 @@ struct WeekView: View {
         HStack {
             Text(recipe.name)
                 .foregroundColor(viewStore.recipes.contains(recipe) ? .primary : .secondary)
+            Spacer()
             Button {
                 if viewStore.recipes.contains(recipe) {
                     viewStore.send(.removeRecipe(recipe), animation: .default)
@@ -62,14 +63,6 @@ struct WeekView: View {
             .buttonStyle(PlainButtonStyle())
             .frame(width: 50, height: 50)
         }
-        .padding(6)
-        .background(
-            RoundedRectangle(cornerRadius: 10).fill(
-                viewStore.recipes.contains(recipe)
-                    ? Color.accentColor.opacity(0.10)
-                    : Color.gray.opacity(0.10)
-            )
-        )
     }
 }
 
