@@ -12,9 +12,7 @@ struct RecipeView: View {
                         .font(.title)
                 }
 
-                VStack(alignment: .leading) {
-                    Stepper("Meal count: \(viewStore.mealCount)", value: viewStore.binding(get: { $0.mealCount }, send: RecipeAction.mealCountChanged), in: 0...99)
-                }
+                Stepper("Meal count: \(viewStore.mealCount)", value: viewStore.binding(get: { $0.mealCount }, send: RecipeAction.mealCountChanged), in: 0...99)
 
                 IngredientListView(store: store.scope(state: { $0.ingredientList }, action: RecipeAction.ingredientList))
             }
