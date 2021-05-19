@@ -13,16 +13,18 @@ struct IngredientRow: View {
                     TextField("Quantity", text: viewStore.binding(get: { $0.quantity.text }, send: IngredientAction.quantityChanged))
                         .scaledToFit()
                     //                    .keyboardType(.decimalPad)
+                    Divider()
                     Text(viewStore.unit?.symbol ?? "-")
                     Spacer()
-                    Button { } label: {
+                    Divider()
+                    Button { viewStore.send(.unitButtonTapped, animation: .default) } label: {
                         Text(
                             viewStore.isUnitInEditionMode
-                            ? "Edit unit"
-                            : "Close"
+                                ? "Close"
+                                : "Edit unit"
                         )
                     }
-                    .onTapGesture { viewStore.send(.unitButtonTapped, animation: .default) }
+                    .buttonStyle(PlainButtonStyle())
                 }
 
                 if viewStore.isUnitInEditionMode {
@@ -43,6 +45,23 @@ struct IngredientRow: View {
         #else
         return DefaultPickerStyle()
         #endif
+    }
+}
+
+struct IngredientRow_Previews: PreviewProvider {
+    static var previews: some View {
+        Form {
+            IngredientRow(store: Store(
+                initialState: IngredientState(ingredient: Ingredient(
+                    id: UUID(),
+                    name: "Cream",
+                    quantity: 50,
+                    unit: UnitVolume.centiliters
+                )),
+                reducer: ingredientReducer,
+                environment: IngredientEnvironment()
+            ))
+        }
     }
 }
 
