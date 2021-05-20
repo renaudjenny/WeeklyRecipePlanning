@@ -12,6 +12,7 @@ struct RecipeListView: View {
                     ForEachStore(store.scope(state: { $0.recipes }, action: RecipeListAction.recipe(id:action:)), content: RecipeRowView.init)
                         .onDelete { viewStore.send(.delete($0)) }
                 }
+                .navigationTitle("Recipes")
                 .toolbar {
                     ToolbarItem(placement: addRecipeButtonPlacement) {
                         Button { viewStore.send(.addButtonTapped) } label: {

@@ -6,34 +6,37 @@ struct WeekView: View {
 
     var body: some View {
         WithViewStore(store) { viewStore in
-            Form {
-                Section(header: Text("Number of different recipes: \(viewStore.recipes.count)")) {
-                    List {
-                        ForEach(viewStore.displayedRecipes) { recipe in
-                            recipeCell(recipe, viewStore: viewStore)
+            VStack {
+                ProgressView(
+                    "Planning completion",
+                    value: Double(viewStore.mealTimeFilledCount),
+                    total: Double(MealTime.allCases.count)
+                )
+                .padding()
+
+                Form {
+                    Section(header: Text("Number of different recipes: \(viewStore.recipes.count)")) {
+                        List {
+                            ForEach(viewStore.displayedRecipes) { recipe in
+                                recipeCell(recipe, viewStore: viewStore)
+                            }
+                        }
+                        Button { viewStore.send(.showHideAllRecipesButtonTapped, animation: .default) } label: {
+                            Text(
+                                viewStore.isRecipeListPresented
+                                    ? "Show only week recipes"
+                                    : "Show all available recipes"
+                            )
                         }
                     }
-                    Button { viewStore.send(.showHideAllRecipesButtonTapped, animation: .default) } label: {
-                        Text(
-                            viewStore.isRecipeListPresented
-                                ? "Show only week recipes"
-                                : "Show all available recipes"
-                        )
-                    }
-                }
-                Section {
-                    ProgressView(
-                        "Planning completion",
-                        value: Double(viewStore.mealTimeFilledCount),
-                        total: Double(MealTime.allCases.count)
-                    )
-                    .padding()
-                    LazyVStack(alignment: .leading) {
-                        ForEach(viewStore.mealTimes) { mealTimeRecipe in
-                            MealTimeView(mealTimeRecipe: mealTimeRecipe)
+                    Section {
+                        LazyVStack(alignment: .leading) {
+                            ForEach(viewStore.mealTimes) { mealTimeRecipe in
+                                MealTimeView(mealTimeRecipe: mealTimeRecipe)
+                            }
                         }
+                        .padding()
                     }
-                    .padding()
                 }
             }
         }
