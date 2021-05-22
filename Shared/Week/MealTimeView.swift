@@ -10,7 +10,7 @@ struct MealTimeView: View {
                 ZStack {
                     if mealTimeRecipe.recipe != nil {
                         Circle()
-                            .foregroundColor(.yellow)
+                            .foregroundColor(.green)
                             .frame(width: 25, height: 25)
                             .padding(.horizontal)
                     }
