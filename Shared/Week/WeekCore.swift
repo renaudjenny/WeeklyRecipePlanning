@@ -21,15 +21,17 @@ struct WeekState: Equatable {
 
     var displayedRecipes: [Recipe] {
         isRecipeListPresented
-            ? allRecipes.sorted(by: inWeekRecipeFirst)
+            ? allRecipes.sorted(by: inWeekRecipeLast)
             : recipes
     }
 
-    private func inWeekRecipeFirst(recipeA: Recipe, recipeB: Recipe) -> Bool {
+    private func inWeekRecipeLast(recipeA: Recipe, recipeB: Recipe) -> Bool {
         if recipes.contains(recipeA) && !recipes.contains(recipeB) {
+            return false
+        } else if !recipes.contains(recipeA) && recipes.contains(recipeB) {
             return true
         }
-        return false
+        return recipeA.name < recipeB.name
     }
 }
 
