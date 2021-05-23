@@ -2,27 +2,21 @@ import ComposableArchitecture
 
 struct WeekState: Equatable {
     var allRecipes: [Recipe]
-    var recipes: [Recipe]
-    var isRecipeListPresented = false
+    var mealTimeRecipes: [MealTime: Recipe?] = .init(uniqueKeysWithValues: MealTime.allCases.map { ($0, nil) })
+    var selectedMealTime: MealTime? = nil
 
-    var mealTimes: [MealTimeRecipe] {
-        let weekRecipesByMeals = recipes.reduce([]) {
-            $0 + Array(repeating: $1, count: $1.mealCount)
-        }
-        return MealTime.allCases.enumerated().reduce([]) { result, enumeratedElement in
-            let (offset, mealTime) = enumeratedElement
-            return result + [MealTimeRecipe(mealTime: mealTime, recipe: weekRecipesByMeals[safeIndex: offset])]
-        }
-    }
+    var recipes: [Recipe] { Array(Set(mealTimeRecipes.values.compactMap { $0 })) }
+
+    var mealTimes: [MealTimeRecipe] { mealTimeRecipes.sorted(by: mealTimeOrdering).map {
+        MealTimeRecipe(mealTime: $0, recipe: $1)
+    } }
 
     var mealTimeFilledCount: Int {
         recipes.reduce(0, { $0 + $1.mealCount })
     }
 
     var displayedRecipes: [Recipe] {
-        isRecipeListPresented
-            ? allRecipes.sorted(by: inWeekRecipeLast)
-            : recipes
+        allRecipes.sorted(by: inWeekRecipeLast)
     }
 
     private func inWeekRecipeLast(recipeA: Recipe, recipeB: Recipe) -> Bool {
@@ -33,12 +27,23 @@ struct WeekState: Equatable {
         }
         return recipeA.name < recipeB.name
     }
+
+    private func mealTimeOrdering(a: (key: MealTime, value: Recipe?), b: (key: MealTime, value: Recipe?)) -> Bool {
+        guard let aMealTimeIndex = MealTime.allCases.firstIndex(of: a.key),
+              let bMealTimeIndex = MealTime.allCases.firstIndex(of: b.key)
+        else { return true }
+        if aMealTimeIndex < bMealTimeIndex {
+            return true
+        }
+        return false
+    }
 }
 
 enum WeekAction: Equatable {
-    case showHideAllRecipesButtonTapped
-    case addRecipe(Recipe)
-    case removeRecipe(Recipe)
+    case addRecipe(Recipe, MealTime)
+    case removeRecipe(Recipe, MealTime)
+    case selectMealTime(MealTime)
+    case dismissMealTime
 }
 
 struct WeekEnvironment {
@@ -47,14 +52,43 @@ struct WeekEnvironment {
 
 let weekReducer = Reducer<WeekState, WeekAction, WeekEnvironment> { state, action, environment in
     switch action {
-    case .showHideAllRecipesButtonTapped:
-        state.isRecipeListPresented.toggle()
+    case let .addRecipe(recipe, mealTime):
+        state.mealTimeRecipes = state.mealTimeRecipes.reduce(state.mealTimeRecipes, { result, next in
+            let (key, value) = next
+            if key == mealTime {
+                var newResult = result
+                newResult[mealTime] = recipe
+                var remainingMealCount = recipe.mealCount
+                while remainingMealCount > 0 {
+                    newResult[mealTime.next] = recipe
+                    remainingMealCount -= 1
+                }
+                return newResult
+            }
+            return result
+        })
         return .none
-    case let .addRecipe(recipe):
-        state.recipes.append(recipe)
+    case let .removeRecipe(recipe, mealTime):
+        state.mealTimeRecipes = state.mealTimeRecipes.reduce(state.mealTimeRecipes, { result, next in
+            let (key, value) = next
+            if key == mealTime, let recipe = value {
+                var newResult = result
+                newResult[mealTime] = nil
+                var remainingMealCount = recipe.mealCount
+                while remainingMealCount > 0 {
+                    newResult[mealTime.next] = nil
+                    remainingMealCount -= 1
+                }
+                return newResult
+            }
+            return result
+        })
         return .none
-    case let .removeRecipe(recipe):
-        state.recipes = state.recipes.filter { $0 != recipe }
+    case let .selectMealTime(mealTime):
+//        state.selectedMealTime = mealTime
+        return .none
+    case .dismissMealTime:
+//        state.selectedMealTime = nil
         return .none
     }
 }

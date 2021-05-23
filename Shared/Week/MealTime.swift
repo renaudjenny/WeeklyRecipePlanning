@@ -41,6 +41,17 @@ enum MealTime: Equatable, CaseIterable, Identifiable {
         }
     }
 
+    var next: MealTime {
+        // TODO: test that!
+        if self == .sundayLunch {
+            return .sundayDinner
+        }
+        guard let selfIndex = MealTime.allCases.firstIndex(of: self) else {
+            return .sundayDinner
+        }
+        return MealTime.allCases[selfIndex + 1]
+    }
+
     var id: MealTime { self }
 }
 

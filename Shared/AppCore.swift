@@ -4,7 +4,7 @@ struct AppState: Equatable {
     var recipeList = RecipeListState(recipes: []) {
         didSet { week.allRecipes = recipeList.recipes.map(\.recipe) }
     }
-    var week = WeekState(allRecipes: [], recipes: [])
+    var week = WeekState(allRecipes: [])
 }
 
 enum AppAction: Equatable {

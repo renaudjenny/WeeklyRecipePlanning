@@ -9,20 +9,20 @@ class TestsWeekCore: XCTestCase {
 
     override func setUp() {
         store = TestStore(
-            initialState: WeekState(allRecipes: .test, recipes: .test),
+            initialState: WeekState(allRecipes: .test, mealTimeRecipes: .test),
             reducer: weekReducer,
             environment: WeekEnvironment()
         )
     }
 
     func testMealTimeFilledCount() throws {
-        let state = WeekState(allRecipes: .test, recipes: .test)
+        let state = WeekState(allRecipes: .test, mealTimeRecipes: .test)
         // Count the meal you can serve for the week with accumulating meal count of recipes
         XCTAssertEqual(state.mealTimeFilledCount, 8)
     }
 
     func testMealTimes() throws {
-        let state = WeekState(allRecipes: .test, recipes: .test)
+        let state = WeekState(allRecipes: .test, mealTimeRecipes: .test)
         let firstRecipeWith2Meals = [Recipe].test[0]
         let secondRecipeWith2Meals = [Recipe].test[1]
         let thirdRecipeWith1Meal = [Recipe].test[2]
@@ -37,11 +37,11 @@ class TestsWeekCore: XCTestCase {
             MealTimeRecipe(mealTime: .tuesdayDinner, recipe: thirdRecipeWith1Meal),
             MealTimeRecipe(mealTime: .wednesdayLunch, recipe: fourthRecipeWith1Meal),
             MealTimeRecipe(mealTime: .wednesdayDinner, recipe: fifthRecipeWith1Meal),
-            MealTimeRecipe(mealTime: .thursdayLunch, recipe: sixthRecipeWith1Meal),
+            MealTimeRecipe(mealTime: .thursdayLunch, recipe: nil),
             MealTimeRecipe(mealTime: .thursdayDinner, recipe: nil),
             MealTimeRecipe(mealTime: .fridayLunch, recipe: nil),
             MealTimeRecipe(mealTime: .fridayDinner, recipe: nil),
-            MealTimeRecipe(mealTime: .saturdayLunch, recipe: nil),
+            MealTimeRecipe(mealTime: .saturdayLunch, recipe: sixthRecipeWith1Meal),
             MealTimeRecipe(mealTime: .saturdayDinner, recipe: nil),
             MealTimeRecipe(mealTime: .sundayLunch, recipe: nil),
         ]
@@ -59,7 +59,14 @@ class TestsWeekCore: XCTestCase {
         let fourthRecipe = [Recipe].test[3]
         let fifthRecipe = [Recipe].test[4]
         let sixthRecipe = [Recipe].test[5]
-        var state = WeekState(allRecipes: .test, recipes: [thirdRecipe, secondRecipe], isRecipeListPresented: true)
+        let state = WeekState(allRecipes: .test, mealTimeRecipes: .init(uniqueKeysWithValues: MealTime.allCases.map {
+            switch $0 {
+            case .mondayDinner: return ($0, secondRecipe)
+            case .tuesdayLunch: return ($0, secondRecipe)
+            case .wednesdayDinner: return ($0, thirdRecipe)
+            default: return ($0, nil)
+            }
+        }))
         // Recipes should be in alphabetic order and ones in week shall be in last positions
         XCTAssertEqual(state.displayedRecipes, [
             firstRecipe,
@@ -69,9 +76,6 @@ class TestsWeekCore: XCTestCase {
             secondRecipe,
             thirdRecipe,
         ])
-
-        state.isRecipeListPresented = false
-        XCTAssertEqual(state.displayedRecipes, [thirdRecipe, secondRecipe])
     }
 
     func testAddRecipe() throws {
@@ -84,8 +88,12 @@ class TestsWeekCore: XCTestCase {
         )
 
         store.assert(
-            .send(.addRecipe(recipeToAdd)) {
-                $0.recipes = $0.recipes + [recipeToAdd]
+            .send(.addRecipe(recipeToAdd, .fridayLunch)) {
+                var expectedMealTimeRecipes = [MealTime: Recipe?].test
+                expectedMealTimeRecipes[.fridayLunch] = recipeToAdd
+                expectedMealTimeRecipes[.fridayDinner] = recipeToAdd
+
+                $0.mealTimeRecipes = expectedMealTimeRecipes
             }
         )
     }
@@ -95,8 +103,12 @@ class TestsWeekCore: XCTestCase {
         let recipeToRemove = try XCTUnwrap([Recipe].test.first)
 
         store.assert(
-            .send(.removeRecipe(recipeToRemove)) {
-                $0.recipes = Array([Recipe].test.dropFirst())
+            .send(.removeRecipe(recipeToRemove, .sundayDinner)) {
+                var expectedMealTimeRecipes = [MealTime: Recipe?].test
+                expectedMealTimeRecipes[.sundayDinner] = nil
+                expectedMealTimeRecipes[.mondayLunch] = nil
+
+                $0.mealTimeRecipes = expectedMealTimeRecipes
             }
         )
     }

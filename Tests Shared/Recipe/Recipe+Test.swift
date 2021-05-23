@@ -33,3 +33,19 @@ extension Array where Element == Recipe {
         Recipe(id: UUID(uuidString: "8FA33D27-3F03-48CC-95C6-DE26FACEA6C9") ?? UUID(), name: "Recipe E", mealCount: 1, ingredients: []),
     ]
 }
+
+extension Dictionary where Key == MealTime, Value == Recipe? {
+    static let test: Self = .init(uniqueKeysWithValues: MealTime.allCases.map {
+        switch $0 {
+        case .sundayDinner: return ($0, [Recipe].test[0])
+        case .mondayLunch: return ($0, [Recipe].test[0])
+        case .mondayDinner: return ($0, [Recipe].test[1])
+        case .tuesdayLunch: return ($0, [Recipe].test[1])
+        case .tuesdayDinner: return ($0, [Recipe].test[2])
+        case .wednesdayLunch: return ($0, [Recipe].test[3])
+        case .wednesdayDinner: return ($0, [Recipe].test[4])
+        case .saturdayLunch: return ($0, [Recipe].test[5])
+        default: return ($0, nil)
+        }
+    })
+}
