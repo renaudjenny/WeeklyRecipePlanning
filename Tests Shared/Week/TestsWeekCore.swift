@@ -112,4 +112,27 @@ class TestsWeekCore: XCTestCase {
             }
         )
     }
+
+    func testSelectMealTime() throws {
+        let store = try XCTUnwrap(self.store)
+
+        store.assert(
+            .send(.selectMealTime(.wednesdayDinner)) {
+                $0.selectedMealTime = .wednesdayDinner
+            }
+        )
+    }
+
+    func testDismissMealTime() throws {
+        let store = try XCTUnwrap(self.store)
+
+        store.assert(
+            .send(.selectMealTime(.sundayLunch)) {
+                $0.selectedMealTime = .sundayLunch
+            },
+            .send(.dismissMealTime) {
+                $0.selectedMealTime = nil
+            }
+        )
+    }
 }

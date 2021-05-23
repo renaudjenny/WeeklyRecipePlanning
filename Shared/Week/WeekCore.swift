@@ -7,6 +7,7 @@ struct WeekState: Equatable {
 
     var recipes: [Recipe] { Array(Set(mealTimeRecipes.values.compactMap { $0 })) }
 
+    // TODO: is it still used?
     var mealTimes: [MealTimeRecipe] { mealTimeRecipes.sorted(by: mealTimeOrdering).map {
         MealTimeRecipe(mealTime: $0, recipe: $1)
     } }
@@ -85,10 +86,10 @@ let weekReducer = Reducer<WeekState, WeekAction, WeekEnvironment> { state, actio
         })
         return .none
     case let .selectMealTime(mealTime):
-//        state.selectedMealTime = mealTime
+        state.selectedMealTime = mealTime
         return .none
     case .dismissMealTime:
-//        state.selectedMealTime = nil
+        state.selectedMealTime = nil
         return .none
     }
 }

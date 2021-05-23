@@ -88,6 +88,8 @@
 		4CA780712621DEF60010784C /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA7806B2621DDE30010784C /* Recipe.swift */; };
 		4CC41C82265A90E8000513AC /* RecipeSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC41C81265A90E8000513AC /* RecipeSelectorView.swift */; };
 		4CC41C83265A90E9000513AC /* RecipeSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC41C81265A90E8000513AC /* RecipeSelectorView.swift */; };
+		4CC41C84265AB5A0000513AC /* RecipeSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC41C81265A90E8000513AC /* RecipeSelectorView.swift */; };
+		4CC41C85265AB5A1000513AC /* RecipeSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC41C81265A90E8000513AC /* RecipeSelectorView.swift */; };
 		4CDF77592628E68400069485 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 4C2FF48E2628E2F100396EEF /* ComposableArchitecture */; };
 		4CDF77792628EB8E00069485 /* TestsRecipeListCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6459CF2628DA0E006A4521 /* TestsRecipeListCore.swift */; };
 		4CDF77992628ED4700069485 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA7806B2621DDE30010784C /* Recipe.swift */; };
@@ -594,6 +596,7 @@
 				4C79101A2640006F00FF13C6 /* TestsIngredientCore.swift in Sources */,
 				4C3BC70E264320E000DF5FF5 /* MealTimeView.swift in Sources */,
 				4C2AE93E263F572700B281EA /* AppCore.swift in Sources */,
+				4CC41C84265AB5A0000513AC /* RecipeSelectorView.swift in Sources */,
 				4CF259F62632F5D700DA58E0 /* RecipeView.swift in Sources */,
 				4C2AE98C263F632200B281EA /* IngredientRow.swift in Sources */,
 				4C2AE995263FED0800B281EA /* IngredientCore.swift in Sources */,
@@ -625,6 +628,7 @@
 				4C79101F2640007000FF13C6 /* TestsIngredientCore.swift in Sources */,
 				4C3BC70F264320E000DF5FF5 /* MealTimeView.swift in Sources */,
 				4C2AE943263F572800B281EA /* AppCore.swift in Sources */,
+				4CC41C85265AB5A1000513AC /* RecipeSelectorView.swift in Sources */,
 				4CF259FB2632F5D700DA58E0 /* RecipeView.swift in Sources */,
 				4C2AE98D263F632200B281EA /* IngredientRow.swift in Sources */,
 				4C2AE996263FED0800B281EA /* IngredientCore.swift in Sources */,
