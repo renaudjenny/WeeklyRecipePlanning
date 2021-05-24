@@ -20,45 +20,29 @@ struct RecipeSelectorView: View {
                             Button {
                                 viewStore.send(.removeRecipe(recipe, selectedMealTime), animation: .default)
                             } label: {
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 10).fill(Color.red.opacity(0.6))
-                                    Image(systemName: "minus")
-                                }
+                                Image(systemName: "trash")
                             }
-                            .buttonStyle(PlainButtonStyle())
-                            .frame(width: 50, height: 50)
                         }
                     }
                     .padding(.vertical)
-                    LazyVStack {
+                    LazyVStack(alignment: .leading) {
                         ForEach(viewStore.recipesToSelect) { recipe in
-                            recipeCell(recipe, mealTime: selectedMealTime, viewStore: viewStore)
+                            Button { viewStore.send(.addRecipe(recipe, selectedMealTime), animation: .default) } label: {
+                                VStack(alignment: .leading) {
+                                    Text(recipe.name)
+                                        .foregroundColor(viewStore.recipes.contains(recipe) ? .secondary : .primary)
+                                    recipeAlsoUsedInMealTimes(recipe: recipe, mealTime: selectedMealTime, mealTimeRecipes: viewStore.mealTimeRecipes)
+                                        .font(.caption2)
+                                        .foregroundColor(viewStore.recipes.contains(recipe) ? .secondary : .primary)
+                                }
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                            .padding(.vertical, 4)
                         }
                     }
                 }
                 .padding()
             }
-        }
-    }
-
-    private func recipeCell(_ recipe: Recipe, mealTime: MealTime, viewStore: ViewStore<WeekState, WeekAction>) -> some View {
-        HStack {
-            VStack(alignment: .leading) {
-                Text(recipe.name)
-                recipeAlsoUsedInMealTimes(recipe: recipe, mealTime: mealTime, mealTimeRecipes: viewStore.mealTimeRecipes)
-                    .font(.caption2)
-            }
-            .foregroundColor(viewStore.recipes.contains(recipe) ? .secondary : .primary)
-
-            Spacer()
-            Button { viewStore.send(.addRecipe(recipe, mealTime), animation: .default) } label: {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 10).fill(Color.accentColor)
-                    Image(systemName: "plus")
-                }
-            }
-            .buttonStyle(PlainButtonStyle())
-            .frame(width: 50, height: 50)
         }
     }
 
