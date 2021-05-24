@@ -16,8 +16,15 @@ struct WeekState: Equatable {
         recipes.reduce(0, { $0 + $1.mealCount })
     }
 
-    var displayedRecipes: [Recipe] {
-        allRecipes.sorted(by: inWeekRecipeLast)
+    // TODO: this shall be scoped in the RecipeSelectorState
+    var recipesToSelect: [Recipe] {
+        allRecipes
+            .filter {
+                guard let selectedMealTime = selectedMealTime
+                else { return true }
+                return $0 != mealTimeRecipes[selectedMealTime]
+            }
+            .sorted(by: inWeekRecipeLast)
     }
 
     private func inWeekRecipeLast(recipeA: Recipe, recipeB: Recipe) -> Bool {
@@ -54,13 +61,18 @@ struct WeekEnvironment {
 let weekReducer = Reducer<WeekState, WeekAction, WeekEnvironment> { state, action, environment in
     switch action {
     case let .addRecipe(recipe, mealTime):
+        print(recipe.name, mealTime.name)
+
         state.mealTimeRecipes = state.mealTimeRecipes.reduce(state.mealTimeRecipes, { result, next in
             let (key, value) = next
             if key == mealTime {
                 var newResult = result
                 newResult[mealTime] = recipe
                 var remainingMealCount = recipe.mealCount
-                while remainingMealCount > 0 {
+                print("remainingMealCount before while loop: \(remainingMealCount)")
+                while remainingMealCount > 1 {
+                    print("remainingMealCount: \(remainingMealCount)")
+                    print("next meal: \(mealTime.next.name)")
                     newResult[mealTime.next] = recipe
                     remainingMealCount -= 1
                 }
@@ -74,10 +86,10 @@ let weekReducer = Reducer<WeekState, WeekAction, WeekEnvironment> { state, actio
             let (key, value) = next
             if key == mealTime, let recipe = value {
                 var newResult = result
-                newResult[mealTime] = nil
+                newResult[mealTime] = Recipe?.none
                 var remainingMealCount = recipe.mealCount
                 while remainingMealCount > 0 {
-                    newResult[mealTime.next] = nil
+                    newResult[mealTime.next] = Recipe?.none
                     remainingMealCount -= 1
                 }
                 return newResult

@@ -68,7 +68,7 @@ class TestsWeekCore: XCTestCase {
             }
         }))
         // Recipes should be in alphabetic order and ones in week shall be in last positions
-        XCTAssertEqual(state.displayedRecipes, [
+        XCTAssertEqual(state.recipesToSelect, [
             firstRecipe,
             fourthRecipe,
             sixthRecipe,
@@ -105,8 +105,8 @@ class TestsWeekCore: XCTestCase {
         store.assert(
             .send(.removeRecipe(recipeToRemove, .sundayDinner)) {
                 var expectedMealTimeRecipes = [MealTime: Recipe?].test
-                expectedMealTimeRecipes[.sundayDinner] = nil
-                expectedMealTimeRecipes[.mondayLunch] = nil
+                expectedMealTimeRecipes[.sundayDinner] = Recipe?.none
+                expectedMealTimeRecipes[.mondayLunch] = Recipe?.none
 
                 $0.mealTimeRecipes = expectedMealTimeRecipes
             }
