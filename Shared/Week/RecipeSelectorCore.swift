@@ -2,6 +2,7 @@ import ComposableArchitecture
 
 struct RecipeSelectorState: Equatable {
     let mealTime: MealTime
+    let recipes: [Recipe]
     var mealTimeRecipes: [MealTime: Recipe?] = [:]
 }
 
@@ -32,6 +33,23 @@ let recipeSelectorReducer = Reducer<RecipeSelectorState, RecipeSelectorAction, R
     }
 }
 
+extension RecipeSelectorState {
+    var recipesToDisplay: [Recipe] {
+        recipes
+            .filter { $0 != mealTimeRecipes[mealTime] }
+            .sorted(by: inWeekRecipeLast)
+    }
+
+    private func inWeekRecipeLast(recipeA: Recipe, recipeB: Recipe) -> Bool {
+        if recipes.contains(recipeA) && !recipes.contains(recipeB) {
+            return false
+        } else if !recipes.contains(recipeA) && recipes.contains(recipeB) {
+            return true
+        }
+        return recipeA.name < recipeB.name
+    }
+}
+
 private extension MealTime {
     func next(count: Int) -> Self {
         guard let index = MealTime.allCases.firstIndex(of: self)
@@ -43,6 +61,14 @@ private extension MealTime {
             return MealTime.allCases[index + 1].next(count: count - 1)
         } else {
             return MealTime.allCases[0].next(count: count - 1)
+        }
+    }
+}
+
+extension Dictionary where Key == MealTime, Value == Recipe? {
+    func mealTimes(for recipe: Recipe) -> [MealTime] {
+        compactMap { (key: MealTime, value: Recipe?) in
+            value == recipe ? key : nil
         }
     }
 }

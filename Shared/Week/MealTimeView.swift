@@ -30,9 +30,14 @@ struct MealTimeView: View {
                 }
             }
             .buttonStyle(PlainButtonStyle())
-            .sheet(item: viewStore.binding(get: { $0.selectedMealTime }, send: .dismissMealTime), content: { _ in
-                RecipeSelectorView(store: store)
-            })
+            .sheet(item: viewStore.binding(
+                get: { $0.selectedMealTime },
+                send: .dismissMealTime
+            )) { _ in
+                IfLetStore(store.scope(state: \.recipeSelector, action: WeekAction.recipeSelector)) { store in
+                    RecipeSelectorView(store: store)
+                }
+            }
         }
     }
 }

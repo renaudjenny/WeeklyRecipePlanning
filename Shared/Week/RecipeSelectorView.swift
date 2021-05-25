@@ -2,58 +2,57 @@ import ComposableArchitecture
 import SwiftUI
 
 struct RecipeSelectorView: View {
-    // TODO: this View should have it's scoped store
-    let store: Store<WeekState, WeekAction>
+    let store: Store<RecipeSelectorState, RecipeSelectorAction>
 
     var body: some View {
         WithViewStore(store) { viewStore in
-            if let selectedMealTime = viewStore.selectedMealTime {
-                ScrollView {
-                    Text("\(viewStore.selectedMealTime?.name ?? "?")")
-                        .font(.title)
-                    HStack {
-                        Spacer()
-                        selectedRecipeText(for: selectedMealTime, mealTimeRecipes: viewStore.mealTimeRecipes)
-                            .font(.subheadline)
-                        Spacer()
-                        if let possibleRecipe = viewStore.mealTimeRecipes[selectedMealTime], let recipe = possibleRecipe {
-                            Button {
-                                viewStore.send(.removeRecipe(recipe, selectedMealTime), animation: .default)
-                            } label: {
-                                Image(systemName: "trash")
-                            }
-                        }
-                    }
-                    .padding(.vertical)
+            ScrollView {
+                header(
+                    mealTime: viewStore.mealTime,
+                    mealTimeRecipes: viewStore.mealTimeRecipes,
+                    removeRecipe: { viewStore.send(.removeRecipe, animation: .default) }
+                )
 
-                    LazyVStack(alignment: .leading) {
-                        ForEach(viewStore.recipesToSelect) { recipe in
-                            Button { viewStore.send(.addRecipe(recipe, selectedMealTime), animation: .default) } label: {
-                                VStack(alignment: .leading) {
-                                    Text(recipe.name)
-                                        .foregroundColor(viewStore.recipes.contains(recipe) ? .secondary : .primary)
-                                    recipeAlsoUsedInMealTimes(recipe: recipe, mealTime: selectedMealTime, mealTimeRecipes: viewStore.mealTimeRecipes)
-                                        .font(.caption2)
-                                        .foregroundColor(viewStore.recipes.contains(recipe) ? .secondary : .primary)
-                                }
-                            }
-                            .buttonStyle(PlainButtonStyle())
-                            .padding(.vertical, 4)
-                        }
-                    }
-                }
-                .padding()
+                recipesList(
+                    recipesToDisplay: viewStore.recipesToDisplay,
+                    mealTimeRecipes: viewStore.mealTimeRecipes,
+                    setRecipe: { viewStore.send(.setRecipe($0), animation: .default) }
+                )
             }
+            .padding()
         }
     }
 
-    // TODO: The logic shall be part of the scoped state
+    private func header(
+        mealTime: MealTime,
+        mealTimeRecipes: [MealTime: Recipe?],
+        removeRecipe: @escaping () -> Void
+    ) -> some View {
+        VStack {
+            Text(mealTime.name)
+                .font(.title)
+            HStack {
+                Spacer()
+                selectedRecipeText(for: mealTime, mealTimeRecipes: mealTimeRecipes)
+                    .font(.subheadline)
+                Spacer()
+                if mealTimeRecipes[mealTime] != Recipe?.none {
+                    Button(action: removeRecipe) {
+                        Image(systemName: "trash")
+                    }
+                }
+            }
+            .padding(.vertical)
+        }
+    }
+
     private func selectedRecipeText(for mealTime: MealTime, mealTimeRecipes: [MealTime: Recipe?]) -> some View {
         Group {
             if let possibleRecipe = mealTimeRecipes[mealTime], let recipe = possibleRecipe {
                 VStack {
                     Text("\(recipe.name)")
-                    recipeAlsoUsedInMealTimes(recipe: recipe, mealTime: mealTime, mealTimeRecipes: mealTimeRecipes)
+
+                    recipeAlsoUsedInMealTimes(recipe: recipe, exclude: mealTime, mealTimeRecipes: mealTimeRecipes)
                         .font(.caption)
                 }
             } else {
@@ -62,16 +61,49 @@ struct RecipeSelectorView: View {
         }
     }
 
-    // TODO: The logic shall be part of the scoped state
-    private func recipeAlsoUsedInMealTimes(recipe: Recipe, mealTime: MealTime, mealTimeRecipes: [MealTime: Recipe?]) -> some View {
-        let alsoUsedInMealTimes = mealTimeRecipes
-            .filter { $0.value == recipe && $0.key != mealTime }
-            .keys
-            .map { $0.name }
+    private func recipeAlsoUsedInMealTimes(recipe: Recipe, exclude mealTime: MealTime, mealTimeRecipes: [MealTime: Recipe?]) -> some View {
+        let alsoUsedInMealTimes = mealTimeRecipes.mealTimes(for: recipe)
+            .filter { $0 != mealTime }
+            .map(\.name)
 
         return Group {
             if alsoUsedInMealTimes.count > 0 {
                 Text("This recipe will also be used for \(ListFormatter.localizedString(byJoining: alsoUsedInMealTimes))")
+            } else {
+                EmptyView()
+            }
+        }
+    }
+
+    private func recipesList(
+        recipesToDisplay: [Recipe],
+        mealTimeRecipes: [MealTime: Recipe?],
+        setRecipe: @escaping (Recipe) -> Void
+    ) -> some View {
+        LazyVStack(alignment: .leading) {
+            ForEach(recipesToDisplay) { recipe in
+                Button { setRecipe(recipe) } label: {
+                    VStack(alignment: .leading) {
+                        Text(recipe.name)
+                            .foregroundColor(mealTimeRecipes.values.contains(recipe) ? .secondary : .primary)
+                        recipeAlsoUsedInMealTimes(recipe: recipe, mealTimeRecipes: mealTimeRecipes)
+                            .font(.caption2)
+                            .foregroundColor(mealTimeRecipes.values.contains(recipe) ? .secondary : .primary)
+                    }
+                }
+                .buttonStyle(PlainButtonStyle())
+                .padding(.vertical, 4)
+            }
+        }
+    }
+
+    private func recipeAlsoUsedInMealTimes(recipe: Recipe, mealTimeRecipes: [MealTime: Recipe?]) -> some View {
+        let alsoUsedInMealTimes = mealTimeRecipes.mealTimes(for: recipe)
+            .map(\.name)
+
+        return Group {
+            if alsoUsedInMealTimes.count > 0 {
+                Text("This recipe is already used for \(ListFormatter.localizedString(byJoining: alsoUsedInMealTimes))")
             } else {
                 EmptyView()
             }
@@ -82,8 +114,9 @@ struct RecipeSelectorView: View {
 struct RecipeSelectorView_Previews: PreviewProvider {
     static var previews: some View {
         RecipeSelectorView(store: Store(
-            initialState: WeekState(
-                allRecipes: .embedded,
+            initialState: RecipeSelectorState(
+                mealTime: .sundayDinner,
+                recipes: .embedded,
                 mealTimeRecipes: .init(uniqueKeysWithValues: MealTime.allCases.map {
                     switch $0 {
                     case .sundayDinner: return ($0, [Recipe].embedded.first)
@@ -91,16 +124,16 @@ struct RecipeSelectorView_Previews: PreviewProvider {
                     case .wednesdayDinner: return ($0, [Recipe].embedded.last)
                     default: return ($0, nil)
                     }
-                }),
-                selectedMealTime: .sundayDinner
+                })
             ),
-            reducer: weekReducer,
-            environment: WeekEnvironment()
+            reducer: recipeSelectorReducer,
+            environment: RecipeSelectorEnvironment()
         ))
 
         RecipeSelectorView(store: Store(
-            initialState: WeekState(
-                allRecipes: .embedded,
+            initialState: RecipeSelectorState(
+                mealTime: .sundayLunch,
+                recipes: .embedded,
                 mealTimeRecipes: .init(uniqueKeysWithValues: MealTime.allCases.map {
                     switch $0 {
                     case .sundayDinner: return ($0, [Recipe].embedded.first)
@@ -108,11 +141,10 @@ struct RecipeSelectorView_Previews: PreviewProvider {
                     case .wednesdayDinner: return ($0, [Recipe].embedded.last)
                     default: return ($0, nil)
                     }
-                }),
-                selectedMealTime: .sundayLunch
+                })
             ),
-            reducer: weekReducer,
-            environment: WeekEnvironment()
+            reducer: recipeSelectorReducer,
+            environment: RecipeSelectorEnvironment()
         ))
     }
 }

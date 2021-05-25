@@ -5,6 +5,23 @@ struct WeekState: Equatable {
     var mealTimeRecipes: [MealTime: Recipe?] = .init(uniqueKeysWithValues: MealTime.allCases.map { ($0, nil) })
     var selectedMealTime: MealTime? = nil
 
+    var recipeSelector: RecipeSelectorState? {
+        get {
+            guard let mealTime = selectedMealTime
+            else { return nil }
+            return RecipeSelectorState(
+                mealTime: mealTime,
+                recipes: allRecipes,
+                mealTimeRecipes: mealTimeRecipes
+            )
+        }
+        set {
+            guard let recipeSelector = newValue
+            else { return }
+            mealTimeRecipes = recipeSelector.mealTimeRecipes
+        }
+    }
+
     var recipes: [Recipe] { Array(Set(mealTimeRecipes.values.compactMap { $0 })) }
 
     // TODO: is it still used?
@@ -52,6 +69,7 @@ enum WeekAction: Equatable {
     case removeRecipe(Recipe, MealTime)
     case selectMealTime(MealTime)
     case dismissMealTime
+    case recipeSelector(RecipeSelectorAction)
 }
 
 struct WeekEnvironment {
@@ -99,6 +117,8 @@ let weekReducer = Reducer<WeekState, WeekAction, WeekEnvironment> { state, actio
         return .none
     case .dismissMealTime:
         state.selectedMealTime = nil
+        return .none
+    case .recipeSelector:
         return .none
     }
 }

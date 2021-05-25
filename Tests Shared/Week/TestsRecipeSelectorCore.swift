@@ -9,7 +9,7 @@ class TestsRecipeSelectorCore: XCTestCase {
 
     override func setUp() {
         store = TestStore(
-            initialState: RecipeSelectorState(mealTime: .sundayDinner, mealTimeRecipes: .test),
+            initialState: RecipeSelectorState(mealTime: .sundayDinner, recipes: .test, mealTimeRecipes: .test),
             reducer: recipeSelectorReducer,
             environment: RecipeSelectorEnvironment()
         )
@@ -37,7 +37,7 @@ class TestsRecipeSelectorCore: XCTestCase {
 
     func testSetRecipeForSundayWithOverlappingUntilTuesday() throws {
         let store = TestStore(
-            initialState: RecipeSelectorState(mealTime: .sundayLunch, mealTimeRecipes: .test),
+            initialState: RecipeSelectorState(mealTime: .sundayLunch, recipes: .test, mealTimeRecipes: .test),
             reducer: recipeSelectorReducer,
             environment: RecipeSelectorEnvironment()
         )
