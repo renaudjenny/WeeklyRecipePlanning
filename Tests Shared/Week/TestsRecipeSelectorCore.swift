@@ -41,7 +41,9 @@ class TestsRecipeSelectorCore: XCTestCase {
                 }
             })
         )
+
         // Recipes should be in alphabetic order and ones in week shall be in last positions
+        // A, D, E, F, B, C
         XCTAssertEqual(state.recipesToDisplay, [
             firstRecipe,
             fourthRecipe,

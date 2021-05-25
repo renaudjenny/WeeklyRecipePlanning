@@ -25,7 +25,7 @@ struct WeekState: Equatable {
     var mealTimeFilledCount: Int {
         mealTimeRecipes.values
             .compactMap { $0 }
-            .reduce(0, { $0 + $1.mealCount })
+            .count
     }
 }
 

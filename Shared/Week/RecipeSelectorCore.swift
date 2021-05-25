@@ -41,6 +41,7 @@ extension RecipeSelectorState {
     }
 
     private func inWeekRecipeLast(recipeA: Recipe, recipeB: Recipe) -> Bool {
+        let recipes = mealTimeRecipes.values.compactMap { $0 }
         if recipes.contains(recipeA) && !recipes.contains(recipeB) {
             return false
         } else if !recipes.contains(recipeA) && recipes.contains(recipeB) {
