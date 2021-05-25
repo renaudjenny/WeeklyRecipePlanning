@@ -25,6 +25,7 @@ struct RecipeSelectorView: View {
                         }
                     }
                     .padding(.vertical)
+
                     LazyVStack(alignment: .leading) {
                         ForEach(viewStore.recipesToSelect) { recipe in
                             Button { viewStore.send(.addRecipe(recipe, selectedMealTime), animation: .default) } label: {

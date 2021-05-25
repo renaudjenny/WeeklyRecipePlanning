@@ -69,10 +69,7 @@ let weekReducer = Reducer<WeekState, WeekAction, WeekEnvironment> { state, actio
                 var newResult = result
                 newResult[mealTime] = recipe
                 var remainingMealCount = recipe.mealCount
-                print("remainingMealCount before while loop: \(remainingMealCount)")
                 while remainingMealCount > 1 {
-                    print("remainingMealCount: \(remainingMealCount)")
-                    print("next meal: \(mealTime.next.name)")
                     newResult[mealTime.next] = recipe
                     remainingMealCount -= 1
                 }
