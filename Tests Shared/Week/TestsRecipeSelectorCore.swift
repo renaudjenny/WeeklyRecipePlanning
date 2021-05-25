@@ -9,10 +9,47 @@ class TestsRecipeSelectorCore: XCTestCase {
 
     override func setUp() {
         store = TestStore(
-            initialState: RecipeSelectorState(mealTime: .sundayDinner, recipes: .test, mealTimeRecipes: .test),
+            initialState: RecipeSelectorState(
+                mealTime: .sundayDinner,
+                recipes: .test,
+                mealTimeRecipes: .test
+            ),
             reducer: recipeSelectorReducer,
             environment: RecipeSelectorEnvironment()
         )
+    }
+
+    func testDisplayedRecipes() throws {
+        // Test Recipes are named Recipe X where X is in this order:
+        // A, B, C, D, F, E.
+        // Note that F and E, so we're suppose to see the sixth Recipe before the fifth.
+        let firstRecipe = [Recipe].test[0]
+        let secondRecipe = [Recipe].test[1]
+        let thirdRecipe = [Recipe].test[2]
+        let fourthRecipe = [Recipe].test[3]
+        let fifthRecipe = [Recipe].test[4]
+        let sixthRecipe = [Recipe].test[5]
+        let state = RecipeSelectorState(
+            mealTime: .sundayLunch,
+            recipes: .test,
+            mealTimeRecipes: .init(uniqueKeysWithValues: MealTime.allCases.map {
+                switch $0 {
+                case .mondayDinner: return ($0, secondRecipe)
+                case .tuesdayLunch: return ($0, secondRecipe)
+                case .wednesdayDinner: return ($0, thirdRecipe)
+                default: return ($0, nil)
+                }
+            })
+        )
+        // Recipes should be in alphabetic order and ones in week shall be in last positions
+        XCTAssertEqual(state.recipesToDisplay, [
+            firstRecipe,
+            fourthRecipe,
+            sixthRecipe,
+            fifthRecipe,
+            secondRecipe,
+            thirdRecipe,
+        ])
     }
 
     func testSetRecipe() throws {
