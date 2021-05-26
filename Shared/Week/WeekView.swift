@@ -17,7 +17,7 @@ struct WeekView: View {
                 ScrollView {
                     LazyVStack(alignment: .leading) {
                         ForEach(MealTime.allCases) { mealTime in
-                            // TODO: Scope shall be scoped here!
+                            // TODO: Store shall be scoped here!
                             MealTimeView(mealTime: mealTime, store: store)
                         }
                     }

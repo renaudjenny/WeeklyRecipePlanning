@@ -10,7 +10,7 @@ struct MealTimeView: View {
             Button { viewStore.send(.selectMealTime(mealTime)) } label: {
                 HStack {
                     ZStack {
-                        if viewStore.mealTimeRecipes[mealTime] != nil {
+                        if viewStore.mealTimeRecipes[mealTime] != Recipe?.none {
                             Circle()
                                 .foregroundColor(.green)
                                 .frame(width: 25, height: 25)

@@ -16,9 +16,9 @@ struct WeekState: Equatable {
             )
         }
         set {
-            guard let recipeSelector = newValue
+            guard let recipeSelectorState = newValue
             else { return }
-            mealTimeRecipes = recipeSelector.mealTimeRecipes
+            mealTimeRecipes = recipeSelectorState.mealTimeRecipes
         }
     }
 
@@ -37,18 +37,27 @@ enum WeekAction: Equatable {
 
 struct WeekEnvironment { }
 
-let weekReducer = Reducer<WeekState, WeekAction, WeekEnvironment> { state, action, environment in
-    switch action {
-    case let .selectMealTime(mealTime):
-        state.selectedMealTime = mealTime
-        return .none
-    case .dismissMealTime:
-        state.selectedMealTime = nil
-        return .none
-    case .recipeSelector:
-        return .none
+let weekReducer = Reducer<WeekState, WeekAction, WeekEnvironment>.combine(
+    recipeSelectorReducer
+        .optional()
+        .pullback(
+            state: \.recipeSelector,
+            action: /WeekAction.recipeSelector,
+            environment: { _ in RecipeSelectorEnvironment() }
+        ),
+    Reducer { state, action, environment in
+        switch action {
+        case let .selectMealTime(mealTime):
+            state.selectedMealTime = mealTime
+            return .none
+        case .dismissMealTime:
+            state.selectedMealTime = nil
+            return .none
+        case .recipeSelector:
+            return .none
+        }
     }
-}
+)
 
 struct MealTimeRecipe: Identifiable, Equatable {
     let mealTime: MealTime
