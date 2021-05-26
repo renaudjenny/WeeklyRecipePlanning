@@ -100,6 +100,26 @@ class TestsRecipeSelectorCore: XCTestCase {
         )
     }
 
+    func testSetRecipeThatOverridesAnotherRecipeButTheNewOneHasLessMealCount() throws {
+        let store = try XCTUnwrap(self.store)
+        let recipe = Recipe(
+            id: UUID(),
+            name: "Small recipe",
+            mealCount: 1,
+            ingredients: []
+        )
+
+        store.assert(
+            .send(.setRecipe(recipe)) {
+                var expectedMealTimeRecipes = [MealTime: Recipe?].test
+                expectedMealTimeRecipes[.sundayDinner] = recipe
+                expectedMealTimeRecipes[.mondayLunch] = Recipe?.none
+
+                $0.mealTimeRecipes = expectedMealTimeRecipes
+            }
+        )
+    }
+
     func testRemoveRecipe() throws {
         let store = try XCTUnwrap(self.store)
 

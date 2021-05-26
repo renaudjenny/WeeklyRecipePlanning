@@ -16,19 +16,19 @@ struct RecipeSelectorEnvironment { }
 let recipeSelectorReducer = Reducer<RecipeSelectorState, RecipeSelectorAction, RecipeSelectorEnvironment> { state, action, environment in
     switch action {
     case let .setRecipe(recipe):
+        if let potentialRecipeToRemove = state.mealTimeRecipes[state.mealTime],
+           let recipeToRemove = potentialRecipeToRemove,
+           recipeToRemove.mealCount > recipe.mealCount {
+            state.removeCurrentRecipe()
+        }
+
         let mealTimeRecipesToChange = (0..<recipe.mealCount).map {
             (state.mealTime.next(count: $0), recipe)
         }
         state.mealTimeRecipes.merge(mealTimeRecipesToChange, uniquingKeysWith: { $1 })
         return .none
     case .removeRecipe:
-        guard let potentialRecipe = state.mealTimeRecipes[state.mealTime],
-              let recipe = potentialRecipe
-        else { return .none }
-        let mealTimeRecipesToChange = (0..<recipe.mealCount).map {
-            (state.mealTime.next(count: $0), Recipe?.none)
-        }
-        state.mealTimeRecipes.merge(mealTimeRecipesToChange, uniquingKeysWith: { $1 })
+        state.removeCurrentRecipe()
         return .none
     }
 }
@@ -48,6 +48,16 @@ extension RecipeSelectorState {
             return true
         }
         return recipeA.name < recipeB.name
+    }
+
+    fileprivate mutating func removeCurrentRecipe() {
+        guard let potentialRecipe = mealTimeRecipes[mealTime],
+              let recipe = potentialRecipe
+        else { return }
+        let mealTimeRecipesToChange = (0..<recipe.mealCount).map {
+            (mealTime.next(count: $0), Recipe?.none)
+        }
+        mealTimeRecipes.merge(mealTimeRecipesToChange, uniquingKeysWith: { $1 })
     }
 }
 
