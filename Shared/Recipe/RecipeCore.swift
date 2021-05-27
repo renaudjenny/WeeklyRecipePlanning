@@ -57,7 +57,7 @@ extension Recipe {
     static func new(id: UUID) -> Self {
         Recipe(
             id: id,
-            name: "New recipe",
+            name: "",
             mealCount: 1,
             ingredients: []
         )
