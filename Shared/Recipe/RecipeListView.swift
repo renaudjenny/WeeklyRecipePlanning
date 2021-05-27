@@ -6,7 +6,7 @@ struct RecipeListView: View {
     let store: Store<RecipeListState, RecipeListAction>
 
     var body: some View {
-        WithViewStore(store.scope(state: { $0 })) { viewStore in
+        WithViewStore(store) { viewStore in
             NavigationView {
                 List {
                     ForEachStore(store.scope(state: { $0.recipes }, action: RecipeListAction.recipe(id:action:)), content: RecipeRowView.init)
@@ -15,9 +15,7 @@ struct RecipeListView: View {
                 .navigationTitle("Recipes")
                 .toolbar {
                     ToolbarItem(placement: addRecipeButtonPlacement) {
-                        Button { viewStore.send(.addButtonTapped) } label: {
-                            Image(systemName: "plus")
-                        }
+                        addNewRecipeButton
                     }
                 }
             }
@@ -31,6 +29,22 @@ struct RecipeListView: View {
         #else
         return ToolbarItemPlacement.automatic
         #endif
+    }
+
+    private var addNewRecipeButton: some View {
+        WithViewStore(store) { viewStore in
+            NavigationLink(
+                destination: IfLetStore(store.scope(
+                    state: \.newRecipe,
+                    action: RecipeListAction.newRecipe
+                ), then: RecipeView.init),
+                isActive: viewStore.binding(
+                    get: \.isNavigationToNewRecipeActive,
+                    send: RecipeListAction.setNavigationToNewRecipe
+                ),
+                label: { Image(systemName: "plus") }
+            )
+        }
     }
 }
 
