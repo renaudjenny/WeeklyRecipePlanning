@@ -2,13 +2,24 @@ import ComposableArchitecture
 
 struct RecipeListState: Equatable {
     var recipes: IdentifiedArrayOf<RecipeState>
-    var newRecipe: RecipeState?
-    var isNavigationToNewRecipeActive: Bool { newRecipe != nil }
+    var newRecipe: RecipeState? {
+        get {
+            isNavigationToNewRecipeActive
+                ? recipes[0]
+                : nil
+        }
+        set {
+            guard let recipe = newValue
+            else { return }
+            recipes[0] = recipe
+        }
+    }
+    var isNavigationToNewRecipeActive = false
 }
 
 enum RecipeListAction: Equatable {
     case delete(IndexSet)
-    case setNavigationToNewRecipe(isActive: Bool)
+    case setNavigation(isActive: Bool)
 
     case load
     case loaded(Result<[Recipe], ApiError>)
@@ -48,13 +59,15 @@ let recipeListReducer = Reducer<RecipeListState, RecipeListAction, RecipeListEnv
         case let .delete(indexSet):
             state.recipes.remove(atOffsets: indexSet)
             return Effect(value: .save)
-        case .setNavigationToNewRecipe(isActive: true):
-            let newRecipe = RecipeState(recipe: .new(id: environment.uuid()))
-            state.newRecipe = newRecipe
-            state.recipes.insert(newRecipe, at: 0)
+        case .setNavigation(isActive: true):
+            guard !state.isNavigationToNewRecipeActive
+            else { return .none }
+
+            state.recipes.insert(RecipeState(recipe: .new(id: environment.uuid())), at: 0)
+            state.isNavigationToNewRecipeActive = true
             return .none
-        case .setNavigationToNewRecipe(isActive: false):
-            state.newRecipe = nil
+        case .setNavigation(isActive: false):
+            state.isNavigationToNewRecipeActive = false
             return .none
 
         case .load:
@@ -85,9 +98,6 @@ let recipeListReducer = Reducer<RecipeListState, RecipeListAction, RecipeListEnv
                 .debounce(id: SaveDebounceId(), for: .seconds(1), scheduler: environment.mainQueue)
                 .eraseToEffect()
         case .newRecipe:
-//            return Effect(value: .save)
-//                .debounce(id: SaveDebounceId(), for: .seconds(1), scheduler: environment.mainQueue)
-//                .eraseToEffect()
             return .none
         }
     }

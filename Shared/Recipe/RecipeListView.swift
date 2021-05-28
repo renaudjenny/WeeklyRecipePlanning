@@ -33,17 +33,25 @@ struct RecipeListView: View {
 
     private var addNewRecipeButton: some View {
         WithViewStore(store) { viewStore in
-            NavigationLink(
-                destination: IfLetStore(store.scope(
-                    state: \.newRecipe,
-                    action: RecipeListAction.newRecipe
-                ), then: RecipeView.init),
-                isActive: viewStore.binding(
-                    get: \.isNavigationToNewRecipeActive,
-                    send: RecipeListAction.setNavigationToNewRecipe
-                ),
-                label: { Image(systemName: "plus") }
-            )
+            HStack {
+            Button {
+                viewStore.send(.setNavigation(isActive: true))
+            } label: { Image(systemName: "plus") }
+
+            IfLetStore(store.scope(
+                state: \.newRecipe,
+                action: RecipeListAction.newRecipe
+            )) { recipeStore in
+                NavigationLink(
+                    destination: RecipeView(store: recipeStore),
+                    isActive: viewStore.binding(
+                        get: \.isNavigationToNewRecipeActive,
+                        send: RecipeListAction.setNavigation
+                    ),
+                    label: { Image(systemName: "minus") }
+                )
+            }
+        }
         }
     }
 }
