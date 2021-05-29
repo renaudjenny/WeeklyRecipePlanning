@@ -9,8 +9,25 @@ struct RecipeListView: View {
         WithViewStore(store) { viewStore in
             NavigationView {
                 List {
-                    ForEachStore(store.scope(state: { $0.recipes }, action: RecipeListAction.recipe(id:action:)), content: RecipeRowView.init)
-                        .onDelete { viewStore.send(.delete($0)) }
+                    ForEach(viewStore.recipes) { recipe in
+                        NavigationLink(
+                            destination: IfLetStore(
+                                store.scope(
+                                    state: \.selection?.value,
+                                    action: RecipeListAction.recipe
+                                ),
+                                then: RecipeView.init(store:)
+                            ),
+                            tag: recipe.id,
+                            selection: viewStore.binding(
+                                get: \.selection?.id,
+                                send: RecipeListAction.setNavigation(selection:)
+                            )
+                        ) {
+                            RecipeRowView(recipe: recipe.recipe)
+                        }
+                    }
+                    .onDelete { viewStore.send(.delete($0)) }
                 }
                 .navigationTitle("Recipes")
                 .toolbar {
@@ -34,24 +51,10 @@ struct RecipeListView: View {
     private var addNewRecipeButton: some View {
         WithViewStore(store) { viewStore in
             HStack {
-            Button {
-                viewStore.send(.setNavigation(isActive: true))
-            } label: { Image(systemName: "plus") }
-
-            IfLetStore(store.scope(
-                state: \.newRecipe,
-                action: RecipeListAction.newRecipe
-            )) { recipeStore in
-                NavigationLink(
-                    destination: RecipeView(store: recipeStore),
-                    isActive: viewStore.binding(
-                        get: \.isNavigationToNewRecipeActive,
-                        send: RecipeListAction.setNavigation
-                    ),
-                    label: { Image(systemName: "minus") }
-                )
+                Button {
+                    viewStore.send(.addNewRecipe)
+                } label: { Image(systemName: "plus") }
             }
-        }
         }
     }
 }

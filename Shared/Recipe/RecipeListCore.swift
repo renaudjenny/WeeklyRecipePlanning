@@ -2,32 +2,20 @@ import ComposableArchitecture
 
 struct RecipeListState: Equatable {
     var recipes: IdentifiedArrayOf<RecipeState>
-    var newRecipe: RecipeState? {
-        get {
-            isNavigationToNewRecipeActive
-                ? recipes[0]
-                : nil
-        }
-        set {
-            guard let recipe = newValue
-            else { return }
-            recipes[0] = recipe
-        }
-    }
-    var isNavigationToNewRecipeActive = false
+    var selection: Identified<Recipe.ID, RecipeState>?
 }
 
 enum RecipeListAction: Equatable {
+    case addNewRecipe
+    case setNavigation(selection: Recipe.ID?)
     case delete(IndexSet)
-    case setNavigation(isActive: Bool)
 
     case load
     case loaded(Result<[Recipe], ApiError>)
     case save
     case saved(Result<Bool, ApiError>)
 
-    case recipe(id: Recipe.ID, action: RecipeAction)
-    case newRecipe(RecipeAction)
+    case recipe(RecipeAction)
 }
 
 struct RecipeListEnvironment {
@@ -38,16 +26,16 @@ struct RecipeListEnvironment {
 }
 
 let recipeListReducer = Reducer<RecipeListState, RecipeListAction, RecipeListEnvironment>.combine(
-    recipeReducer.forEach(
-        state: \.recipes,
-        action: /RecipeListAction.recipe(id:action:),
-        environment: { RecipeEnvironment(uuid: $0.uuid) }
-    ),
     recipeReducer
+        .pullback(
+            state: \Identified.value,
+            action: .self,
+            environment: { $0 }
+        )
         .optional()
         .pullback(
-            state: \.newRecipe,
-            action: /RecipeListAction.newRecipe,
+            state: \.selection,
+            action: /RecipeListAction.recipe,
             environment: { RecipeEnvironment(uuid: $0.uuid) }
         ),
     Reducer { state, action, environment in
@@ -56,19 +44,21 @@ let recipeListReducer = Reducer<RecipeListState, RecipeListAction, RecipeListEnv
         struct SaveDebounceId: Hashable { }
 
         switch action {
+        case .addNewRecipe:
+            let newRecipe = RecipeState(recipe: .new(id: environment.uuid()))
+            state.recipes.insert(newRecipe, at: 0)
+            return Effect(value: .setNavigation(selection: newRecipe.id))
+        case let .setNavigation(selection: .some(id)):
+            guard let recipe = state.recipes[id: id]
+            else { return .none }
+            state.selection = Identified(recipe, id: \.id)
+            return .none
+        case .setNavigation(selection: .none):
+            state.selection = nil
+            return .none
         case let .delete(indexSet):
             state.recipes.remove(atOffsets: indexSet)
             return Effect(value: .save)
-        case .setNavigation(isActive: true):
-            guard !state.isNavigationToNewRecipeActive
-            else { return .none }
-
-            state.recipes.insert(RecipeState(recipe: .new(id: environment.uuid())), at: 0)
-            state.isNavigationToNewRecipeActive = true
-            return .none
-        case .setNavigation(isActive: false):
-            state.isNavigationToNewRecipeActive = false
-            return .none
 
         case .load:
             return environment.load
@@ -97,8 +87,6 @@ let recipeListReducer = Reducer<RecipeListState, RecipeListAction, RecipeListEnv
             return Effect(value: .save)
                 .debounce(id: SaveDebounceId(), for: .seconds(1), scheduler: environment.mainQueue)
                 .eraseToEffect()
-        case .newRecipe:
-            return .none
         }
     }
 )
