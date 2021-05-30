@@ -36,7 +36,10 @@ class TestsRecipeListCore: XCTestCase {
         let firstRecipe = try XCTUnwrap(recipes.first)
 
         store.assert(
-            .send(.recipe(id: firstRecipe.id, action: RecipeAction.nameChanged("Modified by Test"))) {
+            .send(.setNavigation(selection: firstRecipe.id)) {
+                $0.selection = Identified(RecipeState(recipe: firstRecipe), id: firstRecipe.id)
+            },
+            .send(.recipe(RecipeAction.nameChanged("Modified by Test"))) {
                 $0.recipes[0].name = "Modified by Test"
             },
             .do { self.mainQueue.advance(by: .seconds(1)) },
@@ -48,15 +51,15 @@ class TestsRecipeListCore: XCTestCase {
 
     func testAddRecipe() throws {
         let store = try XCTUnwrap(self.store)
-        let saveSubject = try XCTUnwrap(self.saveSubject)
+        let newRecipeState = RecipeState(recipe: .new(id: .zero))
 
         store.assert(
-            .send(.addButtonTapped) {
-                $0.recipes = [RecipeState(recipe: .new(id: .zero))] + $0.recipes
+            .send(.addNewRecipe) {
+                $0.recipes = [newRecipeState] + $0.recipes
             },
-            .receive(.save),
-            .do { saveSubject.send(true) },
-            .receive(.saved(.success(true)))
+            .receive(.setNavigation(selection: newRecipeState.id)) {
+                $0.selection = Identified(newRecipeState, id: newRecipeState.id)
+            }
         )
     }
 
