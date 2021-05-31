@@ -40,6 +40,7 @@ class TestsRecipeListCore: XCTestCase {
                 $0.selection = Identified(RecipeState(recipe: firstRecipe), id: firstRecipe.id)
             },
             .send(.recipe(RecipeAction.nameChanged("Modified by Test"))) {
+                $0.selection?.value.name = "Modified by Test"
                 $0.recipes[0].name = "Modified by Test"
             },
             .do { self.mainQueue.advance(by: .seconds(1)) },

@@ -49,12 +49,13 @@ let recipeListReducer = Reducer<RecipeListState, RecipeListAction, RecipeListEnv
             state.recipes.insert(newRecipe, at: 0)
             return Effect(value: .setNavigation(selection: newRecipe.id))
         case let .setNavigation(selection: .some(id)):
-            guard let recipe = state.recipes[id: id]
-            else { return .none }
-            state.selection = Identified(recipe, id: \.id)
+            state.recipes[id: id].map {
+                state.selection = Identified($0, id: \.id)
+            }
             return .none
         case .setNavigation(selection: .none):
             state.selection = nil
+            // TODO: also save here
             return .none
         case let .delete(indexSet):
             state.recipes.remove(atOffsets: indexSet)
@@ -73,6 +74,7 @@ let recipeListReducer = Reducer<RecipeListState, RecipeListAction, RecipeListEnv
             return .cancel(id: LoadId())
 
         case .save:
+            print(state.recipes.map(\.recipe).map { "\($0.name): meal count: \($0.mealCount)" })
             return environment.save(state.recipes.map(\.recipe))
                 .catchToEffect()
                 .map(RecipeListAction.saved)
@@ -84,6 +86,9 @@ let recipeListReducer = Reducer<RecipeListState, RecipeListAction, RecipeListEnv
             return .cancel(id: SaveId())
 
         case .recipe:
+            state.selection.map {
+                state.recipes[id: $0.id] = $0.value
+            }
             return Effect(value: .save)
                 .debounce(id: SaveDebounceId(), for: .seconds(1), scheduler: environment.mainQueue)
                 .eraseToEffect()
