@@ -55,8 +55,7 @@ let recipeListReducer = Reducer<RecipeListState, RecipeListAction, RecipeListEnv
             return .none
         case .setNavigation(selection: .none):
             state.selection = nil
-            // TODO: also save here
-            return .none
+            return Effect(value: .save)
         case let .delete(indexSet):
             state.recipes.remove(atOffsets: indexSet)
             return Effect(value: .save)
@@ -74,7 +73,6 @@ let recipeListReducer = Reducer<RecipeListState, RecipeListAction, RecipeListEnv
             return .cancel(id: LoadId())
 
         case .save:
-            print(state.recipes.map(\.recipe).map { "\($0.name): meal count: \($0.mealCount)" })
             return environment.save(state.recipes.map(\.recipe))
                 .catchToEffect()
                 .map(RecipeListAction.saved)

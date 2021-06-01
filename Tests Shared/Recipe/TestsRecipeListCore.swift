@@ -101,4 +101,23 @@ class TestsRecipeListCore: XCTestCase {
             .receive(.saved(.success(true)))
         )
     }
+
+    func testNavigateBackToTheList() throws {
+        let store = try XCTUnwrap(self.store)
+        let saveSubject = try XCTUnwrap(self.saveSubject)
+
+        let firstRecipe = try XCTUnwrap(recipes.first)
+
+        store.assert(
+            .send(.setNavigation(selection: firstRecipe.id)) {
+                $0.selection = Identified(RecipeState(recipe: firstRecipe), id: firstRecipe.id)
+            },
+            .send(.setNavigation(selection: nil)) {
+                $0.selection = nil
+            },
+            .receive(.save),
+            .do { saveSubject.send(true) },
+            .receive(.saved(.success(true)))
+        )
+    }
 }
