@@ -42,7 +42,6 @@ enum MealTime: Equatable, CaseIterable, Identifiable {
     }
 
     var next: MealTime {
-        // TODO: test that!
         if self == .sundayLunch {
             return .sundayDinner
         }
