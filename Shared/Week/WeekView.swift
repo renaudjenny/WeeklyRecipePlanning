@@ -4,8 +4,12 @@ import SwiftUI
 struct WeekView: View {
     let store: Store<WeekState, WeekAction>
 
+    struct ViewState: Equatable {
+        var mealTimeFilledCount: Int
+    }
+
     var body: some View {
-        WithViewStore(store) { viewStore in
+        WithViewStore(store.scope(state: \.view)) { viewStore in
             VStack {
                 ProgressView(
                     "Planning completion \(viewStore.mealTimeFilledCount)/\(MealTime.allCases.count)",
@@ -17,7 +21,6 @@ struct WeekView: View {
                 ScrollView {
                     LazyVStack(alignment: .leading) {
                         ForEach(MealTime.allCases) { mealTime in
-                            // TODO: Store shall be scoped here!
                             MealTimeView(mealTime: mealTime, store: store)
                         }
                     }
@@ -25,6 +28,16 @@ struct WeekView: View {
                 }
             }
         }
+    }
+}
+
+private extension WeekState {
+    var view: WeekView.ViewState {
+        WeekView.ViewState(
+            mealTimeFilledCount: mealTimeRecipes.values
+                .compactMap { $0 }
+                .count
+        )
     }
 }
 

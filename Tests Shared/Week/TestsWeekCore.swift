@@ -15,12 +15,6 @@ class TestsWeekCore: XCTestCase {
         )
     }
 
-    func testMealTimeFilledCount() throws {
-        let state = WeekState(allRecipes: .test, mealTimeRecipes: .test)
-        // Count the meal you can serve for the week with accumulating meal count of recipes
-        XCTAssertEqual(state.mealTimeFilledCount, 8)
-    }
-
     func testSelectMealTime() throws {
         let store = try XCTUnwrap(self.store)
 

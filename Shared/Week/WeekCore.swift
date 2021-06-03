@@ -21,12 +21,6 @@ struct WeekState: Equatable {
             mealTimeRecipes = recipeSelectorState.mealTimeRecipes
         }
     }
-
-    var mealTimeFilledCount: Int {
-        mealTimeRecipes.values
-            .compactMap { $0 }
-            .count
-    }
 }
 
 enum WeekAction: Equatable {
