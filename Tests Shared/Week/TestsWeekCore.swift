@@ -9,31 +9,35 @@ class TestsWeekCore: XCTestCase {
 
     override func setUp() {
         store = TestStore(
-            initialState: WeekState(allRecipes: .test, mealTimeRecipes: .test),
+            initialState: WeekState(recipes: .test, mealTimeRecipes: .test),
             reducer: weekReducer,
             environment: WeekEnvironment()
         )
     }
 
-    func testSelectMealTime() throws {
+    func testSetRecipeForAMealTime() throws {
         let store = try XCTUnwrap(self.store)
+        let recipe = [Recipe].test[2]
 
         store.assert(
-            .send(.selectMealTime(.wednesdayDinner)) {
-                $0.selectedMealTime = .wednesdayDinner
-            }
-        )
-    }
-
-    func testDismissMealTime() throws {
-        let store = try XCTUnwrap(self.store)
-
-        store.assert(
-            .send(.selectMealTime(.sundayLunch)) {
-                $0.selectedMealTime = .sundayLunch
+            .send(.mealTime(id: .sundayDinner, action: .mealTimeTapped)) {
+                $0.mealTimes[id: .sundayDinner]?.recipeSelector = RecipeSelectorState(
+                    mealTime: .sundayDinner,
+                    recipes: .test,
+                    mealTimeRecipes: .test
+                )
             },
-            .send(.dismissMealTime) {
-                $0.selectedMealTime = nil
+            .send(.mealTime(id: .sundayDinner, action: .recipeSelector(.setRecipe(recipe)))) { state in
+                state.mealTimeRecipes[.sundayDinner] = recipe
+                state.mealTimeRecipes[.mondayLunch] = Recipe?.none
+
+                state.mealTimes = IdentifiedArrayOf(MealTime.allCases.map { mealTime in
+                    MealTimeState(
+                        mealTime: mealTime,
+                        recipes: .test,
+                        mealTimeRecipes: state.mealTimeRecipes
+                    )
+                })
             }
         )
     }

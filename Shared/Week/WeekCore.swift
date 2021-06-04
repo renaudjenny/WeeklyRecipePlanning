@@ -1,53 +1,42 @@
 import ComposableArchitecture
 
 struct WeekState: Equatable {
-    var allRecipes: [Recipe]
-    var mealTimeRecipes: [MealTime: Recipe?] = .init(uniqueKeysWithValues: MealTime.allCases.map { ($0, nil) })
-    var selectedMealTime: MealTime? = nil
+    var recipes: [Recipe]
+    var mealTimeRecipes: [MealTime: Recipe?]
+    var mealTimes: IdentifiedArrayOf<MealTimeState>
 
-    var recipeSelector: RecipeSelectorState? {
-        get {
-            guard let mealTime = selectedMealTime
-            else { return nil }
-            return RecipeSelectorState(
-                mealTime: mealTime,
-                recipes: allRecipes,
-                mealTimeRecipes: mealTimeRecipes
-            )
-        }
-        set {
-            guard let recipeSelectorState = newValue
-            else { return }
-            mealTimeRecipes = recipeSelectorState.mealTimeRecipes
-        }
+    init(recipes: [Recipe], mealTimeRecipes: [MealTime: Recipe?]) {
+        self.recipes = recipes
+        self.mealTimeRecipes = mealTimeRecipes
+        self.mealTimes = WeekState.mealTimes(recipes: recipes, mealTimeRecipes: mealTimeRecipes)
     }
 }
 
 enum WeekAction: Equatable {
-    case selectMealTime(MealTime)
-    case dismissMealTime
-    case recipeSelector(RecipeSelectorAction)
+    case mealTime(id: MealTime, action: MealTimeAction)
 }
 
 struct WeekEnvironment { }
 
 let weekReducer = Reducer<WeekState, WeekAction, WeekEnvironment>.combine(
-    recipeSelectorReducer
-        .optional()
-        .pullback(
-            state: \.recipeSelector,
-            action: /WeekAction.recipeSelector,
-            environment: { _ in RecipeSelectorEnvironment() }
-        ),
+    mealTimeReducer.forEach(
+        state: \.mealTimes,
+        action: /WeekAction.mealTime(id:action:),
+        environment: { _ in MealTimeEnvironment() }
+    ),
     Reducer { state, action, environment in
         switch action {
-        case let .selectMealTime(mealTime):
-            state.selectedMealTime = mealTime
+        case let .mealTime(id, action: .recipeSelector):
+            guard let newMealTimeRecipes = state.mealTimes[id: id]?.mealTimeRecipes
+            else { return .none }
+
+            state.mealTimeRecipes.merge(newMealTimeRecipes, uniquingKeysWith: { $1 })
+            state.mealTimes = WeekState.mealTimes(
+                recipes: state.recipes,
+                mealTimeRecipes: state.mealTimeRecipes
+            )
             return .none
-        case .dismissMealTime:
-            state.selectedMealTime = nil
-            return .none
-        case .recipeSelector:
+        case .mealTime:
             return .none
         }
     }
@@ -60,10 +49,17 @@ struct MealTimeRecipe: Identifiable, Equatable {
     var id: MealTime { mealTime }
 }
 
-private extension Array {
-    subscript(safeIndex index: Int) -> Element? {
-        guard indices.contains(index)
-        else { return nil }
-        return self[index]
+extension WeekState {
+    static func mealTimes(
+        recipes: [Recipe],
+        mealTimeRecipes: [MealTime: Recipe?]
+    ) -> IdentifiedArrayOf<MealTimeState> {
+        IdentifiedArrayOf(MealTime.allCases.map {
+            MealTimeState(mealTime: $0, recipes: recipes, mealTimeRecipes: mealTimeRecipes)
+        })
     }
+}
+
+extension Dictionary where Key == MealTime, Value == Recipe? {
+    static let empty: Self = .init(uniqueKeysWithValues: MealTime.allCases.map { ($0, nil) })
 }

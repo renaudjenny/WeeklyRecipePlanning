@@ -3,7 +3,7 @@ import ComposableArchitecture
 struct RecipeSelectorState: Equatable {
     let mealTime: MealTime
     let recipes: [Recipe]
-    var mealTimeRecipes: [MealTime: Recipe?] = [:]
+    var mealTimeRecipes: [MealTime: Recipe?]
 }
 
 enum RecipeSelectorAction: Equatable {

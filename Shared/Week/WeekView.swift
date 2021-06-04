@@ -20,9 +20,10 @@ struct WeekView: View {
 
                 ScrollView {
                     LazyVStack(alignment: .leading) {
-                        ForEach(MealTime.allCases) { mealTime in
-                            MealTimeView(mealTime: mealTime, store: store)
-                        }
+                        ForEachStore(store.scope(
+                            state: \.mealTimes,
+                            action: WeekAction.mealTime(id:action:)
+                        ), content: MealTimeView.init)
                     }
                     .padding()
                 }
@@ -44,7 +45,7 @@ private extension WeekState {
 struct WeekView_Previews: PreviewProvider {
     static var previews: some View {
         WeekView(store: Store(
-            initialState: WeekState(allRecipes: .embedded, mealTimeRecipes: .init(uniqueKeysWithValues: MealTime.allCases.map {
+            initialState: WeekState(recipes: .embedded, mealTimeRecipes: .init(uniqueKeysWithValues: MealTime.allCases.map {
                 switch $0 {
                 case .sundayDinner: return ($0, [Recipe].embedded.first)
                 case .mondayLunch: return ($0, [Recipe].embedded.first)
