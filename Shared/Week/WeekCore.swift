@@ -4,12 +4,6 @@ struct WeekState: Equatable {
     var recipes: [Recipe]
     var mealTimeRecipes: [MealTime: Recipe?]
     var mealTimes: IdentifiedArrayOf<MealTimeState>
-
-    init(recipes: [Recipe], mealTimeRecipes: [MealTime: Recipe?]) {
-        self.recipes = recipes
-        self.mealTimeRecipes = mealTimeRecipes
-        self.mealTimes = WeekState.mealTimes(recipes: recipes, mealTimeRecipes: mealTimeRecipes)
-    }
 }
 
 enum WeekAction: Equatable {

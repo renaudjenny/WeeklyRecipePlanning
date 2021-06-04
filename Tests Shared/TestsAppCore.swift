@@ -14,7 +14,14 @@ class TestsAppCore: XCTestCase {
                     recipes: recipes,
                     selection: Identified(recipes.first!, id: \.id)
                 ),
-                week: WeekState(recipes: .test, mealTimeRecipes: .test)
+                week: WeekState(
+                    recipes: .test,
+                    mealTimeRecipes: .test,
+                    mealTimes: WeekState.mealTimes(
+                        recipes: .test,
+                        mealTimeRecipes: .test
+                    )
+                )
             ),
             reducer: appReducer,
             environment: AppEnvironment(
@@ -34,6 +41,10 @@ class TestsAppCore: XCTestCase {
 
                 // And also be changed in Week
                 $0.week.recipes[0].name = newFirstRecipeName
+                $0.week.mealTimes = WeekState.mealTimes(
+                    recipes: $0.recipeList.recipes.map(\.recipe),
+                    mealTimeRecipes: .test
+                )
             },
             .do { self.mainQueue.advance(by: .seconds(1)) },
             .receive(.recipeList(.save)),

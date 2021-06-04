@@ -45,16 +45,24 @@ private extension WeekState {
 struct WeekView_Previews: PreviewProvider {
     static var previews: some View {
         WeekView(store: Store(
-            initialState: WeekState(recipes: .embedded, mealTimeRecipes: .init(uniqueKeysWithValues: MealTime.allCases.map {
-                switch $0 {
-                case .sundayDinner: return ($0, [Recipe].embedded.first)
-                case .mondayLunch: return ($0, [Recipe].embedded.first)
-                case .wednesdayDinner: return ($0, [Recipe].embedded.last)
-                default: return ($0, nil)
-                }
-            })),
+            initialState: WeekState(
+                recipes: .embedded,
+                mealTimeRecipes: mealTimeRecipes,
+                mealTimes: WeekState.mealTimes(
+                    recipes: .embedded,
+                    mealTimeRecipes: mealTimeRecipes
+                )),
             reducer: weekReducer,
             environment: WeekEnvironment()
         ))
     }
+
+    private static let mealTimeRecipes: [MealTime: Recipe?] = .init(uniqueKeysWithValues: MealTime.allCases.map {
+        switch $0 {
+        case .sundayDinner: return ($0, [Recipe].embedded.first)
+        case .mondayLunch: return ($0, [Recipe].embedded.first)
+        case .wednesdayDinner: return ($0, [Recipe].embedded.last)
+        default: return ($0, nil)
+        }
+    })
 }

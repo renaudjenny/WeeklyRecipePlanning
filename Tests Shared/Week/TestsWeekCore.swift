@@ -9,7 +9,14 @@ class TestsWeekCore: XCTestCase {
 
     override func setUp() {
         store = TestStore(
-            initialState: WeekState(recipes: .test, mealTimeRecipes: .test),
+            initialState: WeekState(
+                recipes: .test,
+                mealTimeRecipes: .test,
+                mealTimes: WeekState.mealTimes(
+                    recipes: .test,
+                    mealTimeRecipes: .test
+                )
+            ),
             reducer: weekReducer,
             environment: WeekEnvironment()
         )
