@@ -4,13 +4,19 @@ import SwiftUI
 struct MealTimeView: View {
     let store: Store<MealTimeState, MealTimeAction>
 
+    struct ViewState: Equatable {
+        var recipeName: String
+        var mealTimeName: String
+        var isSelected: Bool
+        var isRecipeSelectorPresented: Bool
+    }
+
     var body: some View {
-        // TODO: use a scoped ViewStore here, there is stuff in the state this view doesn't care
-        WithViewStore(store) { viewStore in
+        WithViewStore(store.scope(state: \.view)) { viewStore in
             Button { viewStore.send(.mealTimeTapped) } label: {
                 HStack {
                     ZStack {
-                        if viewStore.recipe != nil {
+                        if viewStore.isSelected {
                             Circle()
                                 .foregroundColor(.green)
                                 .frame(width: 25, height: 25)
@@ -22,16 +28,16 @@ struct MealTimeView: View {
                             .padding(.horizontal)
                     }
                     VStack(alignment: .leading) {
-                        Text(viewStore.mealTime.name)
+                        Text(viewStore.mealTimeName)
                             .font(.headline)
-                        Text(viewStore.recipe?.name ?? "-")
+                        Text(viewStore.recipeName)
                             .font(.subheadline)
                     }
                 }
             }
             .buttonStyle(PlainButtonStyle())
             .sheet(isPresented: viewStore.binding(
-                get: { $0.recipeSelector != nil },
+                get: \.isRecipeSelectorPresented,
                 send: .dismissRecipeSelector
             )) {
                 IfLetStore(store.scope(
@@ -43,24 +49,35 @@ struct MealTimeView: View {
     }
 }
 
+private extension MealTimeState {
+    var view: MealTimeView.ViewState {
+        MealTimeView.ViewState(
+            recipeName: recipe?.name ?? "-",
+            mealTimeName: mealTime.name,
+            isSelected: recipe != nil,
+            isRecipeSelectorPresented: recipeSelector != nil
+        )
+    }
+}
+
 struct MealTimeView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             LazyVStack(alignment: .leading) {
                 makeMealTimeView(for: .sundayDinner)
                 makeMealTimeView(for: .mondayLunch)
-                makeMealTimeView(for: .mondayLunch)
                 makeMealTimeView(for: .mondayDinner)
                 makeMealTimeView(for: .tuesdayLunch)
                 makeMealTimeView(for: .tuesdayDinner)
+                makeMealTimeView(for: .wednesdayLunch)
             }
             LazyVStack(alignment: .leading) {
                 makeMealTimeView(for: .sundayDinner)
                 makeMealTimeView(for: .mondayLunch)
-                makeMealTimeView(for: .mondayLunch)
                 makeMealTimeView(for: .mondayDinner)
                 makeMealTimeView(for: .tuesdayLunch)
                 makeMealTimeView(for: .tuesdayDinner)
+                makeMealTimeView(for: .wednesdayLunch)
             }
             .preferredColorScheme(.dark)
         }
@@ -83,7 +100,7 @@ struct MealTimeView_Previews: PreviewProvider {
         switch $0 {
         case .sundayDinner: return ($0, [Recipe].embedded.first)
         case .mondayLunch: return ($0, [Recipe].embedded.first)
-        case .wednesdayDinner: return ($0, [Recipe].embedded.last)
+        case .wednesdayLunch: return ($0, [Recipe].embedded.last)
         default: return ($0, nil)
         }
     })
