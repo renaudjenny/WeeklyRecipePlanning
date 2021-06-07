@@ -14,7 +14,11 @@ struct IngredientListEnvironment {
     var uuid: () -> UUID
 }
 
-let ingredientListReducer = Reducer<IngredientListState, IngredientListAction, IngredientListEnvironment>.combine(
+let ingredientListReducer = Reducer<
+    IngredientListState,
+    IngredientListAction,
+    IngredientListEnvironment
+>.combine(
     ingredientReducer.forEach(
         state: \.ingredients,
         action: /IngredientListAction.ingredient(id:action:),

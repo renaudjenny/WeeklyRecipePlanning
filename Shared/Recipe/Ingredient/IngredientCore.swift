@@ -24,7 +24,11 @@ enum IngredientAction: Equatable {
 
 struct IngredientEnvironment { }
 
-let ingredientReducer = Reducer<IngredientState, IngredientAction, IngredientEnvironment> { state, action, environment in
+let ingredientReducer = Reducer<
+    IngredientState,
+    IngredientAction,
+    IngredientEnvironment
+> { state, action, environment in
     switch action {
     case let .nameChanged(name):
         state.name = name

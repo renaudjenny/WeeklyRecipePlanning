@@ -7,12 +7,23 @@ struct IngredientRow: View {
     var body: some View {
         WithViewStore(store) { viewStore in
             Section {
-                TextField("Name", text: viewStore.binding(get: { $0.name }, send: IngredientAction.nameChanged))
-                    .font(.title2)
+                TextField(
+                    "Name",
+                    text: viewStore.binding(get: { $0.name }, send: IngredientAction.nameChanged)
+                )
+                .font(.title2)
+
                 HStack {
-                    TextField("Quantity", text: viewStore.binding(get: { $0.quantity.text }, send: IngredientAction.quantityChanged))
-                        .scaledToFit()
-                    //                    .keyboardType(.decimalPad)
+                    TextField(
+                        "Quantity",
+                        text: viewStore.binding(
+                            get: { $0.quantity.text },
+                            send: IngredientAction.quantityChanged
+                        )
+                    )
+                    .scaledToFit()
+                    //.keyboardType(.decimalPad)
+
                     Divider()
                     Text(viewStore.unit?.symbol ?? "-")
                     Spacer()
@@ -28,7 +39,13 @@ struct IngredientRow: View {
                 }
 
                 if viewStore.isUnitInEditionMode {
-                    Picker("Unit", selection: viewStore.binding(get: { $0.unit }, send: IngredientAction.unitChanged)) {
+                    Picker(
+                        "Unit",
+                        selection: viewStore.binding(
+                            get: \.unit,
+                            send: IngredientAction.unitChanged
+                        )
+                    ) {
                         ForEach(RecipeUnit.allCases) { unit in
                             Text(unit.text).tag(unit.rawValue)
                         }

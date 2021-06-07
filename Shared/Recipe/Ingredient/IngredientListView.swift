@@ -11,8 +11,14 @@ struct IngredientListView: View {
                     Label("New ingredient", systemImage: "plus")
                 }
             }
-            ForEachStore(store.scope(state: { $0.ingredients }, action: IngredientListAction.ingredient(id:action:)), content: IngredientRow.init)
-                .onDelete { viewStore.send(.delete($0), animation: .default) }
+            ForEachStore(
+                store.scope(
+                    state: { $0.ingredients },
+                    action: IngredientListAction.ingredient(id:action:)
+                ),
+                content: IngredientRow.init
+            )
+            .onDelete { viewStore.send(.delete($0), animation: .default) }
         }
     }
 }
