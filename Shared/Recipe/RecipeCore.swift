@@ -3,16 +3,16 @@ import ComposableArchitecture
 @dynamicMemberLookup
 struct RecipeState: Equatable, Identifiable {
     var recipe: Recipe
-    var ingredientList: IngredientListState {
-        didSet { recipe.ingredients = IdentifiedArrayOf(ingredientList.ingredients.map(\.ingredient)) }
-    }
+    var ingredientList: IngredientListState
 
     var id: Recipe.ID { recipe.id }
 
     init(recipe: Recipe) {
         self.recipe = recipe
         self.ingredientList = IngredientListState(
-            ingredients: IdentifiedArrayOf(recipe.ingredients.map { IngredientState(ingredient: $0) })
+            ingredients: IdentifiedArrayOf(recipe.ingredients.map {
+                IngredientState(ingredient: $0)
+            })
         )
     }
 
@@ -48,6 +48,9 @@ let recipeReducer = Reducer<RecipeState, RecipeAction, RecipeEnvironment>.combin
             return .none
 
         case .ingredientList:
+            state.ingredients = IdentifiedArrayOf(
+                state.ingredientList.ingredients.map(\.ingredient)
+            )
             return .none
         }
     }

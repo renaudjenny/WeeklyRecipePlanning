@@ -37,4 +37,23 @@ class TestsRecipeCore: XCTestCase {
             }
         )
     }
+
+    func testChangeIngredientListUpdateRecipeIngredients() throws {
+        let store = try XCTUnwrap(self.store)
+        let firstIngredientId = try XCTUnwrap(self.recipe.ingredients.first?.id)
+        let newIngredientName = "New Ingredient Name"
+
+        store.assert(
+            .send(.ingredientList(.ingredient(
+                id: firstIngredientId,
+                action: .nameChanged(newIngredientName)
+            ))) {
+                $0.ingredients[0].name = newIngredientName
+                $0.ingredientList
+                    .ingredients[id: firstIngredientId]?
+                    .ingredient
+                    .name = newIngredientName
+            }
+        )
+    }
 }
