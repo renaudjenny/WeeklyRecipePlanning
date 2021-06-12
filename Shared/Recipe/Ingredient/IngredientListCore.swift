@@ -27,7 +27,10 @@ let ingredientListReducer = Reducer<
     Reducer { state, action, environment in
         switch action {
         case .addButtonTapped:
-            state.ingredients.insert(IngredientState(ingredient: .new(id: environment.uuid())), at: 0)
+            state.ingredients.insert(
+                IngredientState(ingredient: .new(id: environment.uuid())),
+                at: 0
+            )
             return .none
         case let .delete(indexSet):
             state.ingredients.remove(atOffsets: indexSet)

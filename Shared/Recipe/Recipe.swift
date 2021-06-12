@@ -49,14 +49,19 @@ struct Ingredient: Codable, Identifiable, Hashable {
 
         guard let unit = unit
         else { return }
-        let unitData = try NSKeyedArchiver.archivedData(withRootObject: unit, requiringSecureCoding: false)
+        let unitData = try NSKeyedArchiver.archivedData(
+            withRootObject: unit,
+            requiringSecureCoding: false
+        )
         try container.encode(unitData, forKey: .unit)
     }
 }
 
 extension String.StringInterpolation {
     mutating func appendInterpolation(_ ingredient: Ingredient) {
-        if let formattedNumber = numberFormatterDecimal.string(from: NSNumber(value: ingredient.quantity)) {
+        if let formattedNumber = numberFormatterDecimal.string(
+            from: NSNumber(value: ingredient.quantity)
+        ) {
             appendLiteral(formattedNumber)
         }
         if let unitSymbol = ingredient.unit?.symbol {

@@ -9,11 +9,23 @@ struct RecipeRowView: View {
                 .font(.title)
                 .padding(.top)
             HStack {
-                Text("For \(recipe.mealCount) \(recipe.mealCount == 1 ? "meal" : "meals").")
-                Text("\(recipe.ingredients.count) \(recipe.ingredients.count == 1 ? "ingredient" : "ingredients")")
+                Text(meal)
+                Text(ingredient)
                     .italic()
             }.padding(.bottom)
         }
+    }
+
+    private var meal: LocalizedStringKey {
+        "For \(recipe.mealCount) \(recipe.mealCount == 1 ? "meal" : "meals")."
+    }
+
+    private var ingredient: LocalizedStringKey {
+        """
+        \(recipe.ingredients.count) \(recipe.ingredients.count == 1
+                                        ? "ingredient"
+                                        : "ingredients")
+        """
     }
 }
 

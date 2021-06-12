@@ -22,7 +22,7 @@ struct IngredientRow: View {
                         )
                     )
                     .scaledToFit()
-                    //.keyboardType(.decimalPad)
+                    .modifier(KeyboardTypeDecimalType())
 
                     Divider()
                     Text(viewStore.unit?.symbol ?? "-")
@@ -61,6 +61,16 @@ struct IngredientRow: View {
         return WheelPickerStyle()
         #else
         return DefaultPickerStyle()
+        #endif
+    }
+}
+
+private struct KeyboardTypeDecimalType: ViewModifier {
+    func body(content: Content) -> some View {
+        #if os(iOS)
+        content.keyboardType(.decimalPad)
+        #else
+        content
         #endif
     }
 }

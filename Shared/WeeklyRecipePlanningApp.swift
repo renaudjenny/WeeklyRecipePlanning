@@ -24,13 +24,16 @@ struct WeeklyRecipePlanningApp: App {
         }
     }
 
-    // TODO: improve this code and perhaps rely on something else than UserDefaults to save the recipes
+    // TODO: improve this code and perhaps rely on something else than UserDefaults
+    // to save the recipes
     private static let persistedRecipesKey = "Recipes"
     static var loadRecipesFromUserDefault: Effect<[Recipe], ApiError> {
         Deferred {
             Future<[Recipe], ApiError> { promise in
                 do {
-                    guard let data = UserDefaults.standard.data(forKey: WeeklyRecipePlanningApp.persistedRecipesKey)
+                    guard let data = UserDefaults.standard.data(
+                        forKey: WeeklyRecipePlanningApp.persistedRecipesKey
+                    )
                     else {
                         promise(.success([Recipe].embedded))
                         return
@@ -49,7 +52,10 @@ struct WeeklyRecipePlanningApp: App {
         Future<Bool, ApiError> { promise in
             do {
                 let data = try JSONEncoder().encode(recipes)
-                UserDefaults.standard.setValue(data, forKey: WeeklyRecipePlanningApp.persistedRecipesKey)
+                UserDefaults.standard.setValue(
+                    data,
+                    forKey: WeeklyRecipePlanningApp.persistedRecipesKey
+                )
 
                 promise(.success(true))
             } catch {
