@@ -13,7 +13,11 @@ enum RecipeSelectorAction: Equatable {
 
 struct RecipeSelectorEnvironment { }
 
-let recipeSelectorReducer = Reducer<RecipeSelectorState, RecipeSelectorAction, RecipeSelectorEnvironment> { state, action, environment in
+let recipeSelectorReducer = Reducer<
+    RecipeSelectorState,
+    RecipeSelectorAction,
+    RecipeSelectorEnvironment
+> { state, action, environment in
     switch action {
     case let .setRecipe(recipe):
         if let potentialRecipeToRemove = state.mealTimeRecipes[state.mealTime],

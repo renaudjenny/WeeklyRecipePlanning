@@ -57,12 +57,14 @@ struct WeekView_Previews: PreviewProvider {
         ))
     }
 
-    private static let mealTimeRecipes: [MealTime: Recipe?] = .init(uniqueKeysWithValues: MealTime.allCases.map {
-        switch $0 {
-        case .sundayDinner: return ($0, [Recipe].embedded.first)
-        case .mondayLunch: return ($0, [Recipe].embedded.first)
-        case .wednesdayDinner: return ($0, [Recipe].embedded.last)
-        default: return ($0, nil)
+    private static let mealTimeRecipes: [MealTime: Recipe?] = .init(
+        uniqueKeysWithValues: MealTime.allCases.map {
+            switch $0 {
+            case .sundayDinner: return ($0, [Recipe].embedded.first)
+            case .mondayLunch: return ($0, [Recipe].embedded.first)
+            case .wednesdayDinner: return ($0, [Recipe].embedded.last)
+            default: return ($0, nil)
+            }
         }
-    })
+    )
 }

@@ -46,14 +46,21 @@ struct RecipeSelectorView: View {
         }
     }
 
-    private func selectedRecipeText(for mealTime: MealTime, mealTimeRecipes: [MealTime: Recipe?]) -> some View {
+    private func selectedRecipeText(
+        for mealTime: MealTime,
+        mealTimeRecipes: [MealTime: Recipe?]
+    ) -> some View {
         Group {
             if let possibleRecipe = mealTimeRecipes[mealTime], let recipe = possibleRecipe {
                 VStack {
                     Text("\(recipe.name)")
 
-                    recipeAlsoUsedInMealTimes(recipe: recipe, exclude: mealTime, mealTimeRecipes: mealTimeRecipes)
-                        .font(.caption)
+                    recipeAlsoUsedInMealTimes(
+                        recipe: recipe,
+                        exclude: mealTime,
+                        mealTimeRecipes: mealTimeRecipes
+                    )
+                    .font(.caption)
                 }
             } else {
                 Text("Please, select a recipe for this meal time in the list")
@@ -61,14 +68,20 @@ struct RecipeSelectorView: View {
         }
     }
 
-    private func recipeAlsoUsedInMealTimes(recipe: Recipe, exclude mealTime: MealTime, mealTimeRecipes: [MealTime: Recipe?]) -> some View {
-        let alsoUsedInMealTimes = mealTimeRecipes.mealTimes(for: recipe)
-            .filter { $0 != mealTime }
-            .map(\.name)
+    private func recipeAlsoUsedInMealTimes(
+        recipe: Recipe,
+        exclude mealTime: MealTime,
+        mealTimeRecipes: [MealTime: Recipe?]
+    ) -> some View {
+        let alsoUsedInMealTimes = ListFormatter.localizedString(
+            byJoining: mealTimeRecipes.mealTimes(for: recipe)
+                .filter { $0 != mealTime }
+                .map(\.name)
+        )
 
         return Group {
             if alsoUsedInMealTimes.count > 0 {
-                Text("This recipe will also be used for \(ListFormatter.localizedString(byJoining: alsoUsedInMealTimes))")
+                Text("This recipe will also be used for \(alsoUsedInMealTimes)")
             } else {
                 EmptyView()
             }
@@ -85,10 +98,18 @@ struct RecipeSelectorView: View {
                 Button { setRecipe(recipe) } label: {
                     VStack(alignment: .leading) {
                         Text(recipe.name)
-                            .foregroundColor(mealTimeRecipes.values.contains(recipe) ? .secondary : .primary)
+                            .foregroundColor(
+                                mealTimeRecipes.values.contains(recipe)
+                                    ? .secondary
+                                    : .primary
+                            )
                         recipeAlsoUsedInMealTimes(recipe: recipe, mealTimeRecipes: mealTimeRecipes)
                             .font(.caption2)
-                            .foregroundColor(mealTimeRecipes.values.contains(recipe) ? .secondary : .primary)
+                            .foregroundColor(
+                                mealTimeRecipes.values.contains(recipe)
+                                    ? .secondary
+                                    : .primary
+                            )
                     }
                 }
                 .buttonStyle(PlainButtonStyle())
@@ -97,13 +118,18 @@ struct RecipeSelectorView: View {
         }
     }
 
-    private func recipeAlsoUsedInMealTimes(recipe: Recipe, mealTimeRecipes: [MealTime: Recipe?]) -> some View {
-        let alsoUsedInMealTimes = mealTimeRecipes.mealTimes(for: recipe)
-            .map(\.name)
+    private func recipeAlsoUsedInMealTimes(
+        recipe: Recipe,
+        mealTimeRecipes: [MealTime: Recipe?]
+    ) -> some View {
+        let alsoUsedInMealTimes = ListFormatter.localizedString(
+            byJoining: mealTimeRecipes.mealTimes(for: recipe)
+                .map(\.name)
+        )
 
         return Group {
             if alsoUsedInMealTimes.count > 0 {
-                Text("This recipe is already used for \(ListFormatter.localizedString(byJoining: alsoUsedInMealTimes))")
+                Text("This recipe is already used for \(alsoUsedInMealTimes)")
             } else {
                 EmptyView()
             }
