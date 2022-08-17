@@ -10,9 +10,9 @@ struct WeeklyRecipePlanningApp: App {
         reducer: appReducer,
         environment: AppEnvironment(
             mainQueue: .main,
-//            loadRecipes: { .mock(value: .embedded) },
+            loadRecipes: Effect(value: .embedded),
 //            saveRecipes: { _ in .mock(value: true) },
-            loadRecipes: loadRecipesFromUserDefault,
+//            loadRecipes: loadRecipesFromUserDefault,
             saveRecipes: saveRecipesToUserDefault,
             uuid: UUID.init
         )

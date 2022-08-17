@@ -207,7 +207,7 @@ extension Array where Element == Recipe {
                 ),
                 Ingredient(
                     id: UUID(uuidString: "294D0B98-7127-4AE0-ADF5-2921537493F9") ?? UUID(),
-                    name: "Olive oild",
+                    name: "Olive oil",
                     quantity: 2,
                     unit: UnitVolume.tablespoons
                 ),
@@ -215,6 +215,94 @@ extension Array where Element == Recipe {
                     id: UUID(uuidString: "FACA71DB-BC64-4979-A277-09F42ECDC2EC") ?? UUID(),
                     name: "Pepper",
                     quantity: 1
+                ),
+            ]
+        ),
+        Recipe(
+            id: UUID(uuidString: "4E9C834D-3B3C-42EC-A1A2-B5618B603668") ?? UUID(),
+            name: "Mixed Salad",
+            mealCount: 2,
+            ingredients: [
+                Ingredient(
+                    id: UUID(uuidString: "0F722F8B-1549-424B-92E1-CECB1E481EC7") ?? UUID(),
+                    name: "Rice (before cooking and cooling)",
+                    quantity: 150,
+                    unit: UnitMass.grams
+                ),
+                Ingredient(
+                    id: UUID(uuidString: "3F179396-654C-4A48-8ACF-2E79852337D6") ?? UUID(),
+                    name: "Melon",
+                    quantity: 1
+                ),
+                Ingredient(
+                    id: UUID(uuidString: "44C25072-9BC8-4E28-A74D-8E19CE6D64FE") ?? UUID(),
+                    name: "Cheese",
+                    quantity: 200,
+                    unit: UnitMass.grams
+                ),
+                Ingredient(
+                    id: UUID(uuidString: "9EACF95D-88BA-4A2C-BF8A-F26FA79CB812") ?? UUID(),
+                    name: "Cherry tomatoes",
+                    quantity: 200,
+                    unit: UnitMass.grams
+                ),
+                Ingredient(
+                    id: UUID(uuidString: "59EA520B-84A3-4D38-A77B-3B3D70AB7A09") ?? UUID(),
+                    name: "Carrots",
+                    quantity: 100,
+                    unit: UnitMass.grams
+                ),
+                Ingredient(
+                    id: UUID(uuidString: "864F0BC3-AA79-460E-A88B-D79BF19EE446") ?? UUID(),
+                    name: "Salad Dressing",
+                    quantity: 200,
+                    unit: UnitMass.grams
+                ),
+            ]
+        ),
+        Recipe(
+            id: UUID(uuidString: "BF7472E4-5C35-4767-A08D-F53C3C0D992D") ?? UUID(),
+            name: "Vegetable Quiche",
+            mealCount: 2,
+            ingredients: [
+                Ingredient(
+                    id: UUID(uuidString: "8A1C8D87-1450-42FF-ABAF-1B895A331E2B") ?? UUID(),
+                    name: "Feta cheese",
+                    quantity: 200,
+                    unit: UnitMass.grams
+                ),
+                Ingredient(
+                    id: UUID(uuidString: "63F5B07E-505C-40E8-8225-9C98B9A23BFA") ?? UUID(),
+                    name: "Courgettes",
+                    quantity: 200,
+                    unit: UnitMass.grams
+                ),
+                Ingredient(
+                    id: UUID(uuidString: "FACA71DB-BC64-4979-A277-09F42ECDC2EC") ?? UUID(),
+                    name: "Pepper",
+                    quantity: 1
+                ),
+                Ingredient(
+                    id: UUID(uuidString: "ADF96216-27B5-42FF-9956-0546493F256C") ?? UUID(),
+                    name: "Egg",
+                    quantity: 3
+                ),
+                Ingredient(
+                    id: UUID(uuidString: "1060345B-33E8-4A2F-B9AA-4D1B5ADC7F78") ?? UUID(),
+                    name: "Puff pastry dough",
+                    quantity: 1
+                ),
+            ]
+        ),
+        Recipe(
+            id: UUID(uuidString: "94317791-0E44-448D-A85C-6008B9AE4423") ?? UUID(),
+            name: "Frozen pizza",
+            mealCount: 1,
+            ingredients: [
+                Ingredient(
+                    id: UUID(uuidString: "BDDD76CF-943F-44D2-A56E-5EAC140669E9") ?? UUID(),
+                    name: "Frozen Pizza",
+                    quantity: 2
                 ),
             ]
         ),
