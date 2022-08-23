@@ -6,7 +6,7 @@ struct RecipeRowView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text(recipe.name)
-                .font(.title)
+                .font(.title2)
                 .padding(.top)
             HStack {
                 Text(meal)

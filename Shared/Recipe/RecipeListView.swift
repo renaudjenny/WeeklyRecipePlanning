@@ -63,7 +63,7 @@ struct RecipesView_Previews: PreviewProvider {
     static var previews: some View {
         RecipeListView(store: Store(
             initialState: RecipeListState(
-                recipes: IdentifiedArrayOf([Recipe].embedded.map(RecipeState.init))
+                recipes: IdentifiedArrayOf(uniqueElements: [Recipe].embedded.map(RecipeState.init))
             ),
             reducer: recipeListReducer,
             environment: .mock

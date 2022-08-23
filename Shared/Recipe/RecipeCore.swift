@@ -10,7 +10,7 @@ struct RecipeState: Equatable, Identifiable {
     init(recipe: Recipe) {
         self.recipe = recipe
         self.ingredientList = IngredientListState(
-            ingredients: IdentifiedArrayOf(recipe.ingredients.map {
+            ingredients: IdentifiedArrayOf(uniqueElements: recipe.ingredients.map {
                 IngredientState(ingredient: $0)
             })
         )
@@ -49,7 +49,7 @@ let recipeReducer = Reducer<RecipeState, RecipeAction, RecipeEnvironment>.combin
 
         case .ingredientList:
             state.ingredients = IdentifiedArrayOf(
-                state.ingredientList.ingredients.map(\.ingredient)
+                uniqueElements: state.ingredientList.ingredients.map(\.ingredient)
             )
             return .none
         }

@@ -66,7 +66,7 @@ let recipeListReducer = Reducer<RecipeListState, RecipeListAction, RecipeListEnv
                 .map(RecipeListAction.loaded)
                 .cancellable(id: LoadId())
         case let .loaded(.success(recipes)):
-            state.recipes = IdentifiedArrayOf(recipes.map(RecipeState.init))
+            state.recipes = IdentifiedArrayOf(uniqueElements: recipes.map(RecipeState.init))
             return .cancel(id: LoadId())
         case .loaded(.failure):
             print("Error when loading recipes")

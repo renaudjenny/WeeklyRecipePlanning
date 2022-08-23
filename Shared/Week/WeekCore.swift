@@ -48,7 +48,7 @@ extension WeekState {
         recipes: [Recipe],
         mealTimeRecipes: [MealTime: Recipe?]
     ) -> IdentifiedArrayOf<MealTimeState> {
-        IdentifiedArrayOf(MealTime.allCases.map {
+        IdentifiedArrayOf(uniqueElements: MealTime.allCases.map {
             MealTimeState(mealTime: $0, recipes: recipes, mealTimeRecipes: mealTimeRecipes)
         })
     }
