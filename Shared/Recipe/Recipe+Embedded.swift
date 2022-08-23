@@ -306,5 +306,39 @@ extension Array where Element == Recipe {
                 ),
             ]
         ),
+        Recipe(
+            id: UUID(uuidString: "245831BF-B389-4D66-8A71-0E2ED9CBBB31") ?? UUID(),
+            name: "Vegetarian Fajita",
+            mealCount: 2,
+            ingredients: [
+                Ingredient(
+                    id: UUID(uuidString: "3F9D7CDF-DF7D-42BD-A560-F2BE878E2207") ?? UUID(),
+                    name: "Can of beans",
+                    quantity: 1
+                ),
+                Ingredient(
+                    id: UUID(uuidString: "FACA71DB-BC64-4979-A277-09F42ECDC2EC") ?? UUID(),
+                    name: "Pepper",
+                    quantity: 3
+                ),
+                Ingredient(
+                    id: UUID(uuidString: "63F5B07E-505C-40E8-8225-9C98B9A23BFA") ?? UUID(),
+                    name: "Courgettes",
+                    quantity: 100,
+                    unit: UnitMass.grams
+                ),
+                Ingredient(
+                    id: UUID(uuidString: "D3955B01-717F-44D7-8F9C-1FB9FBB32CB6") ?? UUID(),
+                    name: "Gratted cheese",
+                    quantity: 200,
+                    unit: UnitMass.grams
+                ),
+                Ingredient(
+                    id: UUID(uuidString: "2FFEBA17-CA84-4D26-A1C0-3ABCE53BFEDE") ?? UUID(),
+                    name: "Wraps",
+                    quantity: 12
+                ),
+            ]
+        )
     ]
 }
